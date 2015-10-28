@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+<h:form>
+    <h:inputText id="search" value="#{catalogBean.isbn}"></h:inputText>
+
+    <h:commandButton value="Search by title" action="#{catalogBean.findBook()}"/>
+
+    <h:inputText id="searchString" value="#{catalogBean.searchString}"></h:inputText>
+
+    <h:commandButton value="Search by keyname" action="#{catalogBean.findBooks()}"></h:commandButton>
+
+    <h:dataTable value="#{catalogBean.booksList}" var="book">
+
+        <h:column>
+            <!-- column header -->
+            <f:facet name="header">Book</f:facet>
+            <!-- row record -->
+            <h:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
+        </h:column>
+
+    </h:dataTable>
+
+    <h:outputText
+            value="#{catalogBean.message}"
+            render="#{catalogBean.message != null}"/>
+
+</h:form>
+
+
+</html>
