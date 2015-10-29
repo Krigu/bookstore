@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:panelGrid id="messages" rendered="#{catalogBean.book != null}" columns="1">
-        <h:panelGroup>
-            <h:outputLabel for="title">Name:</h:outputLabel>
-            <h:outputText id="title" value="#{catalogBean.book.title}"/>
-        </h:panelGroup>
-        <h:panelGroup>
-            <h:outputLabel for="authors">Name:</h:outputLabel>
-            <h:outputText id="authors" value="#{catalogBean.book.authors}"/>
-        </h:panelGroup>
-        <h:panelGroup>
-            <h:outputLabel for="numberOfPages">Name:</h:outputLabel>
-            <h:outputText id="numberOfPages" value="#{catalogBean.book.numberOfPages}"/>
-        </h:panelGroup>
-    </h:panelGrid>
-    <h:link value="back" outcome="catalogSearch"/>
-</f:view>
-</html>
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="templates/template.xhtml"  xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <p:panelGrid columns="2" rendered="#{not empty catalogBean.selectedBook}">
+            <f:facet name="header">
+                <h:outputText id="otTitle" value="#{catalogBean.selectedBook.title}"/>
+            </f:facet>
+            <h:outputLabel for="otIsbn" value="ISBN"/>
+            <h:outputText id="otIsbn" value="#{catalogBean.selectedBook.isbn}"/>            
+            <h:outputLabel for="otAuthors" value="Authors"/>
+            <h:outputText id="otAuthors" value="#{catalogBean.selectedBook.authors}"/>
+            <h:outputLabel for="otpublischer" value="Publisher"/>
+            <h:outputText id="otPublischer" value="#{catalogBean.selectedBook.publisher}"/>
+            <h:outputLabel for="otPublicationYear" value="Publication Year"/>
+            <h:outputText id="otPublicationYear" value="#{catalogBean.selectedBook.publicationYear}"/>
+            <h:outputLabel for="otBinding" value="Binding"/>
+            <h:outputText id="otBinding" value="#{catalogBean.selectedBook.binding}"/>
+            <h:outputLabel for="otNumOfPages" value="Number of pages"/>
+            <h:outputText id="otNumOfPages" value="#{catalogBean.selectedBook.numberOfPages}"/>
+            <h:outputLabel for="otPrice" value="Price"/>
+            <h:outputText id="otPrice" value="#{catalogBean.selectedBook.price}"/>
+        </p:panelGrid>
+    </ui:define>
+</ui:composition>

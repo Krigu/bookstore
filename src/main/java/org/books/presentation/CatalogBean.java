@@ -20,58 +20,65 @@ public class CatalogBean implements Serializable {
     @Inject
     private Bookstore bookstore;
 
-    private String isbn;
+    //private String isbn;
 
-    private Book book;
+    private Book selectedBook;
 
-    private String message;
+    //private String message;
 
     private List<Book> booksList;
 
     private String searchString;
 
-    public String findBook() {
-        book = null;
+  /*  public String findBook() {
+        selectedBook = null;
         message = null;
 
         try {
-            book = bookstore.findBook(isbn);
+            selectedBook = bookstore.findBook(isbn);
             return "bookDetails";
         } catch (BookNotFoundException e) {
             message = "Book with id \"" + isbn + " \" not found";
         }
 
         return null;
-    }
+    }*/
 
     public String findBooks() {
-
         this.booksList = bookstore.searchBooks(searchString);
 
+        try {
+            Book b = bookstore.findBook(searchString);
+            if(!this.booksList.contains(b)){
+               this.booksList.add(b); 
+            }
+            
+        } catch (BookNotFoundException e) {
+            //Nothing
+        }
         return null;
     }
 
-    public String setDetail(Book b){
-        this.book = b;
-
-        return "bookDetails";
+    public String setDetail(Book b) {
+        this.selectedBook = b;
+        return "bookDetails?faces-redirect=true";
     }
 
-    public String getIsbn() {
+ /*   public String getIsbn() {
         return isbn;
     }
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }*/
+
+    public Book getselectedBook() {
+        return selectedBook;
     }
 
-    public Book getBook() {
-        return book;
-    }
-
-    public String getMessage() {
+    /*public String getMessage() {
         return message;
-    }
+    }*/
 
     public List<Book> getBooksList() {
         return booksList;
