@@ -10,9 +10,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by krigu on 26.10.15.
- */
 @SessionScoped
 @Named("catalogBean")
 public class CatalogBean implements Serializable {
@@ -20,39 +17,25 @@ public class CatalogBean implements Serializable {
     @Inject
     private Bookstore bookstore;
 
-    //private String isbn;
+    @Inject
+    private ShoppingCart shoppingCart;
 
     private Book selectedBook;
-
-    //private String message;
 
     private List<Book> booksList;
 
     private String searchString;
 
-  /*  public String findBook() {
-        selectedBook = null;
-        message = null;
-
-        try {
-            selectedBook = bookstore.findBook(isbn);
-            return "bookDetails";
-        } catch (BookNotFoundException e) {
-            message = "Book with id \"" + isbn + " \" not found";
-        }
-
-        return null;
-    }*/
 
     public String findBooks() {
         this.booksList = bookstore.searchBooks(searchString);
 
         try {
             Book b = bookstore.findBook(searchString);
-            if(!this.booksList.contains(b)){
-               this.booksList.add(b); 
+            if (!this.booksList.contains(b)) {
+                this.booksList.add(b);
             }
-            
+
         } catch (BookNotFoundException e) {
             //Nothing
         }
@@ -64,31 +47,33 @@ public class CatalogBean implements Serializable {
         return "bookDetails?faces-redirect=true";
     }
 
- /*   public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }*/
-
     public Book getselectedBook() {
         return selectedBook;
     }
 
-    /*public String getMessage() {
-        return message;
-    }*/
-
     public List<Book> getBooksList() {
         return booksList;
+    }
+
+    public void setSearchString(String searchString) {
+        this.searchString = searchString;
     }
 
     public String getSearchString() {
         return searchString;
     }
 
-    public void setSearchString(String searchString) {
-        this.searchString = searchString;
+    public String removeFromShoopingCart(ShoppingCartItem item) {
+        shoppingCart.remove(item);
+        return null;
+    }
+
+    public String addToShoopingCart(Book book) {
+        shoppingCart.add(book);
+        return null;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
 }

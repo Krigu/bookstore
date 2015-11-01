@@ -33,6 +33,9 @@
                     <!-- row record -->
                     <p:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
                 </p:column>
+                <p:column>
+                    <p:commandButton value="Add To Shopping cart" styleClass="btn btn-primary" action="#{catalogBean.addToShoopingCart(book)}"/>
+                </p:column>
             </p:dataTable>
         </h:form>
     </ui:define>

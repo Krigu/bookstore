@@ -25,7 +25,7 @@
                             <!-- Button add to shopping cart -->
                             <p:column>
                                 <h:form id="frmAddToShoppingCat">
-                                    <p:commandButton action="catalogSearch" value="Buy" icon="ui-icon-cart"/>
+                                    <p:commandButton action="#{catalogBean.addToShoopingCart(catalogBean.selectedBook)}" value="Buy" icon="ui-icon-cart"/>
                                 </h:form>
                             </p:column>
                         </p:row>
