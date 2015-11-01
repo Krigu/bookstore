@@ -3,6 +3,7 @@ package org.books.presentation;
 import org.books.application.BookNotFoundException;
 import org.books.application.Bookstore;
 import org.books.data.Book;
+import org.books.util.Messages;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -70,6 +71,9 @@ public class CatalogBean implements Serializable {
 
     public String addToShoopingCart(Book book) {
         shoppingCart.add(book);
+        // ToDo: i18n
+        Messages.show("Shopping", "Book " + book.getTitle() + " added to shopping cart");
+
         return null;
     }
 
