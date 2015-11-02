@@ -23,7 +23,7 @@
         </div>
         <div class="ui-grid-row background-line">
             <p:tabMenu activeIndex="#{param.i}" styleClass="menu-main">
-                <p:menuitem value="Suche: #{i18n.search}" outcome="catalogSearch" icon="ui-icon-search">
+                <p:menuitem value="#{i18n.search}" outcome="catalogSearch" icon="ui-icon-search">
                     <f:param name="i" value="0"/>
                 </p:menuitem>
                 <p:menuitem value="#{i18n.shoppingCart}" outcome="shoppingCart" icon="ui-icon-cart">

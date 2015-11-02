@@ -1,6 +1,7 @@
 package org.books.presentation;
 
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -11,7 +12,12 @@ import java.util.Locale;
 @Named("languageSwitcher")
 public class LanguageSwitcher implements Serializable {
 
-    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    private Locale locale;
+
+    @PostConstruct
+    public void init() {
+        locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+    }
 
     public Locale getLocale() {
         return locale;
@@ -22,7 +28,7 @@ public class LanguageSwitcher implements Serializable {
     }
 
     /**
-     * Sets the current {@code Locale} for each user session
+     * Sets the  {@code Locale} for a user
      *
      * @param languageCode - ISO-639 language code
      */
