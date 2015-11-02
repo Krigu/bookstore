@@ -11,31 +11,31 @@
             <!-- Shopping Cart -->
             <p:dataTable id="dt_shoppingcart" value="#{catalogBean.shoppingCart.items}" var="item" rendered="true" styleClass="order-table">
                 <p:column>
-                    <f:facet name="header">Title</f:facet>
+                    <f:facet name="header">#{i18n.title}</f:facet>
                     <p:outputLabel value="#{item.book.title}"/>
                 </p:column>
                 <p:column>
-                    <f:facet name="header">Quantity</f:facet>
+                    <f:facet name="header">#{i18n.quantity}</f:facet>
                     <p:inputText id ="quantity" value="#{item.quantity}" required="true" size="4" />
                 </p:column>
                 <p:column>
-                    <f:facet name="header">Price</f:facet>
+                    <f:facet name="header">#{i18n.price}</f:facet>
                     <p:outputLabel value="#{item.book.price}"/>
                 </p:column>
                 <p:column>
-                    <f:facet name="header">Total</f:facet>
+                    <f:facet name="header">#{i18n.total}</f:facet>
                     <p:outputLabel value="#{item.amount}"/>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="Remove" 
+                    <p:commandButton value="#{i18n.remove}"
                                      styleClass="btn btn-primary" 
                                      action="#{catalogBean.removeFromShoopingCart(item)}"
                                      update="dt_shoppingcartForm"/>
                 </p:column>
             </p:dataTable>
-            <p:outputLabel value="Total amount: #{catalogBean.shoppingCart.totalAmount}"/>
+            <p:outputLabel value="#{i18n.totalAmount}: #{catalogBean.shoppingCart.totalAmount}"/>
             <br/>
-            <p:commandButton value="Update" 
+            <p:commandButton value="#{i18n.update}"
                              styleClass="btn btn-primary" 
                              action="shoppingCart"
                              update="dt_shoppingcartForm"/>

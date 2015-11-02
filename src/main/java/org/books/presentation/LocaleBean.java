@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.Locale;
 
 @SessionScoped
-@Named("languageSwitcher")
-public class LanguageSwitcher implements Serializable {
+@Named("localeBean")
+public class LocaleBean implements Serializable {
 
     private Locale locale;
 

@@ -12,7 +12,7 @@
             <div class="ui-grid-row">
                 <!-- Button "Go back on the Search" -->
                 <h:form id="frmGoBack">
-                    <p:commandButton action="catalogSearch?faces-redirect=true" value="Back to search"/>
+                    <p:commandButton action="catalogSearch?faces-redirect=true" value="#{i18n.backToSearch}"/>
                 </h:form>
             </div>
             <p:spacer height="20"/>
@@ -28,39 +28,39 @@
                             <p:column>
                                 <h:form id="frmAddToShoppingCat">
                                     <p:growl id="growl" showDetail="true" sticky="false" life="5000" />
-                                    <p:commandButton action="#{catalogBean.addToShoopingCart(catalogBean.selectedBook)}" value="Buy" icon="ui-icon-cart" update="growl"/>
+                                    <p:commandButton action="#{catalogBean.addToShoopingCart(catalogBean.selectedBook)}" value="#{i18n.addToCart}" icon="ui-icon-cart" update="growl"/>
                                 </h:form>
                             </p:column>
                         </p:row>
                     </f:facet>
                     <p:row>
-                        <p:column><h:outputLabel for="otIsbn" value="ISBN"/></p:column>
+                        <p:column><h:outputLabel for="otIsbn" value="#{i18n.isbn}ISBN"/></p:column>
                         <p:column colspan="2"><h:outputText id="otIsbn" value="#{catalogBean.selectedBook.isbn}"/></p:column>
                         <p:column colspan="2" rowspan="5"><p:graphicImage styleClass="header-image" value="./resources/images/books.jpg" width="25"/></p:column>
                     </p:row>
                     <p:row>
-                        <p:column><h:outputLabel for="otAuthors" value="Authors"/></p:column>
+                        <p:column><h:outputLabel for="otAuthors" value="#{i18n.authors}"/></p:column>
                         <p:column colspan="2"><h:outputText id="otAuthors" value="#{catalogBean.selectedBook.authors}"/></p:column>
                     </p:row> 
                     <p:row>
-                        <p:column><h:outputLabel for="otPublischer" value="Publisher"/></p:column>
+                        <p:column><h:outputLabel for="otPublischer" value="#{i18n.publisher}"/></p:column>
                         <p:column colspan="2"><h:outputText id="otPublischer" value="#{catalogBean.selectedBook.publisher}"/></p:column>
                     </p:row> 
                     <p:row>
-                        <p:column><h:outputLabel for="otPublicationYear" value="Publication Year"/></p:column>
+                        <p:column><h:outputLabel for="otPublicationYear" value="#{i18n.publicationYear}"/></p:column>
                         <p:column colspan="2"><h:outputText id="otPublicationYear" value="#{catalogBean.selectedBook.publicationYear}"/></p:column>
                     </p:row> 
                     <p:row>
-                        <p:column><h:outputLabel for="otBinding" value="Binding"/></p:column>
+                        <p:column><h:outputLabel for="otBinding" value="#{i18n.binding}"/></p:column>
                         <p:column><h:outputText id="otBinding" value="#{catalogBean.selectedBook.binding}"/></p:column>
                     </p:row> 
                     <p:row>
-                        <p:column><h:outputLabel for="otNumOfPages" value="Number of pages"/></p:column>
+                        <p:column><h:outputLabel for="otNumOfPages" value="#{i18n.numberOfPages}"/></p:column>
                         <p:column><h:outputText id="otNumOfPages" value="#{catalogBean.selectedBook.numberOfPages}"/></p:column>
                     </p:row>
                     <f:facet name="footer">
                         <p:row>
-                            <p:column><h:outputLabel for="otPrice" value="Price"/></p:column>
+                            <p:column><h:outputLabel for="otPrice" value="#{i18n.price}"/></p:column>
                             <p:column colspan="4"><h:outputText id="otPrice" value="#{catalogBean.selectedBook.price}"/></p:column>
                         </p:row>
                     </f:facet>

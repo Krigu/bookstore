@@ -11,8 +11,9 @@
             <div class="menu-language background-line">
                 <nav class="sub-nav">
                     <h:form id="langauge_form">
-                        <h:commandLink action="#{languageSwitcher.switchLanguage('de')}" value="Deutsch" /> |
-                        <h:commandLink action="#{languageSwitcher.switchLanguage('en')}" value="English" />
+                        <h:commandLink styleClass="#{localeBean.locale.language == 'de' ? 'active' : ''}" action="#{localeBean.switchLanguage('de')}" value="Deutsch" /> |
+                        <h:commandLink styleClass="#{localeBean.locale.language == 'en' ? 'active' : ''}" action="#{localeBean.switchLanguage('en')}" value="English" /> |
+                        <h:commandLink styleClass="#{localeBean.locale.language == 'fr' ? 'active' : ''}" action="#{localeBean.switchLanguage('fr')}" value="Francais" />
                     </h:form>
 
                 </nav>
