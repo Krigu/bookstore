@@ -7,38 +7,42 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
-        <h:form id="dt_shoppingcartForm" >
-            <!-- Shopping Cart -->
-            <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" styleClass="order-table" >
-                <p:column>
-                    <f:facet name="header">#{i18n.title}</f:facet>
-                    <p:outputLabel value="#{item.book.title}"/>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">#{i18n.quantity}</f:facet>
-                    <p:inputText id ="quantity" value="#{item.quantity}" required="true" size="4" />
-                </p:column>
-                <p:column>
-                    <f:facet name="header">#{i18n.price}</f:facet>
-                    <p:outputLabel value="#{item.book.price}"/>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">#{i18n.total}</f:facet>
-                    <p:outputLabel value="#{item.amount}"/>
-                </p:column>
-                <p:column>
-                    <p:commandButton value="#{i18n.remove}"
-                                     styleClass="btn btn-primary" 
-                                     action="#{shoppingCartBean.removeFromShoopingCart(item)}"
-                                     update="dt_shoppingcartForm"/>
-                </p:column>
-            </p:dataTable>
-            <p:outputLabel value="#{i18n.totalAmount}: #{shoppingCartBean.shoppingCart.totalAmount}"/>
-            <br/>
-            <p:commandButton value="#{i18n.update}"
-                             styleClass="btn btn-primary" 
-                             action="shoppingCart"
-                             update="dt_shoppingcartForm"/>
+        <h:form id="dt_shoppingcartForm">
+            <h:form id="dt_shoppingcartTable" rendered="#{shoppingCartBean.shoppingCart.items.size() > 0}">
+                <!-- Shopping Cart -->
+                <p:defaultCommand target="btn_update" />
+                <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" styleClass="order-table" >
+                    <p:column>
+                        <f:facet name="header">#{i18n.title}</f:facet>
+                        <p:outputLabel value="#{item.book.title}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{i18n.quantity}</f:facet>
+                        <p:inputText id ="quantity" value="#{item.quantity}" required="true" size="4" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{i18n.price}</f:facet>
+                        <p:outputLabel value="#{item.book.price}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{i18n.total}</f:facet>
+                        <p:outputLabel value="#{item.amount}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="btn_remove" value="#{i18n.remove}"
+                                         styleClass="btn btn-primary" 
+                                         action="#{shoppingCartBean.removeFromShoopingCart(item)}"
+                                         update="dt_shoppingcartForm"/>
+                    </p:column>
+                </p:dataTable>
+                <p:outputLabel value="#{i18n.totalAmount}: #{shoppingCartBean.shoppingCart.totalAmount}"/>
+                <br/>
+                <p:commandButton id="btn_update" value="#{i18n.update}"
+                                 styleClass="btn btn-primary" 
+                                 action="shoppingCart"
+                                 update="dt_shoppingcartForm"/>
+            </h:form>
+            <p:outputLabel value="#{messages.emptyShoppingCart}" rendered="#{shoppingCartBean.shoppingCart.items.size() == 0}"/>
         </h:form>
     </ui:define>
 </ui:composition>
