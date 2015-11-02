@@ -30,7 +30,12 @@
                     <p:commandButton value="#{i18n.remove}"
                                      styleClass="btn btn-primary" 
                                      action="#{catalogBean.removeFromShoopingCart(item)}"
-                                     update="dt_shoppingcartForm"/>
+                                     update="dt_shoppingcartForm">
+                        <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+
+
                 </p:column>
             </p:dataTable>
             <p:outputLabel value="#{i18n.totalAmount}: #{catalogBean.shoppingCart.totalAmount}"/>
@@ -39,6 +44,11 @@
                              styleClass="btn btn-primary" 
                              action="shoppingCart"
                              update="dt_shoppingcartForm"/>
+
+            <p:confirmDialog global="true">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
         </h:form>
     </ui:define>
 </ui:composition>
