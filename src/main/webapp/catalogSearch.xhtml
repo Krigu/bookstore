@@ -1,43 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-
-<h:head>
-
-
-</h:head>
-<h:body>
-    <h:form>
-        <h:inputText id="search" value="#{catalogBean.isbn}"></h:inputText>
-
-        <h:commandButton value="Search by title" action="#{catalogBean.findBook()}"/>
-
-        <h:inputText id="searchString" value="#{catalogBean.searchString}"></h:inputText>
-
-        <h:commandButton value="Search by keyname" action="#{catalogBean.findBooks()}"></h:commandButton>
-
-        <h:dataTable value="#{catalogBean.booksList}" var="book">
-
-            <h:column>
-                <!-- column header -->
-                <f:facet name="header">Book</f:facet>
-                <!-- row record -->
-                <h:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
-            </h:column>
-
-        </h:dataTable>
-
-        <h:outputText
-                value="#{catalogBean.message}"
-                render="#{catalogBean.message != null}"/>
-
-
-    </h:form>
-
-</h:body>
-</html>
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h:form>
+            <!-- Search box -->
+            <div class="search-box">
+                <div class="ui-grid ui-grid-fixed">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-1">
+                            <p:inputText id="it_keywords" value="#{catalogBean.searchString}" required="true"/>
+                        </div>
+                        <div class="ui-grid-col-1">
+                            <p:watermark for="it_keywords" value="Keywords, ISBN" id="wm_keywords"/>
+                        </div>
+                        <div class="ui-grid-col-1">
+                            <p:commandButton value="Search" actionListener="#{catalogBean.findBooks()}" 
+                                             onclick="PrimeFaces.cleanWatermarks();" 
+                                             oncomplete="PrimeFaces.showWatermarks();" 
+                                             update="dt_booklist" icon="ui-icon-search"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Results -->
+            <p:dataTable id="dt_booklist" value="#{catalogBean.booksList}" var="book">
+                <p:column>
+                    <!-- column header -->
+                    <f:facet name="header">Book</f:facet>
+                    <!-- row record -->
+                    <p:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Add To Shopping cart" styleClass="btn btn-primary" action="#{catalogBean.addToShoopingCart(book)}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h:form id="dt_shoppingcartForm">
+            <!-- Shopping Cart -->
+            <p:dataTable id="dt_shoppingcart" value="#{catalogBean.shoppingCart.items}" var="item" rendered="true" styleClass="order-table">
+                <p:column>
+                    <f:facet name="header">Title</f:facet>
+                    <p:outputLabel value="#{item.book.title}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Quantity</f:facet>
+                    <p:inputText id ="quantity" value="#{item.quantity}" required="true" size="4" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Price</f:facet>
+                    <p:outputLabel value="#{item.book.price}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Total</f:facet>
+                    <p:outputLabel value="#{item.amount}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Remove" 
+                                     styleClass="btn btn-primary" 
+                                     action="#{catalogBean.removeFromShoopingCart(item)}"
+                                     update="dt_shoppingcartForm"/>
+                </p:column>
+            </p:dataTable>
+            <p:outputLabel value="Total amount: #{catalogBean.shoppingCart.totalAmount}"/>
+            <br/>
+            <p:commandButton value="Update" 
+                             styleClass="btn btn-primary" 
+                             action="shoppingCart"
+                             update="dt_shoppingcartForm"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
