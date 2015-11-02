@@ -9,6 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  * Created by krigu on 26.10.15.
@@ -20,29 +22,11 @@ public class CatalogBean implements Serializable {
     @Inject
     private Bookstore bookstore;
 
-    //private String isbn;
-
     private Book selectedBook;
-
-    //private String message;
 
     private List<Book> booksList;
 
     private String searchString;
-
-  /*  public String findBook() {
-        selectedBook = null;
-        message = null;
-
-        try {
-            selectedBook = bookstore.findBook(isbn);
-            return "bookDetails";
-        } catch (BookNotFoundException e) {
-            message = "Book with id \"" + isbn + " \" not found";
-        }
-
-        return null;
-    }*/
 
     public String findBooks() {
         this.booksList = bookstore.searchBooks(searchString);
@@ -56,6 +40,11 @@ public class CatalogBean implements Serializable {
         } catch (BookNotFoundException e) {
             //Nothing
         }
+        if(booksList.isEmpty()){
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No books found", "");
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, fm);
+        }
         return null;
     }
 
@@ -64,21 +53,9 @@ public class CatalogBean implements Serializable {
         return "bookDetails?faces-redirect=true";
     }
 
- /*   public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }*/
-
     public Book getselectedBook() {
         return selectedBook;
     }
-
-    /*public String getMessage() {
-        return message;
-    }*/
 
     public List<Book> getBooksList() {
         return booksList;
