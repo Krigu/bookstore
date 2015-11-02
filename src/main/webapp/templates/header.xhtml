@@ -8,23 +8,32 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="ui-grid ui-grid-responsive">
         <div class="ui-grid-row">
-            <div class="menu-language background-line"><nav class="sub-nav">EN | DE</nav></div>
+            <div class="menu-language background-line">
+                <nav class="sub-nav">
+                    <h:form id="langauge_form">
+                        <h:commandLink styleClass="#{localeBean.locale.language == 'de' ? 'active' : ''}" action="#{localeBean.switchLanguage('de')}" value="Deutsch" /> |
+                        <h:commandLink styleClass="#{localeBean.locale.language == 'en' ? 'active' : ''}" action="#{localeBean.switchLanguage('en')}" value="English" /> |
+                        <h:commandLink styleClass="#{localeBean.locale.language == 'fr' ? 'active' : ''}" action="#{localeBean.switchLanguage('fr')}" value="Francais" />
+                    </h:form>
+
+                </nav>
+            </div>
         </div>
         <div class="ui-grid-row">
-            <p:graphicImage styleClass="header-image" value="./resources/images/bg_bookstore.jpg" width="100"/>
+            <p:graphicImage styleClass="header-image" library="images" name="bg_bookstore.jpg" width="100"/>
         </div>
         <div class="ui-grid-row background-line">
             <p:tabMenu activeIndex="#{param.i}" styleClass="menu-main">
-                <p:menuitem value="Search" outcome="catalogSearch" icon="ui-icon-search">
+                <p:menuitem value="#{i18n.search}" outcome="catalogSearch" icon="ui-icon-search">
                     <f:param name="i" value="0"/>
                 </p:menuitem>
-                <p:menuitem value="Shopping cart" outcome="shoppingCart" icon="ui-icon-cart">
+                <p:menuitem value="#{i18n.shoppingCart}" outcome="shoppingCart" icon="ui-icon-cart">
                     <f:param name="i" value="1"/>
                 </p:menuitem>
-                <p:menuitem value="Checkout" outcome="catalogSearch" icon="ui-icon-check">
+                <p:menuitem value="#{i18n.checkout}" outcome="catalogSearch" icon="ui-icon-check">
                     <f:param name="i" value="2"/>
                 </p:menuitem>
-                <p:menuitem value="Account" outcome="catalogSearch" icon="ui-icon-person">
+                <p:menuitem value="#{i18n.account}" outcome="catalogSearch" icon="ui-icon-person">
                     <f:param name="i" value="3"/>
                 </p:menuitem>
             </p:tabMenu>

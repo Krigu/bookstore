@@ -16,10 +16,10 @@
                             <p:inputText id="it_keywords" value="#{catalogBean.searchString}" required="true"/>
                         </div>
                         <div class="ui-grid-col-1">
-                            <p:watermark for="it_keywords" value="Keywords, ISBN" id="wm_keywords"/>
+                            <p:watermark for="it_keywords" value="#{i18n.keywordsIsbn}" id="wm_keywords"/>
                         </div>
                         <div class="ui-grid-col-1">
-                            <p:commandButton value="Search" actionListener="#{catalogBean.findBooks()}" 
+                            <p:commandButton value="#{i18n.search}" actionListener="#{catalogBean.findBooks()}"
                                              onclick="PrimeFaces.cleanWatermarks();" 
                                              oncomplete="PrimeFaces.showWatermarks();" 
                                              update="dt_booklist" icon="ui-icon-search"/>
@@ -31,12 +31,12 @@
             <p:dataTable id="dt_booklist" value="#{catalogBean.booksList}" var="book">
                 <p:column>
                     <!-- column header -->
-                    <f:facet name="header">Book</f:facet>
+                    <f:facet name="header">#{i18n.book}</f:facet>
                     <!-- row record -->
                     <p:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="Add To Shopping cart" styleClass="btn btn-primary" action="#{catalogBean.addToShoopingCart(book)}"/>
+                    <p:commandButton value="#{i18n.addToCart}" styleClass="btn btn-primary" action="#{catalogBean.addToShoopingCart(book)}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
