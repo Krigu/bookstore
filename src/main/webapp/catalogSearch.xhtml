@@ -16,7 +16,7 @@
                             <p:inputText id="it_keywords" value="#{catalogBean.searchString}" required="true"/>
                         </div>
                         <div class="ui-grid-col-1">
-                            <p:watermark for="it_keywords" value="Keywords, ISBN" id="wm_keywords"/>
+                            <p:watermark for="it_keywords" value="#{i18n.keywordsIsbn}" id="wm_keywords"/>
                         </div>
                         <div class="ui-grid-col-1">
                             <p:commandButton value="Search" actionListener="#{catalogBean.findBooks()}" 
