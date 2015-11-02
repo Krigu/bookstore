@@ -12,20 +12,22 @@
             <p:graphicImage styleClass="header-image" value="./resources/images/bg_bookstore.jpg" width="100"/>
         </div>
         <div class="ui-grid-row background-line">
-            <p:tabMenu activeIndex="#{param.i}" styleClass="menu-main">
-                <p:menuitem value="Search" outcome="catalogSearch" icon="ui-icon-search">
-                    <f:param name="i" value="0"/>
-                </p:menuitem>
-                <p:menuitem value="Shopping car" outcome="catalogSearch" icon="ui-icon-cart">
-                    <f:param name="i" value="1"/>
-                </p:menuitem>
-                <p:menuitem value="Checkout" outcome="catalogSearch" icon="ui-icon-check">
-                    <f:param name="i" value="2"/>
-                </p:menuitem>
-                <p:menuitem value="Account" outcome="catalogSearch" icon="ui-icon-person">
-                    <f:param name="i" value="3"/>
-                </p:menuitem>
-            </p:tabMenu>
+            <h:form styleClass="menu-main">
+                <p:tabMenu activeIndex="#{param.menu_id}">
+                    <p:menuitem value="Search" outcome="catalogSearch" icon="ui-icon-search">
+                        <f:param name="menu_id" value="0"/>
+                    </p:menuitem>
+                    <p:menuitem value="Shopping car" outcome="catalogSearch" icon="ui-icon-cart">
+                        <f:param name="menu_id" value="1"/>
+                    </p:menuitem>
+                    <p:menuitem value="Checkout" outcome="catalogSearch" icon="ui-icon-check">
+                        <f:param name="menu_id" value="2"/>
+                    </p:menuitem>
+                    <p:menuitem value="Account" outcome="catalogSearch" icon="ui-icon-person">
+                        <f:param name="menu_id" value="3"/>
+                    </p:menuitem>
+                </p:tabMenu>
+            </h:form>
         </div>
     </div>
 </ui:composition>
