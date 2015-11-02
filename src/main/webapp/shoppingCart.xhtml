@@ -7,9 +7,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
-        <h:form id="dt_shoppingcartForm">
+        <h:form id="dt_shoppingcartForm" >
             <!-- Shopping Cart -->
-            <p:dataTable id="dt_shoppingcart" value="#{catalogBean.shoppingCart.items}" var="item" rendered="true" styleClass="order-table">
+            <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" styleClass="order-table" >
                 <p:column>
                     <f:facet name="header">#{i18n.title}</f:facet>
                     <p:outputLabel value="#{item.book.title}"/>
@@ -29,11 +29,11 @@
                 <p:column>
                     <p:commandButton value="#{i18n.remove}"
                                      styleClass="btn btn-primary" 
-                                     action="#{catalogBean.removeFromShoopingCart(item)}"
+                                     action="#{shoppingCartBean.removeFromShoopingCart(item)}"
                                      update="dt_shoppingcartForm"/>
                 </p:column>
             </p:dataTable>
-            <p:outputLabel value="#{i18n.totalAmount}: #{catalogBean.shoppingCart.totalAmount}"/>
+            <p:outputLabel value="#{i18n.totalAmount}: #{shoppingCartBean.shoppingCart.totalAmount}"/>
             <br/>
             <p:commandButton value="#{i18n.update}"
                              styleClass="btn btn-primary" 

@@ -1,5 +1,7 @@
 package org.books.presentation;
 
+import org.books.application.ShoppingCartItem;
+import org.books.application.ShoppingCart;
 import org.books.application.BookNotFoundException;
 import org.books.application.Bookstore;
 import org.books.data.Book;
@@ -18,15 +20,11 @@ public class CatalogBean implements Serializable {
     @Inject
     private Bookstore bookstore;
 
-    @Inject
-    private ShoppingCart shoppingCart;
-
     private Book selectedBook;
 
     private List<Book> booksList;
 
     private String searchString;
-
 
     public String findBooks() {
         this.booksList = bookstore.searchBooks(searchString);
@@ -64,20 +62,4 @@ public class CatalogBean implements Serializable {
         return searchString;
     }
 
-    public String removeFromShoopingCart(ShoppingCartItem item) {
-        shoppingCart.remove(item);
-        return null;
-    }
-
-    public String addToShoopingCart(Book book) {
-        shoppingCart.add(book);
-        // ToDo: i18n
-        Messages.show("Shopping", "Book " + book.getTitle() + " added to shopping cart");
-
-        return null;
-    }
-
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
-    }
 }

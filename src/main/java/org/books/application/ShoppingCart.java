@@ -1,4 +1,4 @@
-package org.books.presentation;
+package org.books.application;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
