@@ -12,6 +12,8 @@
                 <!-- Button "Go back on the Search" -->
                 <h:form id="frmGoBack">
                     <p:commandButton action="catalogSearch?faces-redirect=true" value="Back to search"/>
+                    <p:commandButton action="#{catalogBean.previousBook()}" value="Previous" disabled="#{!catalogBean.hasPrevious()}"/>
+                    <p:commandButton action="#{catalogBean.nextBook()}" value="Next" disabled="#{!catalogBean.hasNext()}"/>
                 </h:form>
             </div>
             <p:spacer height="20"/>
