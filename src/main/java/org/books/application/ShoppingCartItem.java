@@ -1,7 +1,8 @@
 package org.books.application;
 
+import org.books.data.entity.Book;
+
 import java.math.BigDecimal;
-import org.books.data.Book;
 
 /**
  *
