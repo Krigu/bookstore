@@ -8,7 +8,8 @@
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <h:outputStylesheet library="css" name="default.css"/>
-            <title>Bookstore</title>
+            <title>Bookstore<h:outputText value=" - " rendered="#{not empty headTitle}"/><h:outputText value="#{headTitle}"/></title>
+            <meta name="description" content="#{headDescription}"/>
         </h:head>
 
         <h:body>
