@@ -1,11 +1,12 @@
 package org.books.application;
 
+import org.books.data.entity.Book;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
-import org.books.data.Book;
 
 /**
  *

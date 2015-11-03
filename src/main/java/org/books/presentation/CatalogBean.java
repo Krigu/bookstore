@@ -1,11 +1,8 @@
 package org.books.presentation;
 
-import org.books.application.ShoppingCartItem;
-import org.books.application.ShoppingCart;
-import org.books.application.BookNotFoundException;
-import org.books.application.Bookstore;
-import org.books.data.Book;
-import org.books.util.Messages;
+import org.books.application.*;
+import org.books.data.dto.BookInfo;
+import org.books.data.entity.Book;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -22,27 +19,32 @@ public class CatalogBean implements Serializable {
 
     private Book selectedBook;
 
-    private List<Book> booksList;
+    private List<BookInfo> booksInfoList;
 
     private String searchString;
 
     public String findBooks() {
-        this.booksList = bookstore.searchBooks(searchString);
+        this.booksInfoList = bookstore.searchBooks(searchString);
 
         try {
-            Book b = bookstore.findBook(searchString);
-            if (!this.booksList.contains(b)) {
-                this.booksList.add(b);
+            Book book = bookstore.findBook(searchString);
+            BookInfo bookInfo = new BookInfo(book);
+            if (!this.booksInfoList.contains(bookInfo)) {
+                this.booksInfoList.add(bookInfo);
             }
 
-        } catch (BookNotFoundException e) {
+        } catch (BookstoreException e) {
             //Nothing
         }
         return null;
     }
 
-    public String setDetail(Book b) {
-        this.selectedBook = b;
+    public String setDetail(BookInfo b) {
+        try {
+            this.selectedBook = bookstore.findBook(b.getIsbn());
+        } catch (BookstoreException e) {
+            this.selectedBook = null;
+        }
         return "bookDetails?faces-redirect=true";
     }
 
@@ -50,8 +52,8 @@ public class CatalogBean implements Serializable {
         return selectedBook;
     }
 
-    public List<Book> getBooksList() {
-        return booksList;
+    public List<BookInfo> getBooksInfoList() {
+        return booksInfoList;
     }
 
     public void setSearchString(String searchString) {
