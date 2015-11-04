@@ -12,9 +12,11 @@
     <ui:define name="content">
         <div class="ui-grid ui-grid-responsive">
             <div class="ui-grid-row">
-                <!-- Button "Go back on the Search" -->
-                <h:form id="frmGoBack">
+                <!-- Naviagation of the bookDetails -->
+                <h:form id="frmDetailsBookNaviagation">
                     <p:commandButton action="catalogSearch?faces-redirect=true" value="#{i18n.backToSearch}"/>
+                    <p:commandButton action="#{catalogBean.navigateOnBookList(-1)}" value="#{i18n.previous}" disabled="#{!catalogBean.hasPrevious()}"/>
+                    <p:commandButton action="#{catalogBean.navigateOnBookList(1)}" value="#{i18n.next}" disabled="#{!catalogBean.hasNext()}"/>
                 </h:form>
             </div>
             <p:spacer height="20"/>

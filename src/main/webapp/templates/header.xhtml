@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
     <div class="ui-grid ui-grid-responsive">
         <div class="ui-grid-row">
             <div class="menu-language background-line">
@@ -15,7 +15,6 @@
                         <h:commandLink styleClass="#{localeBean.locale.language == 'en' ? 'active' : ''}" action="#{localeBean.switchLanguage('en')}" value="English" /> |
                         <h:commandLink styleClass="#{localeBean.locale.language == 'fr' ? 'active' : ''}" action="#{localeBean.switchLanguage('fr')}" value="Francais" />
                     </h:form>
-
                 </nav>
             </div>
         </div>
@@ -23,20 +22,22 @@
             <p:graphicImage styleClass="header-image" library="images" name="bg_bookstore.jpg" width="100"/>
         </div>
         <div class="ui-grid-row background-line">
-            <p:tabMenu activeIndex="#{param.i}" styleClass="menu-main">
-                <p:menuitem value="#{i18n.search}" outcome="catalogSearch" icon="ui-icon-search">
-                    <f:param name="i" value="0"/>
-                </p:menuitem>
-                <p:menuitem value="#{i18n.shoppingCart}" outcome="shoppingCart" icon="ui-icon-cart">
-                    <f:param name="i" value="1"/>
-                </p:menuitem>
-                <p:menuitem value="#{i18n.checkout}" outcome="catalogSearch" icon="ui-icon-check">
-                    <f:param name="i" value="2"/>
-                </p:menuitem>
-                <p:menuitem value="#{i18n.account}" outcome="catalogSearch" icon="ui-icon-person">
-                    <f:param name="i" value="3"/>
-                </p:menuitem>
-            </p:tabMenu>
+            <h:form id="frm_main_navigation" styleClass="menu-main">
+                <p:tabMenu activeIndex="#{param.i}" >
+                    <p:menuitem value="#{i18n.search}" outcome="catalogSearch" icon="ui-icon-search">
+                        <f:param name="i" value="0"/>
+                    </p:menuitem>
+                    <p:menuitem value="#{i18n.shoppingCart}" outcome="shoppingCart" icon="ui-icon-cart">
+                        <f:param name="i" value="1"/>
+                    </p:menuitem>
+                    <p:menuitem value="#{i18n.checkout}" outcome="catalogSearch" icon="ui-icon-check">
+                        <f:param name="i" value="2"/>
+                    </p:menuitem>
+                    <p:menuitem value="#{i18n.account}" outcome="catalogSearch" icon="ui-icon-person">
+                        <f:param name="i" value="3"/>
+                    </p:menuitem>
+                </p:tabMenu>
+            </h:form>
         </div>
     </div>
 </ui:composition>

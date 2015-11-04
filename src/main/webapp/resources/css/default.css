@@ -77,6 +77,6 @@ a:link:hover, a:visited:hover  {
     margin-bottom: 20px;
 }
 
-.search-box .ui-button{
+.search-box .ui-inputfield{
     margin-left: 10px;
 }
