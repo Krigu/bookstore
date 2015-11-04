@@ -1,5 +1,6 @@
 package org.books.application;
 
+import org.books.data.dto.BookInfo;
 import org.books.data.entity.Book;
 
 import java.math.BigDecimal;
@@ -9,36 +10,36 @@ import java.math.BigDecimal;
  * @author Tilmann Bück
  */
 public class ShoppingCartItem {
-    private Book book;
+    private BookInfo bookInfo;
     private int quantity;
 
-    public ShoppingCartItem(Book book) {
-        this.book = book;
-        this.quantity = 1;        
+    public ShoppingCartItem(BookInfo bookInfo) {
+        this.bookInfo = bookInfo;
+        this.quantity = 1;
     }
-    
-    public void setBook(Book book) {
-        this.book = book;
+
+    public void setBookInfo(BookInfo bookInfo) {
+        this.bookInfo = bookInfo;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public Book getBook() {
-        return book;
+    public BookInfo getBookInfo() {
+        return bookInfo;
     }
 
     public int getQuantity() {
         return quantity;
     }
-    
+
     public BigDecimal getAmount() {
-        return book.getPrice().multiply(new BigDecimal(quantity));
+        return bookInfo.getPrice().multiply(new BigDecimal(quantity));
     }
-    
+
     public void increaseQuantity() {
         quantity++;
     }
-    
+
 }
