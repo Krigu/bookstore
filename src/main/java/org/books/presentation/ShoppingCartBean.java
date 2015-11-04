@@ -9,6 +9,7 @@ import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
 import org.books.application.ShoppingCart;
 import org.books.application.ShoppingCartItem;
+import org.books.data.dto.BookInfo;
 import org.books.data.entity.Book;
 
 /**
@@ -34,14 +35,14 @@ public class ShoppingCartBean implements Serializable {
         return null;
     }
     
-    public String addToShoopingCart(Book book) {
+    public String addBookToShoppingCart(Book book) {
         shoppingCart.add(book);
         return null;
     }
 
-    public String addToShoopingCart(String isbn) {
+    public String addBookInfoToShoppingCart(BookInfo bookInfo) {
         try {
-            Book book = bookstore.findBook(isbn);
+            Book book = bookstore.findBook(bookInfo.getIsbn());
             shoppingCart.add(book);
         } catch (BookstoreException e) {
             return null;
