@@ -9,6 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import org.books.util.MessageFactory;
 
 @SessionScoped
 @Named("catalogBean")
@@ -35,6 +38,10 @@ public class CatalogBean implements Serializable {
 
         } catch (BookstoreException e) {
             //Nothing
+        }
+        //Send a message if the list is empty
+        if (booksInfoList.isEmpty()) {
+            MessageFactory.info("noBooksFound");
         }
         return null;
     }
@@ -75,10 +82,8 @@ public class CatalogBean implements Serializable {
      * @return go on the bookDetail if we found the other book
      */
     public String navigateOnBookList(int difference) {
-        System.out.println("org.books.presentation.CatalogBean.navigateOnBookList()" + difference);
         BookInfo bi = new BookInfo(selectedBook);
         int indexBook = booksInfoList.indexOf(bi);
-        System.out.println("org.books.presentation.CatalogBean.navigateOnBookList()" + indexBook);
         try {
             bi = booksInfoList.get(indexBook + difference);
             return setDetail(bi);
