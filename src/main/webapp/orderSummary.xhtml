@@ -6,10 +6,10 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
-    <ui:param name="headTitle" value="#{i18n.shoppingCartTitle}"/>
-    <ui:param name="headDescription" value="#{i18n.shoppingCartDescription}"/>
+    <ui:param name="headTitle" value="#{i18n.orderOverview}"/>
+    <ui:param name="headDescription" value="#{i18n.orderDescription}"/>
     <ui:define name="content">
-        <h:form id="dt_shoppingcartForm">
+        <h:form id="dt_orderSummary">
             <!-- Shopping Cart -->
             <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" rendered="true" styleClass="order-table">
                 <p:column>
@@ -34,25 +34,12 @@
                         <h:outputText value="#{shoppingCartBean.shoppingCart.totalAmount}" />
                     </f:facet>
                 </p:column>
-                <p:column>
-                    <p:commandButton value="#{i18n.remove}"
-                                     styleClass="btn btn-primary" 
-                                     action="#{shoppingCartBean.removeFromShoppingCart(item)}"
-                                     update="dt_shoppingcartForm">
-                                <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
-                            </p:commandButton>
-                </p:column>
             </p:dataTable>
-            <br/>
-            <p:commandButton value="#{i18n.update}"
-                             styleClass="btn btn-primary" 
-                             update="dt_shoppingcartForm"/>
 
-            <p:confirmDialog global="true">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>
-
+            <p:commandButton value="#{i18n.bestellen}"
+                             styleClass="btn btn-primary"
+                             action="#{orderBean.doSubmitOrder}"
+                             ajax="false"/>
         </h:form>
     </ui:define>
 </ui:composition>

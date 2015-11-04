@@ -24,13 +24,10 @@ public class ShoppingCartBean implements Serializable {
     @Inject 
     private ShoppingCart shoppingCart;
 
-    @Inject
-    private Bookstore bookstore;
-    
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
     }
-    public String removeFromShoopingCart(ShoppingCartItem item) {
+    public String removeFromShoppingCart(ShoppingCartItem item) {
         shoppingCart.remove(item);
         return null;
     }
