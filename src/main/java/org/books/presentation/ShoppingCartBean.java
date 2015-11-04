@@ -36,19 +36,12 @@ public class ShoppingCartBean implements Serializable {
     }
     
     public String addBookToShoppingCart(Book book) {
-        shoppingCart.add(book);
+        shoppingCart.add(new BookInfo(book));
         return null;
     }
 
     public String addBookInfoToShoppingCart(BookInfo bookInfo) {
-        try {
-            Book book = bookstore.findBook(bookInfo.getIsbn());
-            shoppingCart.add(book);
-        } catch (BookstoreException e) {
-            return null;
-        }
-
-
+        shoppingCart.add(bookInfo);
         return null;
     }
 }

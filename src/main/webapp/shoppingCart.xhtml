@@ -16,7 +16,7 @@
                 <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" styleClass="order-table" >
                     <p:column>
                         <f:facet name="header">#{i18n.title}</f:facet>
-                        <p:outputLabel value="#{item.book.title}"/>
+                        <p:outputLabel value="#{item.bookInfo.title}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">#{i18n.quantity}</f:facet>
@@ -24,7 +24,7 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">#{i18n.price}</f:facet>
-                        <p:outputLabel value="#{item.book.price}"/>
+                        <p:outputLabel value="#{item.bookInfo.price}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">#{i18n.total}</f:facet>
