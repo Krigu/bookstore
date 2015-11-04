@@ -32,9 +32,15 @@
             <p:dataTable id="dt_booklist" value="#{catalogBean.booksInfoList}" var="book" rendered="#{not empty catalogBean.booksInfoList}">
                 <p:column>
                     <!-- column header -->
-                    <f:facet name="header">Book</f:facet>
+                    <f:facet name="header"><h:outputText value="#{i18n.book}"/></f:facet>
                     <!-- row record -->
                     <p:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
+                </p:column>
+                <p:column>
+                    <!-- column header -->
+                    <f:facet name="header"><h:outputText value="#{i18n.price}"/></f:facet>
+                    <!-- row record -->
+                    <h:outputText value="#{book.price}"/>
                 </p:column>
                 <p:column>
                     <p:commandButton value="#{i18n.addToCart}" styleClass="btn btn-primary" action="#{shoppingCartBean.addBookInfoToShoppingCart(book)}"/>
