@@ -6,6 +6,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <ui:param name="headTitle" value="#{i18n.shoppingCartTitle}"/>
+    <ui:param name="headDescription" value="#{i18n.shoppingCartDescription}"/>
     <ui:define name="content">
         <h:form id="dt_shoppingcartForm">
             <!-- Shopping Cart -->
@@ -31,11 +33,8 @@
                                      styleClass="btn btn-primary" 
                                      action="#{catalogBean.removeFromShoopingCart(item)}"
                                      update="dt_shoppingcartForm">
-                        <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
-                    </p:commandButton>
-
-
-
+                                <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
+                            </p:commandButton>
                 </p:column>
             </p:dataTable>
             <p:outputLabel value="#{i18n.totalAmount}: #{catalogBean.shoppingCart.totalAmount}"/>

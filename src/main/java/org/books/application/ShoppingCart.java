@@ -1,16 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.books.presentation;
+package org.books.application;
+
+import org.books.data.dto.BookInfo;
+import org.books.data.entity.Book;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
-import org.books.data.Book;
 
 /**
  *
@@ -28,11 +25,11 @@ public class ShoppingCart implements Serializable {
         return items;
     }
 
-   public void add(Book book)   {
-       ShoppingCartItem shoppingCartItem = getItem(book);
+   public void add(BookInfo bookInfo)   {
+       ShoppingCartItem shoppingCartItem = getItem(bookInfo);
        
        if (shoppingCartItem == null) {
-            items.add(new ShoppingCartItem(book));    
+            items.add(new ShoppingCartItem(bookInfo));
        }
        else
            shoppingCartItem.increaseQuantity();
@@ -52,9 +49,9 @@ public class ShoppingCart implements Serializable {
        return result;
    }
    
-   private ShoppingCartItem getItem(Book book) {
+   private ShoppingCartItem getItem(BookInfo bookInfo) {
        for (ShoppingCartItem item : items) {
-           if (item.getBook().equals(book)) {
+           if (item.getBookInfo().equals(bookInfo)) {
                return item;
            }
        }
