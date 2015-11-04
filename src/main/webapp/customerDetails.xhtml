@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="templates/template.xhtml"  xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Name"/>
+                <p:inputText id="it_name" value="#{customerBean.customer.firstName}" required="true"/>
+                <p:outputLabel value="Surname"/>
+                <p:inputText id="it_surname" value="#{customerBean.customer.lastName}" required="true"/>
+                <p:outputLabel value="E-Mail"/>
+                <p:inputText id="it_email" value="#{customerBean.customer.email}" required="true"/>
+            </h:panelGrid>
+            <br/>
+            <p:outputLabel value="Address"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Street"/>
+                <p:inputText id="it_street" value="#{customerBean.customer.address.street}" required="true"/>
+                <p:outputLabel value="Town"/>
+                <p:inputText id="it_town" value="#{customerBean.customer.address.city}" required="true"/>
+                <p:outputLabel value="ZIP"/>
+                <p:inputText id="it_zip" value="#{customerBean.customer.address.postalCode}" required="true"/>
+                <p:outputLabel value="Country"/>
+                <p:selectOneMenu >
+                    <f:selectItem itemLabel="Switzerland"/>
+                    <f:selectItem itemLabel="Italy"/>
+                </p:selectOneMenu>
+
+            </h:panelGrid>
+            <br/>
+            <p:outputLabel value="Credit card"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Card type"/>
+                <p:selectOneMenu >
+                    <f:selectItem itemLabel="MasterCard"/>
+                    <f:selectItem itemLabel="VISA"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="Card number"/>
+                <p:inputText id="it_number" value="#{customerBean.customer.creditCard.number}" required="true"/>
+                <h:panelGrid columns="4">
+                <p:outputLabel value="Valid until"/>
+                <p:inputText id="it_month" value="#{customerBean.customer.creditCard.expirationMonth}" required="true"/>
+                <p:outputLabel value="/"/>
+                <p:inputText id="it_year" value="#{customerBean.customer.creditCard.expirationYear}" required="true"/>
+                </h:panelGrid>
+            </h:panelGrid>
+
+            <p:commandButton value="Update account" action="#{customerBean.updateCustomer}" rendered="#{customerBean.authenticated}"  />
+            <p:commandButton value="Create account" action="#{customerBean.insertNewCustomer}" rendered="#{not customerBean.authenticated}" />            
+        </h:form>
+    </ui:define>
+</ui:composition>

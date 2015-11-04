@@ -108,5 +108,8 @@ public class CatalogBean implements Serializable {
     public String getSearchString() {
         return searchString;
     }
-
+    
+    public String getLoginPage() {
+        return "login";
+    }
 }
