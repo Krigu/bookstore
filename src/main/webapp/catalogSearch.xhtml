@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="templates/template.xhtml"
+<ui:composition template="templates/template.xhtml"  
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -12,26 +12,27 @@
             <div class="search-box">
                 <div class="ui-grid ui-grid-fixed">
                     <div class="ui-grid-row">
-                        <div class="ui-grid-col-1">
-                            <p:inputText id="it_keywords" value="#{catalogBean.searchString}" required="true"/>
-                        </div>
-                        <div class="ui-grid-col-1">
-                            <p:watermark for="it_keywords" value="#{i18n.keywordsIsbn}" id="wm_keywords"/>
-                        </div>
-                        <div class="ui-grid-col-1">
-                            <p:commandButton value="#{i18n.search}" actionListener="#{catalogBean.findBooks()}"
+                        <div class="ui-grid-col-4">
+                            <p:commandButton value="#{i18n.search}" actionListener="#{catalogBean.findBooks()}" 
                                              onclick="PrimeFaces.cleanWatermarks();" 
                                              oncomplete="PrimeFaces.showWatermarks();" 
-                                             update="dt_booklist" icon="ui-icon-search"/>
+                                             update="@form" icon="ui-icon-search"/>
+                            <p:inputText id="it_keywords" value="#{catalogBean.searchString}" required="true" requiredMessage="#{i18n.missingWords}"/>
+                            <p:watermark for="it_keywords" value="#{i18n.keywordsIsbn}" id="wm_keywords"/>
+                        </div>
+                        <div class="ui-grid-col-3">
+                            <p:message id="msg_it_keywords" for="it_keywords"/>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Empty message -->
+            <p:messages id="msg_booklist" globalOnly="true"/>
             <!-- Results -->
-            <p:dataTable id="dt_booklist" value="#{catalogBean.booksInfoList}" var="book">
+            <p:dataTable id="dt_booklist" value="#{catalogBean.booksInfoList}" var="book" rendered="#{not empty catalogBean.booksInfoList}">
                 <p:column>
                     <!-- column header -->
-                    <f:facet name="header">#{i18n.book}</f:facet>
+                    <f:facet name="header">Book</f:facet>
                     <!-- row record -->
                     <p:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
                 </p:column>

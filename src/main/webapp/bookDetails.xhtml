@@ -7,12 +7,16 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <ui:param name="headTitle" value="#{catalogBean.selectedBook.title}"/>
+    <ui:param name="headDescription" value="#{catalogBean.selectedBook.title} - #{catalogBean.selectedBook.authors}"/>
     <ui:define name="content">
         <div class="ui-grid ui-grid-responsive">
             <div class="ui-grid-row">
-                <!-- Button "Go back on the Search" -->
-                <h:form id="frmGoBack">
+                <!-- Naviagation of the bookDetails -->
+                <h:form id="frmDetailsBookNaviagation">
                     <p:commandButton action="catalogSearch?faces-redirect=true" value="#{i18n.backToSearch}"/>
+                    <p:commandButton action="#{catalogBean.navigateOnBookList(-1)}" value="#{i18n.previous}" disabled="#{!catalogBean.hasPrevious()}"/>
+                    <p:commandButton action="#{catalogBean.navigateOnBookList(1)}" value="#{i18n.next}" disabled="#{!catalogBean.hasNext()}"/>
                 </h:form>
             </div>
             <p:spacer height="20"/>
@@ -34,9 +38,9 @@
                         </p:row>
                     </f:facet>
                     <p:row>
-                        <p:column><h:outputLabel for="otIsbn" value="#{i18n.isbn}ISBN"/></p:column>
+                        <p:column><h:outputLabel for="otIsbn" value="#{i18n.isbn}"/></p:column>
                         <p:column colspan="2"><h:outputText id="otIsbn" value="#{catalogBean.selectedBook.isbn}"/></p:column>
-                        <p:column colspan="2" rowspan="5"><p:graphicImage styleClass="header-image" value="./resources/images/books.jpg" width="25"/></p:column>
+                        <p:column colspan="2" rowspan="5"><p:graphicImage library="images" name="no_picture.png" width="100"/></p:column>
                     </p:row>
                     <p:row>
                         <p:column><h:outputLabel for="otAuthors" value="#{i18n.authors}"/></p:column>

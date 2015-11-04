@@ -6,6 +6,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <ui:param name="headTitle" value="#{i18n.shoppingCartTitle}"/>
+    <ui:param name="headDescription" value="#{i18n.shoppingCartDescription}"/>
     <ui:define name="content">
         <h:form id="dt_shoppingcartForm">
             <h:form id="dt_shoppingcartTable" rendered="#{shoppingCartBean.shoppingCart.items.size() > 0}">

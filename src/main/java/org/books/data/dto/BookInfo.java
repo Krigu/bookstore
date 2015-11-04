@@ -1,6 +1,7 @@
 package org.books.data.dto;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import org.books.data.entity.Book;
 
 public class BookInfo {
@@ -23,6 +24,38 @@ public class BookInfo {
 		this.title = book.getTitle();
 		this.price = book.getPrice();
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.isbn);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BookInfo other = (BookInfo) obj;
+        if (!Objects.equals(this.isbn, other.isbn)) {
+            return false;
+        }
+        if (!Objects.equals(this.title, other.title)) {
+            return false;
+        }
+        if (!Objects.equals(this.price, other.price)) {
+            return false;
+        }
+        return true;
+    }
+        
 
 	public String getIsbn() {
 		return isbn;
