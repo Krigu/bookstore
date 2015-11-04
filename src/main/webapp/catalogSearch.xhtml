@@ -36,7 +36,7 @@
                     <p:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="#{i18n.addToCart}" styleClass="btn btn-primary" action="#{shoppingCartBean.addToShoopingCart(book)}"/>
+                    <p:commandButton value="#{i18n.addToCart}" styleClass="btn btn-primary" action="#{shoppingCartBean.addBookInfoToShoppingCart(book)}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

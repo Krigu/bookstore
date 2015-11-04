@@ -28,7 +28,7 @@
                             <p:column>
                                 <h:form id="frmAddToShoppingCat">
                                     <p:growl id="growl" showDetail="true" sticky="false" life="5000" />
-                                    <p:commandButton action="#{shoppingCartBean.addToShoopingCart(catalogBean.selectedBook)}" value="#{i18n.addToCart}" icon="ui-icon-cart" update="growl"/>
+                                    <p:commandButton action="#{shoppingCartBean.addBookToShoppingCart(catalogBean.selectedBook)}" value="#{i18n.addToCart}" icon="ui-icon-cart" update="growl"/>
                                 </h:form>
                             </p:column>
                         </p:row>
