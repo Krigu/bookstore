@@ -16,22 +16,22 @@ import org.books.data.entity.Book;
  *
  * @author Tilmann Bück
  */
-
 @SessionScoped
 @Named("shoppingCartBean")
 public class ShoppingCartBean implements Serializable {
-    
-    @Inject 
+
+    @Inject
     private ShoppingCart shoppingCart;
 
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
     }
+
     public String removeFromShoppingCart(ShoppingCartItem item) {
         shoppingCart.remove(item);
         return null;
     }
-    
+
     public String addBookToShoppingCart(Book book) {
         shoppingCart.add(new BookInfo(book));
         return null;
@@ -39,6 +39,44 @@ public class ShoppingCartBean implements Serializable {
 
     public String addBookInfoToShoppingCart(BookInfo bookInfo) {
         shoppingCart.add(bookInfo);
+        return null;
+    }
+
+    /**
+     *
+     * @param bookInfo
+     * @return true if the shopping cart contains the bookInfo else return false
+     */
+    public boolean shoppingCartContainsBook(BookInfo bookInfo) {
+        ShoppingCartItem item = findShoppingCartItem(bookInfo);
+        return item!=null;
+    }
+
+    /**
+     * Remove a book from the shopping cart
+     * @param bookInfo
+     * @return
+     */
+    public String removeBookFromShoppingCart(BookInfo bookInfo) {
+        ShoppingCartItem item = findShoppingCartItem(bookInfo);
+        if (item != null) {
+            shoppingCart.remove(item);
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param book
+     * @return the shoppingCartItem of the bookInfo or null if the bookInfo isn't in the
+     * shoppingCart
+     */
+    private ShoppingCartItem findShoppingCartItem(BookInfo bookInfo) {
+        for (ShoppingCartItem item : shoppingCart.getItems()) {
+            if (item.getBookInfo().equals(bookInfo)) {
+                return item;
+            }
+        }
         return null;
     }
 }
