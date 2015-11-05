@@ -33,7 +33,15 @@
                                 <h:form id="frmAddToShoppingCat">
                                     <p:growl id="growl" showDetail="true" sticky="false" life="5000" />
                                     <p:commandButton update="frmAddToShoppingCat growl" action="#{shoppingCartBean.addBookToShoppingCart(catalogBean.selectedBook)}" value="#{i18n.addToCart}" icon="ui-icon-cart"/>
-                                    <p:commandButton icon="ui-icon-trash" update="frmAddToShoppingCat" rendered="#{shoppingCartBean.shoppingCartContainsBook(catalogBean.selectedBook)}" action="#{shoppingCartBean.removeBookFromShoppingCart(catalogBean.selectedBook)}"/>
+                                    <p:commandButton icon="ui-icon-trash" update="frmAddToShoppingCat" rendered="#{shoppingCartBean.shoppingCartContainsBook(catalogBean.selectedBook)}" action="#{shoppingCartBean.removeBookFromShoppingCart(catalogBean.selectedBook)}">
+                                        <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
+                                    </p:commandButton>
+
+                                    <!-- Confirm dialog -->
+                                    <p:confirmDialog global="true">
+                                        <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="#{i18n.gl_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
                                 </h:form>
                             </p:column>
                         </p:row>
