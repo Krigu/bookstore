@@ -45,7 +45,7 @@
                 <p:column styleClass="colum-action-search">
                     <p:outputPanel id="btn_action">
                         <p:commandButton id="btn_add" icon="ui-icon-plusthick" update="btn_action" action="#{shoppingCartBean.addBookInfoToShoppingCart(book)}"/>
-                        <p:commandButton id="btn_remove" icon="ui-icon-trash" update="btn_action" rendered="#{shoppingCartBean.shoppingCartContainsBook(book)}" action="#{shoppingCartBean.removeBookFromShoppingCart(book)}"/>
+                        <p:commandButton id="btn_remove" icon="ui-icon-trash" update="btn_action" rendered="#{shoppingCartBean.shoppingCartContainsBookInfo(book)}" action="#{shoppingCartBean.removeBookInfoFromShoppingCart(book)}"/>
                     </p:outputPanel>
                 </p:column>
             </p:dataTable>

@@ -5,8 +5,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.books.application.Bookstore;
-import org.books.application.BookstoreException;
 import org.books.application.ShoppingCart;
 import org.books.application.ShoppingCartItem;
 import org.books.data.dto.BookInfo;
@@ -47,18 +45,40 @@ public class ShoppingCartBean implements Serializable {
      * @param bookInfo
      * @return true if the shopping cart contains the bookInfo else return false
      */
-    public boolean shoppingCartContainsBook(BookInfo bookInfo) {
+    public boolean shoppingCartContainsBookInfo(BookInfo bookInfo) {
         ShoppingCartItem item = findShoppingCartItem(bookInfo);
+        return item!=null;
+    }
+    
+        /**
+     *
+     * @param book
+     * @return true if the shopping cart contains the book else return false
+     */
+    public boolean shoppingCartContainsBook(Book book) {
+        ShoppingCartItem item = findShoppingCartItem(new BookInfo(book));
         return item!=null;
     }
 
     /**
-     * Remove a book from the shopping cart
+     * Remove a bookInfo from the shopping cart
      * @param bookInfo
      * @return
      */
-    public String removeBookFromShoppingCart(BookInfo bookInfo) {
+    public String removeBookInfoFromShoppingCart(BookInfo bookInfo) {
         ShoppingCartItem item = findShoppingCartItem(bookInfo);
+        if (item != null) {
+            shoppingCart.remove(item);
+        }
+        return null;
+    }
+    /**
+     * Remove a book from the shopping cart
+     * @param book
+     * @return
+     */
+    public String removeBookFromShoppingCart(Book book) {
+        ShoppingCartItem item = findShoppingCartItem(new BookInfo(book));
         if (item != null) {
             shoppingCart.remove(item);
         }

@@ -32,7 +32,8 @@
                             <p:column>
                                 <h:form id="frmAddToShoppingCat">
                                     <p:growl id="growl" showDetail="true" sticky="false" life="5000" />
-                                    <p:commandButton action="#{shoppingCartBean.addBookToShoppingCart(catalogBean.selectedBook)}" value="#{i18n.addToCart}" icon="ui-icon-cart" update="growl"/>
+                                    <p:commandButton update="frmAddToShoppingCat growl" action="#{shoppingCartBean.addBookToShoppingCart(catalogBean.selectedBook)}" value="#{i18n.addToCart}" icon="ui-icon-cart"/>
+                                    <p:commandButton icon="ui-icon-trash" update="frmAddToShoppingCat" rendered="#{shoppingCartBean.shoppingCartContainsBook(catalogBean.selectedBook)}" action="#{shoppingCartBean.removeBookFromShoppingCart(catalogBean.selectedBook)}"/>
                                 </h:form>
                             </p:column>
                         </p:row>
