@@ -9,6 +9,8 @@ import org.books.application.ShoppingCart;
 import org.books.application.ShoppingCartItem;
 import org.books.data.dto.BookInfo;
 import org.books.data.entity.Book;
+import org.books.util.MessageFactory;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -39,7 +41,11 @@ public class ShoppingCartBean implements Serializable {
         shoppingCart.add(bookInfo);
         return null;
     }
-
+    
+    public void onRowEdit(RowEditEvent event) {
+        ShoppingCartItem item = (ShoppingCartItem)event.getObject();
+        MessageFactory.info("shoppingCartUpdateBookQuantity", item.getBookInfo().getTitle(),item.getQuantity());
+    }
     /**
      *
      * @param bookInfo
