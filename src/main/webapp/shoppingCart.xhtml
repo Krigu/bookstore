@@ -9,7 +9,8 @@
     <ui:param name="headTitle" value="#{i18n.shoppingCartTitle}"/>
     <ui:param name="headDescription" value="#{i18n.shoppingCartDescription}"/>
     <ui:define name="content">
-        <h:form id="dt_shoppingcartForm">
+        <h:form id="dt_shoppingcartForm" rendered="#{not empty shoppingCartBean.shoppingCart.items}">
+            <p:defaultCommand target="btnUpdate" />
             <!-- Shopping Cart -->
             <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" rendered="true" styleClass="order-table">
                 <p:column>
@@ -44,7 +45,8 @@
                 </p:column>
             </p:dataTable>
             <br/>
-            <p:commandButton value="#{i18n.update}"
+            <p:commandButton id="btnUpdate" 
+                             value="#{i18n.update}"
                              styleClass="btn btn-primary" 
                              update="dt_shoppingcartForm"/>
 

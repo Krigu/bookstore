@@ -7,28 +7,37 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form>
-            <h:panelGrid columns="1">
-                <p:outputLabel value="Name: #{customerBean.customer.firstName}"/>
-                <p:outputLabel value="Lastname: #{customerBean.customer.lastName}"/>
-                <p:outputLabel value=" E-Mail: #{customerBean.customer.email}"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{i18n.firstName}"/>
+                <p:outputLabel value="#{customerBean.customer.firstName}"/>
+                <p:outputLabel value="#{i18n.lastName}"/>
+                <p:outputLabel value="#{customerBean.customer.lastName}"/>
+                <p:outputLabel value="#{i18n.email}"/>
+                <p:outputLabel value="#{customerBean.customer.email}"/>
             </h:panelGrid>
-            <br/>
-            <p:outputLabel value="Address"/>
-            <h:panelGrid columns="1">
-                <p:outputLabel value="Street: #{customerBean.customer.address.street}"/>
-                <p:outputLabel value="Town: #{customerBean.customer.address.city}"/>
-                <p:outputLabel value="ZIP: #{customerBean.customer.address.postalCode}"/>
-                <p:outputLabel value="Country: #{customerBean.customer.address.country}"/>
+            <p:outputLabel value="#{i18n.address}"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{i18n.street}"/>
+                <p:outputLabel value="#{customerBean.customer.address.street}"/>
+                <p:outputLabel value="#{i18n.postaleCode}"/>
+                <p:outputLabel value="#{customerBean.customer.address.postalCode}"/>
+                <p:outputLabel value="#{i18n.city}"/>
+                <p:outputLabel value="#{customerBean.customer.address.city}"/>
+                <p:outputLabel value="#{i18n.country}"/>
+                <p:outputLabel value="#{customerBean.countryDisplayName}"/>
             </h:panelGrid>
-            <br/>
-            <p:outputLabel value="Credit card"/>
-            <h:panelGrid columns="1">
-                <p:outputLabel value="Card type: #{customerBean.customer.creditCard.type}"/>
-                <p:outputLabel value="Card number: #{customerBean.customer.creditCard.number}"/>
-                <p:outputLabel value="Expire date: #{customerBean.customer.creditCard.expirationMonth} / #{customerBean.customer.creditCard.expirationYear}"/>
+            <p:outputLabel value="#{i18n.creditCard}"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{i18n.creditCardType}"/>
+                <p:outputLabel value="#{customerBean.customer.creditCard.type}"/>
+                <p:outputLabel value="#{i18n.creditCardNumber}"/>
+                <p:outputLabel value="#{customerBean.customer.creditCard.number}"/>
+                <p:outputLabel value="#{i18n.creditCardExpiration}"/>
+                <p:outputLabel value="#{customerBean.customer.creditCard.expirationMonth} / #{customerBean.customer.creditCard.expirationYear}"/>
             </h:panelGrid>
-            <p:link outcome="customerDetails" value="Edit customer details"/>
-
+            <p:link outcome="customerDetails" value="#{i18n.editCustomerDetails}"/>
+            <p:commandLink value="#{i18n.logout}" action="#{customerBean.logout}" />
+            <p:messages id="msg_booklist" globalOnly="true"/>
         </h:form>
     </ui:define>
 </ui:composition>
