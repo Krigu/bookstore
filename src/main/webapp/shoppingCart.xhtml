@@ -9,50 +9,73 @@
     <ui:param name="headTitle" value="#{i18n.shoppingCartTitle}"/>
     <ui:param name="headDescription" value="#{i18n.shoppingCartDescription}"/>
     <ui:define name="content">
-        <h:form id="dt_shoppingcartForm" rendered="#{not empty shoppingCartBean.shoppingCart.items}">
+        <h:form id="dt_shoppingcartForm">
             <p:defaultCommand target="btnUpdate" />
-            <!-- Shopping Cart -->
-            <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" rendered="true" styleClass="order-table">
-                <p:column>
-                    <f:facet name="header">#{i18n.title}</f:facet>
+            <p:growl id="msgs" showDetail="false"/>
+
+            <p:remoteCommand name="refreshTotalAmout" update=":dt_shoppingcartForm:dt_shoppingcart:ot_totalAmount" />
+            <!--  Shopping Cart -->
+            <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" editable="true" emptyMessage="#{i18n.emptySoppingCart}">
+
+                <p:ajax event="rowEdit" listener="#{shoppingCartBean.onRowEdit}" update=":dt_shoppingcartForm:msgs" oncomplete="refreshTotalAmout()"/>
+
+                <p:column headerText="#{i18n.title}">
                     <p:outputLabel value="#{item.bookInfo.title}"/>
-                    <f:facet name="footer">
-                        <h:outputText value="#{i18n.totalAmount}" />
-                    </f:facet>
+
                 </p:column>
-                <p:column>
-                    <f:facet name="header">#{i18n.quantity}</f:facet>
-                    <p:inputText id ="quantity" value="#{item.quantity}" required="true" size="4" />
+
+                <p:column headerText="#{i18n.quantity}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{item.quantity}" /></f:facet>
+                        <f:facet name="input">
+                            <p:inputText id ="quantity" value="#{item.quantity}" required="true">
+                                <f:validateLongRange minimum="1" maximum="100" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
-                <p:column>
-                    <f:facet name="header">#{i18n.price}</f:facet>
+
+                <p:column headerText="#{i18n.price}">
                     <p:outputLabel value="#{item.bookInfo.price}"/>
                 </p:column>
-                <p:column>
-                    <f:facet name="header">#{i18n.total}</f:facet>
-                    <p:outputLabel value="#{item.amount}"/>
-                    <f:facet name="footer">
-                        <h:outputText value="#{shoppingCartBean.shoppingCart.totalAmount}" />
-                    </f:facet>
+
+                <p:column headerText="#{i18n.total}">
+                    <p:outputLabel id="ol_itemTotalAmount" value="#{item.amount}"/>
                 </p:column>
-                <p:column>
-                    <p:commandButton value="#{i18n.remove}"
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+                <!-- Button remove-->
+                <p:column width="32">
+                    <p:commandButton icon="ui-icon-trash"
                                      styleClass="btn btn-primary" 
                                      action="#{shoppingCartBean.removeFromShoppingCart(item)}"
                                      update="dt_shoppingcartForm">
-                                <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
-                            </p:commandButton>
+                        <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
+                    </p:commandButton>
                 </p:column>
+
+                <!-- Summary : total amount -->
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="3" style="text-align:right" footerText="#{i18n.totalAmount}" />
+                        <p:column >
+                            <f:facet name="footer">
+                                <h:outputText id="ot_totalAmount" value="#{shoppingCartBean.shoppingCart.totalAmount}"/>
+                            </f:facet>
+                        </p:column>
+
+                    </p:row>
+                </p:columnGroup>
             </p:dataTable>
             <br/>
-            <p:commandButton id="btnUpdate" 
-                             value="#{i18n.update}"
+            <p:commandButton value="#{i18n.update}"
                              styleClass="btn btn-primary" 
                              update="dt_shoppingcartForm"/>
 
             <p:confirmDialog global="true">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="#{i18n.gl_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
 
         </h:form>

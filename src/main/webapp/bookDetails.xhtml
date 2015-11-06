@@ -9,17 +9,22 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:param name="headTitle" value="#{catalogBean.selectedBook.title}"/>
     <ui:param name="headDescription" value="#{catalogBean.selectedBook.title} - #{catalogBean.selectedBook.authors}"/>
+    <f:metadata>
+        <f:viewParam name="isbn" value="#{catalogBean.isbn}"/>
+        <f:event type="preRenderView" listener="#{catalogBean.loadSelectedBook()}"/>
+    </f:metadata>
     <ui:define name="content">
         <div class="ui-grid ui-grid-responsive">
             <div class="ui-grid-row">
                 <!-- Naviagation of the bookDetails -->
                 <h:form id="frmDetailsBookNaviagation">
                     <p:commandButton action="catalogSearch?faces-redirect=true" value="#{i18n.backToSearch}"/>
-                    <p:commandButton action="#{catalogBean.navigateOnBookList(-1)}" value="#{i18n.previous}" disabled="#{!catalogBean.hasPrevious()}"/>
-                    <p:commandButton action="#{catalogBean.navigateOnBookList(1)}" value="#{i18n.next}" disabled="#{!catalogBean.hasNext()}"/>
+                    <p:commandButton action="#{catalogBean.navigateOnBookList(-1)}" value="#{i18n.previous}" disabled="#{!catalogBean.hasPrevious()}" rendered="#{not empty catalogBean.selectedBook}"/>
+                    <p:commandButton action="#{catalogBean.navigateOnBookList(1)}" value="#{i18n.next}" disabled="#{!catalogBean.hasNext()}" rendered="#{not empty catalogBean.selectedBook}"/>
                 </h:form>
             </div>
             <p:spacer height="20"/>
+            <p:messages globalOnly="true"/>
             <!-- Book detail -->
             <div class="ui-grid-row">
                 <p:panelGrid rendered="#{not empty catalogBean.selectedBook}">
@@ -31,8 +36,17 @@
                             <!-- Button add to shopping cart -->
                             <p:column>
                                 <h:form id="frmAddToShoppingCat">
-                                    <p:growl id="growl" showDetail="true" sticky="false" life="5000" />
-                                    <p:commandButton action="#{shoppingCartBean.addBookToShoppingCart(catalogBean.selectedBook)}" value="#{i18n.addToCart}" icon="ui-icon-cart" update="growl"/>
+                                    <p:growl id="growl" showDetail="false" sticky="false" life="5000" />
+                                    <p:commandButton update="frmAddToShoppingCat growl" action="#{shoppingCartBean.addBookToShoppingCart(catalogBean.selectedBook)}" value="#{i18n.addToCart}" icon="ui-icon-cart"/>
+                                    <p:commandButton icon="ui-icon-trash" update="frmAddToShoppingCat" rendered="#{shoppingCartBean.shoppingCartContainsBook(catalogBean.selectedBook)}" action="#{shoppingCartBean.removeBookFromShoppingCart(catalogBean.selectedBook)}">
+                                        <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
+                                    </p:commandButton>
+
+                                    <!-- Confirm dialog -->
+                                    <p:confirmDialog global="true">
+                                        <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="#{i18n.gl_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
                                 </h:form>
                             </p:column>
                         </p:row>

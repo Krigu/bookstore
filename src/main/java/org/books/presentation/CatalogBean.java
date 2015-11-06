@@ -9,8 +9,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import org.books.util.MessageFactory;
 
 @SessionScoped
@@ -20,11 +18,22 @@ public class CatalogBean implements Serializable {
     @Inject
     private Bookstore bookstore;
 
+    private String isbn;
+
     private Book selectedBook;
 
     private List<BookInfo> booksInfoList;
 
     private String searchString;
+
+    public void loadSelectedBook() {
+        try {
+            this.selectedBook = bookstore.findBook(isbn);
+        } catch (BookstoreException e) {
+            this.selectedBook = null;
+            MessageFactory.info("noBooksFound");
+        }
+    }
 
     public String findBooks() {
         this.booksInfoList = bookstore.searchBooks(searchString);
@@ -47,12 +56,7 @@ public class CatalogBean implements Serializable {
     }
 
     public String setDetail(BookInfo b) {
-        try {
-            this.selectedBook = bookstore.findBook(b.getIsbn());
-        } catch (BookstoreException e) {
-            this.selectedBook = null;
-        }
-        return "bookDetails?faces-redirect=true";
+        return "bookDetails?faces-redirect=true&menuId=0&isbn=" + b.getIsbn();
     }
 
     /**
@@ -60,9 +64,7 @@ public class CatalogBean implements Serializable {
      * @return true if the selected book isn't the last element of the booklist
      */
     public boolean hasNext() {
-        BookInfo bookInfo = new BookInfo(selectedBook);
-        int indexBook = booksInfoList.indexOf(bookInfo);
-        return indexBook < booksInfoList.size() - 1;
+        return indexOfBookInBookInfoList(selectedBook) < booksInfoList.size()-1;
     }
 
     /**
@@ -70,9 +72,7 @@ public class CatalogBean implements Serializable {
      * @return true if the selected book isn't the first element of the booklist
      */
     public boolean hasPrevious() {
-        BookInfo bookInfo = new BookInfo(selectedBook);
-        int indexBook = booksInfoList.indexOf(bookInfo);
-        return indexBook > 0;
+        return indexOfBookInBookInfoList(selectedBook) > 0;
     }
 
     /**
@@ -93,6 +93,17 @@ public class CatalogBean implements Serializable {
         }
     }
 
+    private int indexOfBookInBookInfoList(Book book) {
+        int indexBook = -1;
+        try {
+            BookInfo bookInfo = new BookInfo(book);
+            indexBook = booksInfoList.indexOf(bookInfo);
+        } catch (Exception e) {
+            //Nothing
+        }
+        return indexBook;
+    }
+
     public Book getselectedBook() {
         return selectedBook;
     }
@@ -108,8 +119,13 @@ public class CatalogBean implements Serializable {
     public String getSearchString() {
         return searchString;
     }
-    
-    public String getLoginPage() {
-        return "login";
+
+    public String getIsbn() {
+        return isbn;
     }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
 }

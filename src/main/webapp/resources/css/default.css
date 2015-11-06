@@ -80,3 +80,7 @@ a:link:hover, a:visited:hover  {
 .search-box .ui-inputfield{
     margin-left: 10px;
 }
+
+.colum-action-search{
+     width:66px;
+}

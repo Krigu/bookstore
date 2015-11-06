@@ -13,7 +13,8 @@
                 <div class="ui-grid ui-grid-fixed">
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-4">
-                            <p:commandButton value="#{i18n.search}" actionListener="#{catalogBean.findBooks()}" 
+                            <p:commandButton value="#{i18n.search}" 
+                                             actionListener="#{catalogBean.findBooks()}" 
                                              onclick="PrimeFaces.cleanWatermarks();" 
                                              oncomplete="PrimeFaces.showWatermarks();" 
                                              update="@form" icon="ui-icon-search"/>
@@ -32,14 +33,34 @@
             <p:dataTable id="dt_booklist" value="#{catalogBean.booksInfoList}" var="book" rendered="#{not empty catalogBean.booksInfoList}">
                 <p:column>
                     <!-- column header -->
-                    <f:facet name="header">Book</f:facet>
-                    <!-- row record -->
-                    <p:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
+                    <f:facet name="header"><h:outputText value="#{i18n.book}"/></f:facet>
+                    <!-- row record #{catalogBean.setDetail(book)} -->
+                    <p:link outcome="bookDetails" value="#{book.title}">
+                        <f:param name="isbn" value="#{book.isbn}"/>
+                        <f:param name="menuId" value="0"/>
+                    </p:link>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="#{i18n.addToCart}" styleClass="btn btn-primary" action="#{shoppingCartBean.addBookInfoToShoppingCart(book)}"/>
+                    <!-- column header -->
+                    <f:facet name="header"><h:outputText value="#{i18n.price}"/></f:facet>
+                    <!-- row record -->
+                    <h:outputText value="#{book.price}"/>
+                </p:column>
+                <p:column styleClass="colum-action-search">
+                    <p:outputPanel id="btn_action">
+                        <p:growl id="growl_sc_action" showDetail="false" sticky="false" life="5000" />
+                        <p:commandButton id="btn_add" icon="ui-icon-plusthick" update="btn_action growl_sc_action" action="#{shoppingCartBean.addBookInfoToShoppingCart(book)}"/>
+                        <p:commandButton id="btn_remove" icon="ui-icon-trash" update="btn_action growl_sc_action" rendered="#{shoppingCartBean.shoppingCartContainsBookInfo(book)}" action="#{shoppingCartBean.removeBookInfoFromShoppingCart(book)}">
+                            <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                    </p:outputPanel>
                 </p:column>
             </p:dataTable>
+            <!-- Confirm dialog -->
+            <p:confirmDialog global="true">
+                <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="#{i18n.gl_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
         </h:form>
     </ui:define>
 </ui:composition>
