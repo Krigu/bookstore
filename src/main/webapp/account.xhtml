@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="templates/template.xhtml"  xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="1">
+                <p:outputLabel value="Name: #{customerBean.customer.firstName}"/>
+                <p:outputLabel value="Lastname: #{customerBean.customer.lastName}"/>
+                <p:outputLabel value=" E-Mail: #{customerBean.customer.email}"/>
+            </h:panelGrid>
+            <br/>
+            <p:outputLabel value="Address"/>
+            <h:panelGrid columns="1">
+                <p:outputLabel value="Street: #{customerBean.customer.address.street}"/>
+                <p:outputLabel value="Town: #{customerBean.customer.address.city}"/>
+                <p:outputLabel value="ZIP: #{customerBean.customer.address.postalCode}"/>
+                <p:outputLabel value="Country: #{customerBean.customer.address.country}"/>
+            </h:panelGrid>
+            <br/>
+            <p:outputLabel value="Credit card"/>
+            <h:panelGrid columns="1">
+                <p:outputLabel value="Card type: #{customerBean.customer.creditCard.type}"/>
+                <p:outputLabel value="Card number: #{customerBean.customer.creditCard.number}"/>
+                <p:outputLabel value="Expire date: #{customerBean.customer.creditCard.expirationMonth} / #{customerBean.customer.creditCard.expirationYear}"/>
+            </h:panelGrid>
+            <p:link outcome="customerDetails" value="Edit customer details"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -29,16 +29,17 @@ public class ShoppingCartBean implements Serializable {
 
     public String removeFromShoppingCart(ShoppingCartItem item) {
         shoppingCart.remove(item);
+        MessageFactory.info("bookRemoved", item.getBookInfo().getTitle());
         return null;
     }
 
     public String addBookToShoppingCart(Book book) {
-        shoppingCart.add(new BookInfo(book));
-        return null;
+        return addBookInfoToShoppingCart(new BookInfo(book));
     }
 
     public String addBookInfoToShoppingCart(BookInfo bookInfo) {
         shoppingCart.add(bookInfo);
+        MessageFactory.info("bookAdded", bookInfo.getTitle());
         return null;
     }
     
@@ -74,7 +75,7 @@ public class ShoppingCartBean implements Serializable {
     public String removeBookInfoFromShoppingCart(BookInfo bookInfo) {
         ShoppingCartItem item = findShoppingCartItem(bookInfo);
         if (item != null) {
-            shoppingCart.remove(item);
+            return removeFromShoppingCart(item);
         }
         return null;
     }
@@ -84,11 +85,7 @@ public class ShoppingCartBean implements Serializable {
      * @return
      */
     public String removeBookFromShoppingCart(Book book) {
-        ShoppingCartItem item = findShoppingCartItem(new BookInfo(book));
-        if (item != null) {
-            shoppingCart.remove(item);
-        }
-        return null;
+        return removeBookInfoFromShoppingCart(new BookInfo(book));
     }
 
     /**
