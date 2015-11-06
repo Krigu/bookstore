@@ -23,18 +23,18 @@
         </div>
         <div class="ui-grid-row background-line">
             <h:form id="frm_main_navigation" styleClass="menu-main">
-                <p:tabMenu activeIndex="#{param.i}" >
+                <p:tabMenu activeIndex="#{param.menuId}" >
                     <p:menuitem value="#{i18n.search}" outcome="catalogSearch" icon="ui-icon-search">
-                        <f:param name="i" value="0"/>
+                        <f:param name="menuId" value="0"/>
                     </p:menuitem>
                     <p:menuitem value="#{i18n.shoppingCart}" outcome="shoppingCart" icon="ui-icon-cart">
-                        <f:param name="i" value="1"/>
+                        <f:param name="menuId" value="1"/>
                     </p:menuitem>
                     <p:menuitem value="#{i18n.checkout}" outcome="orderSummary" icon="ui-icon-check">
-                        <f:param name="i" value="2"/>
+                        <f:param name="menuId" value="2"/>
                     </p:menuitem>
                     <p:menuitem value="#{i18n.account}" outcome="catalogSearch" icon="ui-icon-person">
-                        <f:param name="i" value="3"/>
+                        <f:param name="menuId" value="3"/>
                     </p:menuitem>
                 </p:tabMenu>
             </h:form>

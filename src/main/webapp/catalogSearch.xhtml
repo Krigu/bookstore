@@ -34,8 +34,11 @@
                 <p:column>
                     <!-- column header -->
                     <f:facet name="header"><h:outputText value="#{i18n.book}"/></f:facet>
-                    <!-- row record -->
-                    <p:commandLink action="#{catalogBean.setDetail(book)}" value="#{book.title}"/>
+                    <!-- row record #{catalogBean.setDetail(book)} -->
+                    <p:link outcome="bookDetails" value="#{book.title}">
+                        <f:param name="isbn" value="#{book.isbn}"/>
+                        <f:param name="menuId" value="0"/>
+                    </p:link>
                 </p:column>
                 <p:column>
                     <!-- column header -->
