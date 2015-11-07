@@ -13,11 +13,17 @@
                 <p:outputLabel value="#{i18n.lastName}"/>
                 <p:inputText id="it_surname" value="#{customerBean.customer.lastName}" required="true"/>
                 <p:outputLabel value="#{i18n.email}"/>
-                <p:inputText id="it_email" value="#{customerBean.customer.email}" required="true"/>
+                <p:outputLabel id="it_email" value="#{customerBean.customer.email}"/>
             </h:panelGrid>
-            <p:link value="#{i18n.changePassword}" outcome="changePassword" rendered="#{customerBean.authenticated}" />
-
-            <p:outputLabel value="#{i18n.address}"/>
+            <h:form id="frmChangePwd" rendered="#{customerBean.authenticated}" >
+                <h:outputText value="&lt;br/&gt;" escape="false" />
+                <p:link value="#{i18n.changePassword}" outcome="changePassword" >
+                    <f:param name="menuId" value="3"/>
+                </p:link>
+                <h:outputText value="&lt;br/&gt;" escape="false" />
+            </h:form>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:outputLabel value="#{i18n.address}" style="font-weight:bold"/>
             <h:panelGrid columns="2">
                 <p:outputLabel value="#{i18n.street}"/>
                 <p:inputText id="it_street" value="#{customerBean.customer.address.street}" required="true"/>
@@ -31,10 +37,9 @@
                     <!--f:selectItem itemLabel="Switzerland" itemValue="CH"/>
                     <f:selectItem itemLabel="Italy" itemValue="IT"/-->
                 </p:selectOneMenu>
-
             </h:panelGrid>
-
-            <p:outputLabel value="#{i18n.creditCard}"/>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:outputLabel value="#{i18n.creditCard}" style="font-weight:bold"/>
             <h:panelGrid columns="2">
                 <p:outputLabel value="#{i18n.creditCardType}"/>
                 <p:selectOneMenu id="creditCardType" value="#{customerBean.customer.creditCard.type}" >
@@ -47,9 +52,9 @@
                 <p:outputLabel value="/"/>
                 <p:inputText id="it_year" value="#{customerBean.customer.creditCard.expirationYear}" required="true"/>
             </h:panelGrid>
-
-            <p:commandButton value="#{i18n.update}" action="#{customerBean.updateCustomer}" rendered="#{customerBean.authenticated}"  />
-            <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}" rendered="#{not customerBean.authenticated}" />
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:commandButton value="#{i18n.update}" action="#{customerBean.updateCustomer}" rendered="#{customerBean.authenticated}"/>
+            <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}" rendered="#{not customerBean.authenticated}"/>
         </h:form>
     </ui:define>
 </ui:composition>

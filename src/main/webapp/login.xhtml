@@ -12,8 +12,8 @@
                 <p:inputText id="it_email" value="#{customerBean.email}" required="true"/>
                 <p:outputLabel value="#{i18n.password}"/>
                 <p:password id="it_password" value="#{customerBean.password}" required="true"/>
-            </h:panelGrid>
-        
+            </h:panelGrid >
+        <h:outputText value="&lt;br/&gt;" escape="false"/>
             <p:commandButton value="#{i18n.login}" 
                              action="#{customerBean.login()}" />
             <p:commandButton value="#{i18n.register}" 

@@ -15,7 +15,8 @@
                 <p:outputLabel value="#{i18n.email}"/>
                 <p:outputLabel value="#{customerBean.customer.email}"/>
             </h:panelGrid>
-            <p:outputLabel value="#{i18n.address}"/>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:outputLabel value="#{i18n.address}" style="font-weight:bold"/>
             <h:panelGrid columns="2">
                 <p:outputLabel value="#{i18n.street}"/>
                 <p:outputLabel value="#{customerBean.customer.address.street}"/>
@@ -26,7 +27,8 @@
                 <p:outputLabel value="#{i18n.country}"/>
                 <p:outputLabel value="#{customerBean.countryDisplayName}"/>
             </h:panelGrid>
-            <p:outputLabel value="#{i18n.creditCard}"/>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:outputLabel value="#{i18n.creditCard}" style="font-weight:bold"/>
             <h:panelGrid columns="2">
                 <p:outputLabel value="#{i18n.creditCardType}"/>
                 <p:outputLabel value="#{customerBean.customer.creditCard.type}"/>
@@ -35,7 +37,11 @@
                 <p:outputLabel value="#{i18n.creditCardExpiration}"/>
                 <p:outputLabel value="#{customerBean.customer.creditCard.expirationMonth} / #{customerBean.customer.creditCard.expirationYear}"/>
             </h:panelGrid>
-            <p:link outcome="customerDetails" value="#{i18n.editCustomerDetails}"/>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:link outcome="customerDetails" value="#{i18n.editCustomerDetails}" >
+                <f:param name="menuId" value="3"/>
+            </p:link>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
             <p:commandLink value="#{i18n.logout}" action="#{customerBean.logout}" />
             <p:messages id="msg_booklist" globalOnly="true"/>
         </h:form>
