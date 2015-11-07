@@ -10,7 +10,6 @@
     <ui:param name="headDescription" value="#{i18n.shoppingCartDescription}"/>
     <ui:define name="content">
         <h:form id="dt_shoppingcartForm">
-            <p:defaultCommand target="btnUpdate" />
             <p:growl id="msgs" showDetail="false"/>
 
             <p:remoteCommand name="refreshTotalAmout" update=":dt_shoppingcartForm:dt_shoppingcart:ot_totalAmount" />
@@ -20,7 +19,7 @@
                 <p:ajax event="rowEdit" listener="#{shoppingCartBean.onRowEdit}" update=":dt_shoppingcartForm:msgs" oncomplete="refreshTotalAmout()"/>
 
                 <p:column headerText="#{i18n.title}">
-                    <p:outputLabel value="#{item.bookInfo.title}"/>
+                    <p:outputLabel value="#{item.book.title}"/>
 
                 </p:column>
 
@@ -36,11 +35,11 @@
                 </p:column>
 
                 <p:column headerText="#{i18n.price}">
-                    <p:outputLabel value="#{item.bookInfo.price}"/>
+                    <p:outputLabel value="#{item.book.price}"/>
                 </p:column>
 
                 <p:column headerText="#{i18n.total}">
-                    <p:outputLabel id="ol_itemTotalAmount" value="#{item.amount}"/>
+                    <p:outputLabel id="ol_itemTotalAmount" value="#{item.quantity}"/>
                 </p:column>
                 <p:column style="width:32px">
                     <p:rowEditor />
@@ -68,10 +67,7 @@
                     </p:row>
                 </p:columnGroup>
             </p:dataTable>
-            <br/>
-            <p:commandButton value="#{i18n.update}"
-                             styleClass="btn btn-primary" 
-                             update="dt_shoppingcartForm"/>
+
 
             <p:confirmDialog global="true">
                 <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

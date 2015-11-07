@@ -1,16 +1,16 @@
 package org.books.presentation;
 
-import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.books.application.ShoppingCart;
-import org.books.application.ShoppingCartItem;
 import org.books.data.dto.BookInfo;
+import org.books.data.dto.OrderItemDTO;
 import org.books.data.entity.Book;
 import org.books.util.MessageFactory;
 import org.primefaces.event.RowEditEvent;
+
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  *
@@ -27,9 +27,9 @@ public class ShoppingCartBean implements Serializable {
         return shoppingCart;
     }
 
-    public String removeFromShoppingCart(ShoppingCartItem item) {
+    public String removeFromShoppingCart(OrderItemDTO item) {
         shoppingCart.remove(item);
-        MessageFactory.info("bookRemoved", item.getBookInfo().getTitle());
+        MessageFactory.info("bookRemoved", item.getBook().getTitle());
         return null;
     }
 
@@ -44,8 +44,8 @@ public class ShoppingCartBean implements Serializable {
     }
     
     public void onRowEdit(RowEditEvent event) {
-        ShoppingCartItem item = (ShoppingCartItem)event.getObject();
-        MessageFactory.info("shoppingCartUpdateBookQuantity", item.getBookInfo().getTitle(),item.getQuantity());
+        OrderItemDTO item = (OrderItemDTO)event.getObject();
+        MessageFactory.info("shoppingCartUpdateBookQuantity", item.getBook().getTitle(),item.getQuantity());
     }
     /**
      *
@@ -53,7 +53,7 @@ public class ShoppingCartBean implements Serializable {
      * @return true if the shopping cart contains the bookInfo else return false
      */
     public boolean shoppingCartContainsBookInfo(BookInfo bookInfo) {
-        ShoppingCartItem item = findShoppingCartItem(bookInfo);
+        OrderItemDTO item = findOrderItem(bookInfo);
         return item!=null;
     }
     
@@ -63,7 +63,7 @@ public class ShoppingCartBean implements Serializable {
      * @return true if the shopping cart contains the book else return false
      */
     public boolean shoppingCartContainsBook(Book book) {
-        ShoppingCartItem item = findShoppingCartItem(new BookInfo(book));
+        OrderItemDTO item = findOrderItem(new BookInfo(book));
         return item!=null;
     }
 
@@ -73,7 +73,7 @@ public class ShoppingCartBean implements Serializable {
      * @return
      */
     public String removeBookInfoFromShoppingCart(BookInfo bookInfo) {
-        ShoppingCartItem item = findShoppingCartItem(bookInfo);
+        OrderItemDTO item = findOrderItem(bookInfo);
         if (item != null) {
             return removeFromShoppingCart(item);
         }
@@ -90,13 +90,13 @@ public class ShoppingCartBean implements Serializable {
 
     /**
      *
-     * @param book
+     * @param bookInfo
      * @return the shoppingCartItem of the bookInfo or null if the bookInfo isn't in the
      * shoppingCart
      */
-    private ShoppingCartItem findShoppingCartItem(BookInfo bookInfo) {
-        for (ShoppingCartItem item : shoppingCart.getItems()) {
-            if (item.getBookInfo().equals(bookInfo)) {
+    private OrderItemDTO findOrderItem(BookInfo bookInfo) {
+        for (OrderItemDTO item : shoppingCart.getItems()) {
+            if (item.getBook().equals(bookInfo)) {
                 return item;
             }
         }
