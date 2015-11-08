@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="templates/template.xhtml"  xmlns:h="http://java.sun.com/jsf/html"
+<ui:composition template="templates/template.xhtml"  
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
@@ -15,7 +17,7 @@
                 <p:outputLabel value="#{i18n.email}"/>
                 <p:outputLabel value="#{customerBean.customer.email}"/>
             </h:panelGrid>
-            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p/>
             <p:outputLabel value="#{i18n.address}" style="font-weight:bold"/>
             <h:panelGrid columns="2">
                 <p:outputLabel value="#{i18n.street}"/>
@@ -27,7 +29,7 @@
                 <p:outputLabel value="#{i18n.country}"/>
                 <p:outputLabel value="#{customerBean.countryDisplayName}"/>
             </h:panelGrid>
-            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p/>
             <p:outputLabel value="#{i18n.creditCard}" style="font-weight:bold"/>
             <h:panelGrid columns="2">
                 <p:outputLabel value="#{i18n.creditCardType}"/>
@@ -37,13 +39,12 @@
                 <p:outputLabel value="#{i18n.creditCardExpiration}"/>
                 <p:outputLabel value="#{customerBean.customer.creditCard.expirationMonth} / #{customerBean.customer.creditCard.expirationYear}"/>
             </h:panelGrid>
-            <h:outputText value="&lt;br/&gt;" escape="false"/>
-            <p:link outcome="customerDetails" value="#{i18n.editCustomerDetails}" >
+            <p/>
+            <p:commandButton value="#{i18n.editCustomerDetails}" action="customerDetails">
                 <f:param name="menuId" value="3"/>
-            </p:link>
-            <h:outputText value="&lt;br/&gt;" escape="false"/>
-            <p:commandLink value="#{i18n.logout}" action="#{customerBean.logout}" />
-            <p:messages id="msg_booklist" globalOnly="true"/>
+            </p:commandButton>
+            <p:commandButton value="#{i18n.logout}" action="#{customerBean.logout}" />
+            <p:messages id="msg_account" globalOnly="true" autoUpdate="true"/>
         </h:form>
     </ui:define>
 </ui:composition>
