@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.books.presentation;
+package org.books.presentation.filter;
 
 import java.io.IOException;
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,6 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.books.presentation.CustomerBean;
 
 /**
  *
@@ -23,6 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebFilter(urlPatterns = "/user/*")
 public class LoginFilter implements Filter {
 
+    @Inject
+    private CustomerBean cb;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         //Nothing
@@ -30,25 +35,32 @@ public class LoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        //Cast the ServletRequest
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        //Cast the ServletResponse
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        //Find the customer bean in the session
-        CustomerBean customerBean = (CustomerBean) httpServletRequest.getSession().getAttribute("customerBean");
         //check if the customerBean doesn't exist and is not Authenticated
-        if (customerBean == null || !customerBean.isAuthenticated()) {
+        if (!cb.isAuthenticated()) {
+            //Cast the ServletRequest
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            //Cast the ServletResponse
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             //Redirect to the login page
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath()+"/login.xhtml");
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.xhtml?menuId=3");
         } else {
             //User is anthententificated
             chain.doFilter(request, response);
         }
+
     }
 
     @Override
     public void destroy() {
         //Nothing
+    }
+
+    public CustomerBean getCb() {
+        return cb;
+    }
+
+    public void setCb(CustomerBean cb) {
+        this.cb = cb;
     }
 
 }

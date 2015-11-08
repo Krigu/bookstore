@@ -74,7 +74,7 @@ public class CustomerBean implements Serializable {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
             authenticated = true;
-            return "user/account?faces-redirect=true&&menuId=3";
+            return "user/account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             authenticated = false;
