@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../templates/template.xhtml"  xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{i18n.firstName}"/>
+                <p:outputLabel value="#{customerBean.customer.firstName}"/>
+                <p:outputLabel value="#{i18n.lastName}"/>
+                <p:outputLabel value="#{customerBean.customer.lastName}"/>
+                <p:outputLabel value="#{i18n.email}"/>
+                <p:outputLabel value="#{customerBean.customer.email}"/>
+            </h:panelGrid>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:outputLabel value="#{i18n.address}" style="font-weight:bold"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{i18n.street}"/>
+                <p:outputLabel value="#{customerBean.customer.address.street}"/>
+                <p:outputLabel value="#{i18n.postaleCode}"/>
+                <p:outputLabel value="#{customerBean.customer.address.postalCode}"/>
+                <p:outputLabel value="#{i18n.city}"/>
+                <p:outputLabel value="#{customerBean.customer.address.city}"/>
+                <p:outputLabel value="#{i18n.country}"/>
+                <p:outputLabel value="#{customerBean.countryDisplayName}"/>
+            </h:panelGrid>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:outputLabel value="#{i18n.creditCard}" style="font-weight:bold"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{i18n.creditCardType}"/>
+                <p:outputLabel value="#{customerBean.customer.creditCard.type}"/>
+                <p:outputLabel value="#{i18n.creditCardNumber}"/>
+                <p:outputLabel value="#{customerBean.customer.creditCard.number}"/>
+                <p:outputLabel value="#{i18n.creditCardExpiration}"/>
+                <p:outputLabel value="#{customerBean.customer.creditCard.expirationMonth} / #{customerBean.customer.creditCard.expirationYear}"/>
+            </h:panelGrid>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:link outcome="customerDetails" value="#{i18n.editCustomerDetails}" >
+                <f:param name="menuId" value="3"/>
+            </p:link>
+            <h:outputText value="&lt;br/&gt;" escape="false"/>
+            <p:commandLink value="#{i18n.logout}" action="#{customerBean.logout}" />
+            <p:messages id="msg_booklist" globalOnly="true"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

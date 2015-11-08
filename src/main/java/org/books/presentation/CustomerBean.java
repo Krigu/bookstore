@@ -74,7 +74,7 @@ public class CustomerBean implements Serializable {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
             authenticated = true;
-            return "account?faces-redirect=true&&menuId=3";
+            return "user/account?faces-redirect=true&&menuId=3";
         }
         catch (BookstoreException ex) {
             authenticated = false;
@@ -87,14 +87,14 @@ public class CustomerBean implements Serializable {
     public String register() {
         customer = new Customer();
         customer.setEmail(email);
-        return "customerDetails?faces-redirect=true&menuId=3";
+        return "user/customerDetails?faces-redirect=true&menuId=3";
     }
     
     public String insertNewCustomer() {
         try {
             bookstore.registerCustomer(customer, password);
             authenticated = true;
-            return "account?faces-redirect=true&menuId=3";
+            return "user/account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             return null;
@@ -105,7 +105,7 @@ public class CustomerBean implements Serializable {
         //Update customer in DB
         try {
             bookstore.updateCustomer(customer);
-            return "account?faces-redirect=true&menuId=3";
+            return "user/account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             return null;
@@ -113,18 +113,20 @@ public class CustomerBean implements Serializable {
         
     }
  
+/*    
+    Use the filter login
     public String checkAuthentication() {
         if (authenticated)
-            return "account?faces-redirect=true&menuId=3";
+            return "user/account?faces-redirect=true&menuId=3";
 
         return "login?faces-redirect=true&menuId=3";
-    }
+    }*/
 
     public String changePassword() {
         try {
             bookstore.changePassword(email, password);
             MessageFactory.info("passwordChanged");
-            return "account?faces-redirect=true&menuId=3";
+            return "user/account?faces-redirect=true&menuId=3";
         }
         catch (Exception ex) {
             return null;
