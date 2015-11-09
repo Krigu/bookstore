@@ -8,8 +8,8 @@
     xmlns:p="http://primefaces.org/ui">
     <div class="ui-grid ui-grid-responsive">
         <div class="ui-grid-row">
-
             <div class="menu-language background-line">
+                <nav class="sub-nav">
                     <h:form id="langauge_form">
                         <h:commandLink styleClass="#{localeBean.locale.language == 'de' ? 'active' : ''}" action="#{localeBean.switchLanguage('de')}" value="Deutsch" /> |
                         <h:commandLink styleClass="#{localeBean.locale.language == 'en' ? 'active' : ''}" action="#{localeBean.switchLanguage('en')}" value="English" /> |
@@ -39,7 +39,7 @@
                     <p:menuitem value="#{i18n.checkout}" outcome="orderSummary" icon="ui-icon-check">
                         <f:param name="menuId" value="2"/>
                     </p:menuitem>
-                    <p:menuitem value="#{i18n.account}" outcome="account" icon="ui-icon-person">
+                    <p:menuitem value="#{i18n.account}" outcome="#{customerBean.checkAuthentication()}" icon="ui-icon-person">
                         <f:param name="menuId" value="3"/>
                     </p:menuitem>
                 </p:tabMenu>

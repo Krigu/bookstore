@@ -20,7 +20,6 @@ import org.books.util.MessageFactory;
 @SessionScoped
 @Named("customerBean")
 public class CustomerBean implements Serializable {
-    private String countryDisplayName;
     private String email;
     private String password;
     private boolean authenticated = false;
@@ -29,6 +28,8 @@ public class CustomerBean implements Serializable {
     private Customer customer;
     @Inject
     private LocaleBean localeBean;
+    private String countryDisplayName;
+    private final String defaultCountry = "CH";
     
     public Type[] getCreditCardTypes() {
         return Type.values();
@@ -76,27 +77,27 @@ public class CustomerBean implements Serializable {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
             authenticated = true;
-            return "account?faces-redirect=true";
+            return "account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             authenticated = false;
             MessageFactory.info("authenticationFailed");
             return null;    
-        }
-  
+        }  
     }
     
     public String register() {
         customer = new Customer();
         customer.setEmail(email);
-        return "customerDetails";
+        customer.getAddress().setCountry(defaultCountry);
+        return "customerDetails?faces-redirect=true&menuId=3";
     }
     
     public String insertNewCustomer() {
         try {
             bookstore.registerCustomer(customer, password);
             authenticated = true;
-            return "account?faces-redirect=true";
+            return "account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             return null;
@@ -104,29 +105,27 @@ public class CustomerBean implements Serializable {
     }
 
     public String updateCustomer() {
-        //Update customer in DB
         try {
             bookstore.updateCustomer(customer);
-            return "account?faces-redirect=true";
+            return "account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             return null;
         }
-        
     }
  
     public String checkAuthentication() {
         if (authenticated)
-            return "account?faces-redirect=true";
+            return "account?faces-redirect=true&menuId=3";
 
-        return "login?faces-redirect=true";
+        return "login?faces-redirect=true&menuId=3";
     }
 
     public String changePassword() {
         try {
             bookstore.changePassword(email, password);
             MessageFactory.info("passwordChanged");
-            return "account";
+            return "account?faces-redirect=true&menuId=3";
         }
         catch (Exception ex) {
             return null;
@@ -138,7 +137,7 @@ public class CustomerBean implements Serializable {
         customer = null;
         email = null;
         password = null;
-        return "login";
+        return "login?faces-redirect=true&menuId=3";
     }
     
 }
