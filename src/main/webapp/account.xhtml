@@ -42,7 +42,12 @@
                 </h:panelGroup>
             </h:panelGrid>
 
-            <p:link outcome="customerDetails" value="#{i18n.editCustomerDetails}"/>
+
+            <p:commandButton value="#{i18n.editCustomerDetails}" action="customerDetails">
+                <f:param name="menuId" value="3"/>
+            </p:commandButton>
+            <p:commandButton value="#{i18n.logout}" action="#{customerBean.logout}" />
+            <p:messages id="msg_account" globalOnly="true" autoUpdate="true"/>
         </h:form>
 
         <p:spacer/>

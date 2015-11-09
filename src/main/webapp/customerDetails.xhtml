@@ -19,9 +19,6 @@
                     <p:inputText id="it_email" value="#{customerBean.customer.email}" required="true"/>
                 </h:panelGrid>
 
-                <p:link value="#{i18n.changePassword}" outcome="changePassword"
-                        rendered="#{customerBean.authenticated}"/>
-
                 <p:outputLabel value="#{i18n.address}"/>
                 <h:panelGrid columns="2">
                     <p:outputLabel value="#{i18n.street}"/>
@@ -53,19 +50,20 @@
                     <p:outputLabel value="#{i18n.creditCardExpiration}"/>
                     <h:panelGroup>
                         <p:inputText id="it_month" value="#{customerBean.customer.creditCard.expirationMonth}"
-                                     required="true" maxlength="2"/>
+                                     required="true" size="2" maxlength="2"/>
                         <p:outputLabel value="/"/>
                         <p:inputText id="it_year" value="#{customerBean.customer.creditCard.expirationYear}"
-                                     required="true" validatorMessage="#{i18n.invalidYear}">
+                                     required="true" size="2" validatorMessage="#{i18n.invalidYear}">
                             <f:validateLength minimum="4" maximum="4"/>
                         </p:inputText>
                     </h:panelGroup>
                 </h:panelGrid>
 
-                <p:commandButton value="#{i18n.update}" action="#{customerBean.updateCustomer}"
-                                 rendered="#{customerBean.authenticated}"/>
-                <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}"
-                                 rendered="#{not customerBean.authenticated}"/>
+                <p:commandButton value="#{i18n.update}" action="#{customerBean.updateCustomer}" rendered="#{customerBean.authenticated}"  />
+                <p:commandButton value="#{i18n.changePassword}" action="changePassword" rendered="#{customerBean.authenticated}">
+                    <f:param name="menuId" value="3"/>
+                </p:commandButton>
+                <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}" rendered="#{not customerBean.authenticated}" />
             </p:panel>
         </h:form>
     </ui:define>
