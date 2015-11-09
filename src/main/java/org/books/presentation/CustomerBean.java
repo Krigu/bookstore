@@ -30,7 +30,7 @@ public class CustomerBean implements Serializable {
     private LocaleBean localeBean;
     private String countryDisplayName;
     private final String defaultCountry = "CH";
-    
+
     public Type[] getCreditCardTypes() {
         return Type.values();
     } 
@@ -77,27 +77,28 @@ public class CustomerBean implements Serializable {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
             authenticated = true;
-            return "account?faces-redirect=true&menuId=3";
+            return "user/account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             authenticated = false;
             MessageFactory.info("authenticationFailed");
             return null;    
-        }  
+        }
+  
     }
     
     public String register() {
         customer = new Customer();
         customer.setEmail(email);
         customer.getAddress().setCountry(defaultCountry);
-        return "customerDetails?faces-redirect=true&menuId=3";
+        return "user/customerDetails?faces-redirect=true&menuId=3";
     }
     
     public String insertNewCustomer() {
         try {
             bookstore.registerCustomer(customer, password);
             authenticated = true;
-            return "account?faces-redirect=true&menuId=3";
+            return "user/account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             return null;
@@ -105,27 +106,22 @@ public class CustomerBean implements Serializable {
     }
 
     public String updateCustomer() {
+        //Update customer in DB
         try {
             bookstore.updateCustomer(customer);
-            return "account?faces-redirect=true&menuId=3";
+            return "user/account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             return null;
         }
+        
     }
  
-    public String checkAuthentication() {
-        if (authenticated)
-            return "account?faces-redirect=true&menuId=3";
-
-        return "login?faces-redirect=true&menuId=3";
-    }
-
     public String changePassword() {
         try {
             bookstore.changePassword(email, password);
             MessageFactory.info("passwordChanged");
-            return "account?faces-redirect=true&menuId=3";
+            return "user/account?faces-redirect=true&menuId=3";
         }
         catch (Exception ex) {
             return null;
