@@ -42,7 +42,7 @@
                     <p:menuitem value="#{i18n.shoppingCart}" outcome="/shoppingCart" icon="ui-icon-cart">
                         <f:param name="menuId" value="1"/>
                     </p:menuitem>
-                    <p:menuitem value="#{i18n.checkout}" outcome="/user/orderSummary" icon="ui-icon-check">
+                    <p:menuitem value="#{i18n.checkout}" outcome="/user/orderSummary" icon="ui-icon-check" disabled="#{not customerBean.authenticated}">
                         <f:param name="menuId" value="2"/>
                     </p:menuitem>
                     <p:menuitem value="#{i18n.account}" outcome="/user/account" icon="ui-icon-person">
