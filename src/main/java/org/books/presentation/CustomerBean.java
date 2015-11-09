@@ -91,14 +91,14 @@ public class CustomerBean implements Serializable {
         customer = new Customer();
         customer.setEmail(email);
         customer.getAddress().setCountry(defaultCountry);
-        return "user/customerDetails?faces-redirect=true&menuId=3";
+        return "/registration?faces-redirect=true&menuId=3";
     }
     
     public String insertNewCustomer() {
         try {
             bookstore.registerCustomer(customer, password);
             authenticated = true;
-            return "user/account?faces-redirect=true&menuId=3";
+            return "/user/account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             return null;
@@ -109,7 +109,7 @@ public class CustomerBean implements Serializable {
         //Update customer in DB
         try {
             bookstore.updateCustomer(customer);
-            return "user/account?faces-redirect=true&menuId=3";
+            return "/user/account?faces-redirect=true&menuId=3";
         }
         catch (BookstoreException ex) {
             return null;
@@ -121,7 +121,7 @@ public class CustomerBean implements Serializable {
         try {
             bookstore.changePassword(email, password);
             MessageFactory.info("passwordChanged");
-            return "user/account?faces-redirect=true&menuId=3";
+            return "/user/account?faces-redirect=true&menuId=3";
         }
         catch (Exception ex) {
             return null;
@@ -133,7 +133,7 @@ public class CustomerBean implements Serializable {
         customer = null;
         email = null;
         password = null;
-        return "login?faces-redirect=true&menuId=3";
+        return "/login?faces-redirect=true&menuId=3";
     }
     
 }

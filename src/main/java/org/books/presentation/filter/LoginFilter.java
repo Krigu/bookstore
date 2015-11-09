@@ -55,12 +55,4 @@ public class LoginFilter implements Filter {
         //Nothing
     }
 
-    public CustomerBean getCb() {
-        return cb;
-    }
-
-    public void setCb(CustomerBean cb) {
-        this.cb = cb;
-    }
-
 }
