@@ -9,12 +9,54 @@
     <ui:param name="headTitle" value="#{i18n.orderOverview}"/>
     <ui:param name="headDescription" value="#{i18n.orderDescription}"/>
     <ui:define name="content">
+
+        <p:messages id="msg_booklist" globalOnly="true"/>
+
+        <h:panelGrid columns="1">
+        <h:form>
+            <h:panelGrid columns="2" columnClasses="topAligned"  cellpadding="5">
+                <p:outputLabel value="#{i18n.firstName}"/>
+                <p:outputLabel value="#{customerBean.customer.firstName}"/>
+                <p:outputLabel value="#{i18n.lastName}"/>
+                <p:outputLabel value="#{customerBean.customer.lastName}"/>
+                <p:outputLabel value="#{i18n.email}"/>
+                <p:outputLabel value="#{customerBean.customer.email}"/>
+
+
+                <p:outputLabel value="#{i18n.address}"/>
+                <h:panelGroup>
+                    <h:panelGrid columns="1" styleClass="noBoarderSpacing">
+                        <p:outputLabel value="#{customerBean.customer.address.street}"/>
+                        <h:panelGroup>
+                            <p:outputLabel value="#{customerBean.customer.address.postalCode} #{customerBean.customer.address.city}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="#{customerBean.countryDisplayName}"/>
+                    </h:panelGrid>
+                </h:panelGroup>
+                <p:outputLabel value="#{i18n.creditCard}"/>
+                <h:panelGroup>
+                    <h:panelGrid columns="1" styleClass="noBoarderSpacing">
+                        <p:outputLabel value="#{customerBean.customer.creditCard.type}"/>
+                        <p:outputLabel value="#{customerBean.customer.creditCard.number}"/>
+                        <h:panelGroup>
+                            <p:outputLabel
+                                    value="#{customerBean.customer.creditCard.expirationMonth}/#{customerBean.customer.creditCard.expirationYear}"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:panelGrid>
+
+            <p:link outcome="customerDetails" value="#{i18n.editCustomerDetails}"/>
+        </h:form>
+
+        <p:spacer height="20px"/>
+
         <h:form id="dt_orderSummary">
             <!-- Shopping Cart -->
             <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" rendered="true" styleClass="order-table">
                 <p:column>
                     <f:facet name="header">#{i18n.title}</f:facet>
-                    <p:outputLabel value="#{item.bookInfo.title}"/>
+                    <p:outputLabel value="#{item.book.title}"/>
                     <f:facet name="footer">
                         <h:outputText value="#{i18n.totalAmount}" />
                     </f:facet>
@@ -25,11 +67,11 @@
                 </p:column>
                 <p:column>
                     <f:facet name="header">#{i18n.price}</f:facet>
-                    <p:outputLabel value="#{item.bookInfo.price}"/>
+                    <p:outputLabel value="#{item.book.price}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">#{i18n.total}</f:facet>
-                    <p:outputLabel value="#{item.amount}"/>
+                    <p:outputLabel value="#{item.quantity}"/>
                     <f:facet name="footer">
                         <h:outputText value="#{shoppingCartBean.shoppingCart.totalAmount}" />
                     </f:facet>
@@ -38,8 +80,9 @@
 
             <p:commandButton value="#{i18n.bestellen}"
                              styleClass="btn btn-primary"
-                             action="#{orderBean.doSubmitOrder}"
-                             ajax="false"/>
+                             action="#{orderBean.doSubmitOrder(customerBean.customer.email, shoppingCartBean.shoppingCart.items)}"
+                             ajax="false" rendered="#{not empty shoppingCartBean.shoppingCart.items}"/>
         </h:form>
+        </h:panelGrid>
     </ui:define>
 </ui:composition>

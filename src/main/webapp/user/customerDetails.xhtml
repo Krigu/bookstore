@@ -7,54 +7,64 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form>
-            <h:panelGrid columns="2">
-                <p:outputLabel value="#{i18n.firstName}"/>
-                <p:inputText id="it_name" value="#{customerBean.customer.firstName}" required="true"/>
-                <p:outputLabel value="#{i18n.lastName}"/>
-                <p:inputText id="it_surname" value="#{customerBean.customer.lastName}" required="true"/>
-                <p:outputLabel value="#{i18n.email}"/>
-                <p:outputLabel id="it_email" value="#{customerBean.customer.email}"/>
-            </h:panelGrid>
-            <h:form id="frmChangePwd" rendered="#{customerBean.authenticated}" >
-                <h:outputText value="&lt;br/&gt;" escape="false" />
-                <p:link value="#{i18n.changePassword}" outcome="changePassword" >
+            <p:panel id="panel" header="#{i18n.userDetails}">
+                <p:messages autoUpdate="true" closable="true" />
+
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{i18n.firstName}"/>
+                    <p:inputText id="it_name" value="#{customerBean.customer.firstName}" required="true"/>
+                    <p:outputLabel value="#{i18n.lastName}"/>
+                    <p:inputText id="it_surname" value="#{customerBean.customer.lastName}" required="true"/>
+                    <p:outputLabel value="#{i18n.email}"/>
+                    <p:inputText id="it_email" value="#{customerBean.customer.email}" required="true"/>
+                </h:panelGrid>
+
+                <p:outputLabel value="#{i18n.address}"/>
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{i18n.street}"/>
+                    <p:inputText id="it_street" value="#{customerBean.customer.address.street}" required="true"/>
+                    <p:outputLabel value="#{i18n.postaleCode}"/>
+                    <p:inputText id="it_zip" value="#{customerBean.customer.address.postalCode}" required="true"/>
+                    <p:outputLabel value="#{i18n.city}"/>
+                    <p:inputText id="it_town" value="#{customerBean.customer.address.city}" required="true"/>
+                    <p:outputLabel value="#{i18n.country}"/>
+                    <p:selectOneMenu id="country" value="#{customerBean.customer.address.country}">
+                        <f:selectItems value="#{localeBean.countries}" var="item" itemValue="#{item.countryCode}"
+                                       itemLabel="#{item.countryName}"/>
+                        <!--f:selectItem itemLabel="Switzerland" itemValue="CH"/>
+                        <f:selectItem itemLabel="Italy" itemValue="IT"/-->
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+
+                <p:outputLabel value="#{i18n.creditCard}"/>
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{i18n.creditCardType}"/>
+                    <p:selectOneMenu id="creditCardType" value="#{customerBean.customer.creditCard.type}">
+                        <f:selectItems value="#{customerBean.creditCardTypes}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="#{i18n.creditCardNumber}"/>
+                    <p:inputText id="it_number" value="#{customerBean.customer.creditCard.number}" required="true">
+                        <f:validateRegex pattern="\d{16}"/>
+                    </p:inputText>
+                    <p:outputLabel value="#{i18n.creditCardExpiration}"/>
+                    <h:panelGroup>
+                        <p:inputText id="it_month" value="#{customerBean.customer.creditCard.expirationMonth}"
+                                     required="true" size="2" maxlength="2"/>
+                        <p:outputLabel value="/"/>
+                        <p:inputText id="it_year" value="#{customerBean.customer.creditCard.expirationYear}"
+                                     required="true" size="2" validatorMessage="#{i18n.invalidYear}">
+                            <f:validateLength minimum="4" maximum="4"/>
+                        </p:inputText>
+                    </h:panelGroup>
+                </h:panelGrid>
+
+                <p:commandButton value="#{i18n.update}" action="#{customerBean.updateCustomer}" rendered="#{customerBean.authenticated}"  />
+                <p:commandButton value="#{i18n.changePassword}" action="changePassword" rendered="#{customerBean.authenticated}">
                     <f:param name="menuId" value="3"/>
-                </p:link>
-                <h:outputText value="&lt;br/&gt;" escape="false" />
-            </h:form>
-            <h:outputText value="&lt;br/&gt;" escape="false"/>
-            <p:outputLabel value="#{i18n.address}" style="font-weight:bold"/>
-            <h:panelGrid columns="2">
-                <p:outputLabel value="#{i18n.street}"/>
-                <p:inputText id="it_street" value="#{customerBean.customer.address.street}" required="true"/>
-                <p:outputLabel value="#{i18n.postaleCode}"/>
-                <p:inputText id="it_zip" value="#{customerBean.customer.address.postalCode}" required="true"/>
-                <p:outputLabel value="#{i18n.city}"/>
-                <p:inputText id="it_town" value="#{customerBean.customer.address.city}" required="true"/>
-                <p:outputLabel value="#{i18n.country}"/>
-                <p:selectOneMenu id="country" value="#{customerBean.customer.address.country}" >
-                    <f:selectItems value="#{localeBean.countries}" var="item" itemValue="#{item.countryCode}" itemLabel="#{item.countryName}" />
-                    <!--f:selectItem itemLabel="Switzerland" itemValue="CH"/>
-                    <f:selectItem itemLabel="Italy" itemValue="IT"/-->
-                </p:selectOneMenu>
-            </h:panelGrid>
-            <h:outputText value="&lt;br/&gt;" escape="false"/>
-            <p:outputLabel value="#{i18n.creditCard}" style="font-weight:bold"/>
-            <h:panelGrid columns="2">
-                <p:outputLabel value="#{i18n.creditCardType}"/>
-                <p:selectOneMenu id="creditCardType" value="#{customerBean.customer.creditCard.type}" >
-                    <f:selectItems value="#{customerBean.creditCardTypes}"/>
-                </p:selectOneMenu>
-                <p:outputLabel value="#{i18n.creditCardNumber}"/>
-                <p:inputText id="it_number" value="#{customerBean.customer.creditCard.number}" required="true"/>
-                <p:outputLabel value="#{i18n.creditCardExpiration}"/>
-                <p:inputText id="it_month" value="#{customerBean.customer.creditCard.expirationMonth}" required="true"/>
-                <p:outputLabel value="/"/>
-                <p:inputText id="it_year" value="#{customerBean.customer.creditCard.expirationYear}" required="true"/>
-            </h:panelGrid>
-            <h:outputText value="&lt;br/&gt;" escape="false"/>
-            <p:commandButton value="#{i18n.update}" action="#{customerBean.updateCustomer}" rendered="#{customerBean.authenticated}"/>
-            <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}" rendered="#{not customerBean.authenticated}"/>
+                </p:commandButton>
+                <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}" rendered="#{not customerBean.authenticated}" />
+            </p:panel>
         </h:form>
     </ui:define>
 </ui:composition>

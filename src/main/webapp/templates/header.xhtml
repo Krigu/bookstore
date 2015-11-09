@@ -15,7 +15,13 @@
                         <h:commandLink styleClass="#{localeBean.locale.language == 'en' ? 'active' : ''}" action="#{localeBean.switchLanguage('en')}" value="English" /> |
                         <h:commandLink styleClass="#{localeBean.locale.language == 'fr' ? 'active' : ''}" action="#{localeBean.switchLanguage('fr')}" value="Francais" />
                     </h:form>
-                </nav>
+            </div>
+
+            <div class="right background-line" style="text-align: right; width: 200px">
+                <h:form>
+                    <p:commandLink value="#{customerBean.customer.firstName} #{i18n.logout}" action="#{customerBean.logout}" rendered="#{customerBean.authenticated}"/>
+                    <p:commandLink value="#{i18n.login}" action="login" rendered="#{not customerBean.authenticated}"/>
+                </h:form>
             </div>
         </div>
         <div class="ui-grid-row">

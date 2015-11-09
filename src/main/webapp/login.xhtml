@@ -6,7 +6,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
-        <h:form>           
+        <h:form>
             <p:panelGrid columns="2" id="loginPanel">
                 <f:facet name="header">Login</f:facet>
                 <p:outputLabel value="#{i18n.email}"/>
@@ -14,10 +14,10 @@
                 <p:outputLabel value="#{i18n.password}"/>
                 <p:password id="it_password" value="#{customerBean.password}" required="true"/>
                 <f:facet name="footer">
-                    <p:commandButton value="#{i18n.login}" 
+                    <p:commandButton value="#{i18n.login}"
                                      action="#{customerBean.login()}" />
                     <p:commandButton value="#{i18n.gl_cancel}" update="loginPanel" process="@this"/>
-                    <p:commandButton value="#{i18n.register}" 
+                    <p:commandButton value="#{i18n.register}"
                                      action="#{customerBean.register()}" />
                 </f:facet>
             </p:panelGrid>
