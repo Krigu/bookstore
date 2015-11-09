@@ -1,13 +1,26 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="templates/template.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets">
-    <ui:param name="headTitle" value="#{i18n.orderOverview}"/>
-    <ui:param name="headDescription" value="#{i18n.orderDescription}"/>
+<ui:composition template="templates/template.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
-        <h:outputText>Order successfull</h:outputText>
+        <p:panel id="panel" header="#{i18n.orderConfirmation}">
+            <h:outputText value="#{i18n.thankYouForOrdering}"/>
+            <p:spacer height="20px"/>
+            <h:panelGrid columns="2" columnClasses="topAligned" cellpadding="5">
+                <p:outputLabel value="#{i18n.number}"/>
+                <p:outputLabel value="#{orderBean.order.number}"/>
+                <p:outputLabel value="#{i18n.date}"/>
+                <p:outputLabel value="#{orderBean.order.date}"/>
+                <p:outputLabel value="#{i18n.totalAmount}"/>
+                <p:outputLabel value="#{orderBean.order.amount}"/>
+                <p:outputLabel value="#{i18n.status}"/>
+                <p:outputLabel value="#{orderBean.order.status}"/>
+            </h:panelGrid>
+            <p:spacer height="20px"/>
+            <p:link outcome="catalogSearch" value="#{i18n.home}"/>
+        </p:panel>
     </ui:define>
+
 </ui:composition>

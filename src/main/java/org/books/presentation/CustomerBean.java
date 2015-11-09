@@ -1,11 +1,13 @@
 package org.books.presentation;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
+import org.books.data.dto.OrderInfo;
 import org.books.data.entity.CreditCard.Type;
 import org.books.data.entity.Customer;
 import org.books.util.MessageFactory;
