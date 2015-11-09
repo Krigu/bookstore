@@ -56,7 +56,7 @@ public class CatalogBean implements Serializable {
     }
 
     public String setDetail(BookInfo b) {
-        return "bookDetails?faces-redirect=true&menuId=0&isbn=" + b.getIsbn();
+        return "/bookDetails?faces-redirect=true&menuId=0&isbn=" + b.getIsbn();
     }
 
     /**

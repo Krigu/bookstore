@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="../templates/template.xhtml"  xmlns:h="http://java.sun.com/jsf/html"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/template.xhtml" xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form>
             <p:panel id="panel" header="#{i18n.userDetails}">
-                <p:messages autoUpdate="true" closable="true" />
+                <p:messages autoUpdate="true" closable="true"/>
 
                 <h:panelGrid columns="2">
                     <p:outputLabel value="#{i18n.firstName}"/>
@@ -31,8 +31,6 @@
                     <p:selectOneMenu id="country" value="#{customerBean.customer.address.country}">
                         <f:selectItems value="#{localeBean.countries}" var="item" itemValue="#{item.countryCode}"
                                        itemLabel="#{item.countryName}"/>
-                        <!--f:selectItem itemLabel="Switzerland" itemValue="CH"/>
-                        <f:selectItem itemLabel="Italy" itemValue="IT"/-->
                     </p:selectOneMenu>
 
                 </h:panelGrid>
@@ -59,11 +57,7 @@
                     </h:panelGroup>
                 </h:panelGrid>
 
-                <p:commandButton value="#{i18n.update}" action="#{customerBean.updateCustomer}" rendered="#{customerBean.authenticated}"  />
-                <p:commandButton value="#{i18n.changePassword}" action="changePassword" rendered="#{customerBean.authenticated}">
-                    <f:param name="menuId" value="3"/>
-                </p:commandButton>
-                <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}" rendered="#{not customerBean.authenticated}" />
+                <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}"/>
             </p:panel>
         </h:form>
     </ui:define>

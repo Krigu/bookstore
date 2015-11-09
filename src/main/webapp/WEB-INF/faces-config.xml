@@ -19,27 +19,5 @@
             <base-name>bundles.messages</base-name>
             <var>messages</var>
         </resource-bundle>
-        <navigation-rule>
-            <navigation-case>
-                <from-outcome>catalogSearch</from-outcome>
-                <to-view-id>/catalogSearch.xhtml</to-view-id>
-                <redirect />
-            </navigation-case>  
-            <navigation-case>
-                <from-outcome>shoppingCart</from-outcome>
-                <to-view-id>/shoppingCart.xhtml</to-view-id>
-                <redirect />
-            </navigation-case>
-            <navigation-case>
-                <from-outcome>orderSummary</from-outcome>
-                <to-view-id>/orderSummary.xhtml</to-view-id>
-                <redirect />
-            </navigation-case>    
-            <navigation-case>
-                <from-outcome>account</from-outcome>
-                <to-view-id>/user/account.xhtml</to-view-id>
-                <redirect />
-            </navigation-case> 
-        </navigation-rule>
     </application>
 </faces-config>

@@ -15,6 +15,7 @@
                         <h:commandLink styleClass="#{localeBean.locale.language == 'en' ? 'active' : ''}" action="#{localeBean.switchLanguage('en')}" value="English" /> |
                         <h:commandLink styleClass="#{localeBean.locale.language == 'fr' ? 'active' : ''}" action="#{localeBean.switchLanguage('fr')}" value="Francais" />
                     </h:form>
+                </nav>
             </div>
 
             <div class="right background-line" style="text-align: right; width: 200px">
@@ -30,16 +31,16 @@
         <div class="ui-grid-row background-line">
             <h:form id="frm_main_navigation" styleClass="menu-main">
                 <p:tabMenu activeIndex="#{param.menuId}" >
-                    <p:menuitem value="#{i18n.search}" outcome="catalogSearch" icon="ui-icon-search">
+                    <p:menuitem value="#{i18n.search}" outcome="/catalogSearch" icon="ui-icon-search">
                         <f:param name="menuId" value="0"/>
                     </p:menuitem>
-                    <p:menuitem value="#{i18n.shoppingCart}" outcome="shoppingCart" icon="ui-icon-cart">
+                    <p:menuitem value="#{i18n.shoppingCart}" outcome="/shoppingCart" icon="ui-icon-cart">
                         <f:param name="menuId" value="1"/>
                     </p:menuitem>
-                    <p:menuitem value="#{i18n.checkout}" outcome="orderSummary" icon="ui-icon-check">
+                    <p:menuitem value="#{i18n.checkout}" outcome="/user/orderSummary" icon="ui-icon-check">
                         <f:param name="menuId" value="2"/>
                     </p:menuitem>
-                    <p:menuitem value="#{i18n.account}" outcome="account" icon="ui-icon-person">
+                    <p:menuitem value="#{i18n.account}" outcome="/user/account" icon="ui-icon-person">
                         <f:param name="menuId" value="3"/>
                     </p:menuitem>
                 </p:tabMenu>

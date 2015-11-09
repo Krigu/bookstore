@@ -44,7 +44,7 @@ public class OrderBean implements Serializable {
 
         clearCart();
 
-        return "orderConfirmation";
+        return "/user/orderConfirmation";
     }
 
     private void clearCart() {

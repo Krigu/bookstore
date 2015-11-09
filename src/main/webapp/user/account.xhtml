@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="templates/template.xhtml"
+<ui:composition template="/templates/template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -43,7 +43,7 @@
             </h:panelGrid>
 
 
-            <p:commandButton value="#{i18n.editCustomerDetails}" action="customerDetails">
+            <p:commandButton value="#{i18n.editCustomerDetails}" action="/user/customerDetails">
                 <f:param name="menuId" value="3"/>
             </p:commandButton>
             <p:commandButton value="#{i18n.logout}" action="#{customerBean.logout}" />
@@ -62,7 +62,7 @@
                     <p:column>
                         <!-- column header -->
                         <f:facet name="header"><h:outputText value="#{i18n.number}"/></f:facet>
-                        <p:link outcome="bookDetails" value="#{order.number}">
+                        <p:link outcome="/bookDetails" value="#{order.number}">
                             <f:param name="menuId" value="0"/>
                         </p:link>
                     </p:column>
