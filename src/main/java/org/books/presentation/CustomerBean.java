@@ -80,10 +80,7 @@ public class CustomerBean implements Serializable {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
             authenticated = true;
-            if (loginTarget == null || loginTarget.isEmpty()) {
-                loginTarget = "user/account?faces-redirect=true&menuId=3";
-            }
-            return loginTarget;
+            return getLoginTarget();
         } catch (BookstoreException ex) {
             authenticated = false;
             MessageFactory.info("authenticationFailed");
@@ -91,44 +88,6 @@ public class CustomerBean implements Serializable {
         }
 
     }
-
-    public String register() {
-        customer = new Customer();
-        customer.setEmail(email);
-        customer.getAddress().setCountry(defaultCountry);
-        return "/registration?faces-redirect=true&menuId=3";
-    }
-
-    public String insertNewCustomer() {
-        try {
-            bookstore.registerCustomer(customer, password);
-            authenticated = true;
-            return "/user/account?faces-redirect=true&menuId=3";
-        } catch (BookstoreException ex) {
-            return null;
-        }
-    }
-
-    public String updateCustomer() {
-        //Update customer in DB
-        try {
-            bookstore.updateCustomer(customer);
-            return "/user/account?faces-redirect=true&menuId=3";
-        } catch (BookstoreException ex) {
-            return null;
-        }
-
-    }
- 
-    /*public String changePassword() {
-        try {
-            bookstore.changePassword(email, password);
-            MessageFactory.info("passwordChanged");
-            return "/user/account?faces-redirect=true&menuId=3";
-        } catch (Exception ex) {
-            return null;
-        }
-    }*/
     
     public String logout() {
         authenticated = false;
@@ -136,6 +95,17 @@ public class CustomerBean implements Serializable {
         email = null;
         password = null;
         return "/login?faces-redirect=true&menuId=3";
+    }
+
+    public void setAuthenticated(boolean authenticated) {
+        this.authenticated = authenticated;
+    }
+
+    public String getLoginTarget() {
+        if (loginTarget == null || loginTarget.isEmpty()) {
+                loginTarget = "user/account?faces-redirect=true&menuId=3";
+            }
+            return loginTarget;
     }
 
 }

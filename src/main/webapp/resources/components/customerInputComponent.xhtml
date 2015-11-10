@@ -8,20 +8,28 @@
       xmlns:p="http://primefaces.org/ui">
     <body>
         <composite:interface>
-            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="customer" required="true"/>
+            <composite:attribute name="password" required="false"/>
+            <composite:attribute name="editEmail" default="false"/>
+            <composite:attribute name="showPassword" default="false"/>
         </composite:interface>
 
         <composite:implementation>
             <h:panelGrid columns="3">
                 <p:outputLabel value="#{i18n.firstName}" for="it_name"/>
-                <p:inputText id="it_name" value="#{customerBean.customer.firstName}" required="true"/>
+                <p:inputText id="it_name" value="#{cc.attrs.customer.firstName}" required="true"/>
                 <p:message for="it_name" />
                 <p:outputLabel value="#{i18n.lastName}" for="it_surname"/>
-                <p:inputText id="it_surname" value="#{customerBean.customer.lastName}" required="true"/>
+                <p:inputText id="it_surname" value="#{cc.attrs.customer.lastName}" required="true"/>
                 <p:message for="it_surname" />
                 <p:outputLabel value="#{i18n.email}"/>
-                <p:outputLabel id="ol_email" value="#{customerBean.customer.email}" />
-                <p:message for="ol_email" />
+                <p:inputText id="ol_email" value="#{cc.attrs.customer.email}" disabled="#{not cc.attrs.editEmail}" required="true">
+                    <f:validateRegex pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"/>
+                </p:inputText>
+                <p:message for="ol_email"/>
+                <p:outputLabel value="#{i18n.password}" rendered="#{cc.attrs.showPassword}"/>
+                <p:password id="it_password" value="#{cc.attrs.password}" required="true" rendered="#{cc.attrs.showPassword}"/>
+                <p:message for="it_password" rendered="#{cc.attrs.showPassword}"/>
             </h:panelGrid>
         </composite:implementation>
     </body>

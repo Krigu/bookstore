@@ -13,15 +13,15 @@
             <p:panel id="panel" header="#{i18n.userDetails}">
                 <p:messages autoUpdate="true" closable="true"/>
 
-                <components:customerInputComponent value="#{customerBean.customer}" />
+                <components:customerInputComponent customer="#{registerBean.customer}" editEmail="true" showPassword="true"/>
                 <p/>
                 <p:outputLabel value="#{i18n.address}" style="font-weight:bold"/>
-                <components:addressInputComponent value="#{customerBean.customer.address}" />
+                <components:addressInputComponent address="#{registerBean.customer.address}" />
                 <p/>
                 <p:outputLabel value="#{i18n.creditCard}" style="font-weight:bold"/>
-                <components:creditCardComponent value="#{customerBean.customer.creditCard}" />
+                <components:creditCardComponent value="#{registerBean.customer.creditCard}" />
 
-                <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}"/>
+                <p:commandButton value="#{i18n.createAccount}" action="#{registerBean.register}"/>
                 <p/>
             </p:panel>
         </h:form>

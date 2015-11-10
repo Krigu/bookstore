@@ -19,12 +19,11 @@
                     <p:commandButton value="#{i18n.login}"
                                      action="#{customerBean.login()}" />
                     <p:commandButton value="#{i18n.gl_cancel}" update="loginPanel" process="@this"/>
-                    <p:commandButton value="#{i18n.register}"
-                                     action="#{customerBean.register()}" />
                 </f:facet>
             </p:panelGrid>
-
-
+            <p>
+                <p:link value="#{i18n.register}" outcome="registration" />
+            </p>
             <p:messages id="msg_booklist" globalOnly="true" autoUpdate="true" />
         </h:form>
     </ui:define>
