@@ -1,13 +1,11 @@
 package org.books.presentation;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
-import org.books.data.dto.OrderInfo;
 import org.books.data.entity.CreditCard.Type;
 import org.books.data.entity.Customer;
 import org.books.util.MessageFactory;
@@ -16,13 +14,14 @@ import org.books.util.MessageFactory;
  *
  * @author Tilmann Bück
  */
-
 @SessionScoped
 @Named("customerBean")
 public class CustomerBean implements Serializable {
+
     private String email;
     private String password;
     private boolean authenticated = false;
+    private String loginTarget;
     @Inject
     private Bookstore bookstore;
     private Customer customer;
@@ -33,7 +32,7 @@ public class CustomerBean implements Serializable {
 
     public Type[] getCreditCardTypes() {
         return Type.values();
-    } 
+    }
 
     public String getEmail() {
         return email;
@@ -50,7 +49,7 @@ public class CustomerBean implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
@@ -62,7 +61,11 @@ public class CustomerBean implements Serializable {
     public boolean isAuthenticated() {
         return authenticated;
     }
-    
+
+    public void setLoginTarget(String loginTarget) {
+        this.loginTarget = loginTarget;
+    }
+
     public String createCustomer() {
         return "account";
     }
@@ -77,30 +80,31 @@ public class CustomerBean implements Serializable {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
             authenticated = true;
-            return "user/account?faces-redirect=true&menuId=3";
-        }
-        catch (BookstoreException ex) {
+            if (loginTarget == null || loginTarget.isEmpty()) {
+                loginTarget = "user/account?faces-redirect=true&menuId=3";
+            }
+            return loginTarget;
+        } catch (BookstoreException ex) {
             authenticated = false;
             MessageFactory.info("authenticationFailed");
-            return null;    
+            return null;
         }
-  
+
     }
-    
+
     public String register() {
         customer = new Customer();
         customer.setEmail(email);
         customer.getAddress().setCountry(defaultCountry);
         return "/registration?faces-redirect=true&menuId=3";
     }
-    
+
     public String insertNewCustomer() {
         try {
             bookstore.registerCustomer(customer, password);
             authenticated = true;
             return "/user/account?faces-redirect=true&menuId=3";
-        }
-        catch (BookstoreException ex) {
+        } catch (BookstoreException ex) {
             return null;
         }
     }
@@ -110,11 +114,10 @@ public class CustomerBean implements Serializable {
         try {
             bookstore.updateCustomer(customer);
             return "/user/account?faces-redirect=true&menuId=3";
-        }
-        catch (BookstoreException ex) {
+        } catch (BookstoreException ex) {
             return null;
         }
-        
+
     }
  
     /*public String changePassword() {
@@ -122,8 +125,7 @@ public class CustomerBean implements Serializable {
             bookstore.changePassword(email, password);
             MessageFactory.info("passwordChanged");
             return "/user/account?faces-redirect=true&menuId=3";
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             return null;
         }
     }*/
@@ -135,6 +137,5 @@ public class CustomerBean implements Serializable {
         password = null;
         return "/login?faces-redirect=true&menuId=3";
     }
-    
-}
 
+}
