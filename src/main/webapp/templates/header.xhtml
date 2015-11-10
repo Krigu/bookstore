@@ -10,7 +10,7 @@
         <div class="ui-grid-row">
             <div class="menu-language background-line">
                 <nav class="sub-nav">
-                    <h:form id="langauge_form">
+                    <h:form id="language_form">
                         <h:commandLink styleClass="#{localeBean.locale.language == 'de' ? 'active' : ''}" action="#{localeBean.switchLanguage('de')}" value="Deutsch" /> |
                         <h:commandLink styleClass="#{localeBean.locale.language == 'en' ? 'active' : ''}" action="#{localeBean.switchLanguage('en')}" value="English" /> |
                         <h:commandLink styleClass="#{localeBean.locale.language == 'fr' ? 'active' : ''}" action="#{localeBean.switchLanguage('fr')}" value="Francais" />
@@ -18,11 +18,16 @@
                 </nav>
             </div>
 
-            <div class="right background-line" style="text-align: right; width: 200px">
-                <h:form>
-                    <p:commandLink value="#{customerBean.customer.firstName} #{i18n.logout}" action="#{customerBean.logout}" rendered="#{customerBean.authenticated}"/>
-                    <p:commandLink value="#{i18n.login}" action="login" rendered="#{not customerBean.authenticated}"/>
-                </h:form>
+
+        </div>
+        <div class="ui-grid-row">
+            <div class="menu-language background-line">
+                <div class="sub-nav">
+                    <h:form>
+                        <p:commandLink value="#{i18n.logout} (#{customerBean.customer.firstName})" action="#{customerBean.logout}" rendered="#{customerBean.authenticated}"/>
+                        <p:commandLink value="#{i18n.login}" action="login" rendered="#{not customerBean.authenticated}"/>
+                    </h:form>
+                </div>
             </div>
         </div>
         <div class="ui-grid-row">

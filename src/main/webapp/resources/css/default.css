@@ -93,3 +93,7 @@ a:link:hover, a:visited:hover {
 .noBoarderSpacing {
     border-spacing: 0px;
 }
+.center_inside{
+    margin-left: auto;
+    margin-right: auto;
+}

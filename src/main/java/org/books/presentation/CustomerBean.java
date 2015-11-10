@@ -119,8 +119,8 @@ public class CustomerBean implements Serializable {
         }
 
     }
-
-    public String changePassword() {
+ 
+    /*public String changePassword() {
         try {
             bookstore.changePassword(email, password);
             MessageFactory.info("passwordChanged");
@@ -128,8 +128,8 @@ public class CustomerBean implements Serializable {
         } catch (Exception ex) {
             return null;
         }
-    }
-
+    }*/
+    
     public String logout() {
         authenticated = false;
         customer = null;
