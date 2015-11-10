@@ -80,7 +80,7 @@ public class CustomerBean implements Serializable {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
             authenticated = true;
-            if (loginTarget != null && !loginTarget.isEmpty()) {
+            if (loginTarget == null || loginTarget.isEmpty()) {
                 loginTarget = "user/account?faces-redirect=true&menuId=3";
             }
             return loginTarget;
