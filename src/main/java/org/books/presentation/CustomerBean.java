@@ -2,6 +2,8 @@ package org.books.presentation;
 
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.books.application.Bookstore;
@@ -83,7 +85,7 @@ public class CustomerBean implements Serializable {
             return getLoginTarget();
         } catch (BookstoreException ex) {
             authenticated = false;
-            MessageFactory.info("authenticationFailed");
+            MessageFactory.error("authenticationFailed");
             return null;
         }
 
