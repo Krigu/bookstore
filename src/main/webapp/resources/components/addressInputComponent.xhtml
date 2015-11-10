@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <composite:interface>
+            <composite:attribute name="value" required="true"/>
+        </composite:interface>
+
+        <composite:implementation>
+            <h:panelGrid columns="3">
+                <p:outputLabel value="#{i18n.street}" for="it_street" />
+                <p:inputText id="it_street" value="#{customerBean.customer.address.street}" required ="true" />
+                <p:message for="it_street" />
+                <p:outputLabel value="#{i18n.postaleCode}" for ="it_zip"/>
+                <p:inputText id="it_zip" value="#{customerBean.customer.address.postalCode}" required ="true" />
+                <p:message for="it_zip" />
+                <p:outputLabel value="#{i18n.city}" for="it_town"/>
+                <p:inputText id="it_town" value="#{customerBean.customer.address.city}" required ="true"/>
+                <p:message for="it_town" />
+                <p:outputLabel value="#{i18n.country}" for="country" />
+                <p:selectOneMenu id="country" value="#{customerBean.customer.address.country}" required ="true">
+                    <f:selectItems value="#{localeBean.countries}" var="item" itemValue="#{item.countryCode}"
+                                   itemLabel="#{item.countryName}"/>
+                </p:selectOneMenu>
+                <p:message for="country" />
+            </h:panelGrid>
+        </composite:implementation>
+    </body>
+</html>
