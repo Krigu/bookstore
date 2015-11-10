@@ -32,6 +32,20 @@ public class CustomerBean implements Serializable {
     private String countryDisplayName;
     private final String defaultCountry = "CH";
 
+        public String login() {
+        try {
+            bookstore.authenticateCustomer(email, password);
+            customer = bookstore.findCustomer(email);
+            authenticated = true;
+            return getLoginTarget();
+        } catch (BookstoreException ex) {
+            //user doesn't exist or the password is wrong
+            authenticated = false;
+            MessageFactory.error("authenticationFailed");
+            return null;
+        }
+    }
+    
     public Type[] getCreditCardTypes() {
         return Type.values();
     }
@@ -75,20 +89,6 @@ public class CustomerBean implements Serializable {
     public String getCountryDisplayName() {
         countryDisplayName = localeBean.getCountryDisplayName(customer.getAddress().getCountry());
         return countryDisplayName;
-    }
-
-    public String login() {
-        try {
-            bookstore.authenticateCustomer(email, password);
-            customer = bookstore.findCustomer(email);
-            authenticated = true;
-            return getLoginTarget();
-        } catch (BookstoreException ex) {
-            authenticated = false;
-            MessageFactory.error("authenticationFailed");
-            return null;
-        }
-
     }
     
     public String logout() {
