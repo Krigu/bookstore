@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <composite:interface>
+            <composite:attribute name="value" required="true"/>
+        </composite:interface>
+
+        <composite:implementation>
+            <h:panelGrid columns="3">
+                <p:outputLabel value="#{i18n.firstName}" for="it_name"/>
+                <p:inputText id="it_name" value="#{customerBean.customer.firstName}" required="true"/>
+                <p:message for="it_name" />
+                <p:outputLabel value="#{i18n.lastName}" for="it_surname"/>
+                <p:inputText id="it_surname" value="#{customerBean.customer.lastName}" required="true"/>
+                <p:message for="it_surname" />
+                <p:outputLabel value="#{i18n.email}"/>
+                <p:outputLabel id="ol_email" value="#{customerBean.customer.email}" />
+                <p:message for="ol_email" />
+            </h:panelGrid>
+        </composite:implementation>
+    </body>
+</html>
