@@ -1,4 +1,4 @@
-package org.books.presentation;
+package org.books.presentation.bean;
 
 
 import org.books.application.Bookstore;

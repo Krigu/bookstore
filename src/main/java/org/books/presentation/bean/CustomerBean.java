@@ -1,5 +1,6 @@
-package org.books.presentation;
+package org.books.presentation.bean;
 
+import org.books.presentation.bean.LocaleBean;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;

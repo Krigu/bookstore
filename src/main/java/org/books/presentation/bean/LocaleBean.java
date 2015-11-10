@@ -1,4 +1,4 @@
-package org.books.presentation;
+package org.books.presentation.bean;
 
 
 import javax.annotation.PostConstruct;
