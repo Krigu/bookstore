@@ -12,10 +12,10 @@
         <h:form>
             <p:panel id="panel" header="#{i18n.userDetails}">
                 <p:messages autoUpdate="true" closable="true" />
-                <components:customerInputComponent value="#{customerBean.customer}" />
+                <components:customerInputComponent customer="#{customerBean.customer}" />
                 <p/>
                 <p:outputLabel value="#{i18n.address}" style="font-weight:bold"/>
-                <components:addressInputComponent value="#{customerBean.customer.address}" />
+                <components:addressInputComponent address="#{customerBean.customer.address}" />
                 <p/>
                 <p:outputLabel value="#{i18n.creditCard}" style="font-weight:bold"/>
                 <components:creditCardComponent value="#{customerBean.customer.creditCard}" />

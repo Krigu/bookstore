@@ -10,20 +10,25 @@
                 xmlns:components="http://xmlns.jcp.org/jsf/composite/components">
     <ui:define name="content">
         <h:form>
-            <p:panel id="panel" header="#{i18n.userDetails}">
-                <p:messages autoUpdate="true" closable="true"/>
-
-                <components:customerInputComponent value="#{customerBean.customer}" />
-                <p/>
-                <p:outputLabel value="#{i18n.address}" style="font-weight:bold"/>
-                <components:addressInputComponent value="#{customerBean.customer.address}" />
-                <p/>
-                <p:outputLabel value="#{i18n.creditCard}" style="font-weight:bold"/>
-                <components:creditCardComponent value="#{customerBean.customer.creditCard}" />
-
-                <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}"/>
-                <p/>
-            </p:panel>
+            <p:messages autoUpdate="true" closable="true"/>
+            <p:panelGrid columns="3" layout="grid">
+                <f:facet name="header">#{i18n.registriation}</f:facet>
+                <!-- Account -->
+                <p:panel header="#{i18n.userDetails}">
+                    <components:customerInputComponent customer="#{registerBean.customer}" editEmail="true" showPassword="true"/>
+                </p:panel>
+                <!-- Address -->
+                <p:panel header="#{i18n.address}">
+                    <components:addressInputComponent address="#{registerBean.customer.address}" />
+                </p:panel>
+                <!-- Account -->
+                <p:panel header="#{i18n.creditCard}">
+                    <components:creditCardComponent value="#{registerBean.customer.creditCard}" />
+                </p:panel>
+                <f:facet name="footer">
+                    <p:commandButton value="#{i18n.createAccount}" action="#{registerBean.register}"/>
+                </f:facet>
+            </p:panelGrid>
         </h:form>
     </ui:define>
 </ui:composition>
