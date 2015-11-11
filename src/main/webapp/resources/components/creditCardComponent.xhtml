@@ -9,19 +9,20 @@
       xmlns:bs="http://jsf.examples/books">
     <body>
         <composite:interface>
-            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="creditCard" required="true"/>
+            <composite:attribute name="editable" default="true"/>
         </composite:interface>
 
         <composite:implementation>
-            <h:panelGrid columns="3">
+            <p:panelGrid columns="3">
                 <p:outputLabel value="#{i18n.creditCardType}" for="cardType"/>
-                <p:selectOneMenu id="cardType" value="#{cc.attrs.value.type}" required="true">
+                <p:selectOneMenu id="cardType" value="#{cc.attrs.creditCard.type}" required="true" disabled="#{not cc.attrs.editable}">
                     <f:selectItems value="#{creditCardHelper.cardTypes}"/>
                 </p:selectOneMenu>
                 <p:message for="cardType" styleClass="error"/>
 
                 <p:outputLabel value="#{i18n.creditCardNumber}" for="cardNumber"/>
-                <p:inputText id="cardNumber" value="#{cc.attrs.value.number}" required="true" size="20">
+                <p:inputText id="cardNumber" value="#{cc.attrs.creditCard.number}" required="true" size="20" disabled="#{not cc.attrs.editable}">
                     <f:converter converterId="org.books.presentation.CreditCardConverter"/>
                     <bs:validateCardNumber cardTypeId="cardType"/>
                 </p:inputText>
@@ -29,11 +30,11 @@
 
                 <p:outputLabel value="#{i18n.creditCardExpiration}" for="expirationMonth"/>
                 <h:panelGroup>
-                    <p:selectOneMenu id="expirationMonth" value="#{cc.attrs.value.expirationMonth}" required="true">
+                    <p:selectOneMenu id="expirationMonth" value="#{cc.attrs.creditCard.expirationMonth}" required="true" disabled="#{not cc.attrs.editable}">
                         <f:selectItems value="#{creditCardHelper.expirationMonths}"/>
                     </p:selectOneMenu>
                     <p:outputLabel value=" / "/>
-                    <p:selectOneMenu id="expirationYear" value="#{cc.attrs.value.expirationYear}" required="true">
+                    <p:selectOneMenu id="expirationYear" value="#{cc.attrs.creditCard.expirationYear}" required="true" disabled="#{not cc.attrs.editable}">
                         <f:selectItems value="#{creditCardHelper.expirationYears}"/>
                     </p:selectOneMenu>
                 </h:panelGroup>
@@ -42,7 +43,7 @@
                     <p:outputLabel value=" "/>
                     <p:message for="expirationYear" styleClass="error"/>
                 </h:panelGroup>
-            </h:panelGrid>
+            </p:panelGrid>
         </composite:implementation>
     </body>
 </html>

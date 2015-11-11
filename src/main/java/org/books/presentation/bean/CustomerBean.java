@@ -1,10 +1,9 @@
 package org.books.presentation.bean;
 
-import org.books.presentation.bean.LocaleBean;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.books.application.Bookstore;
@@ -20,7 +19,7 @@ import org.books.util.MessageFactory;
 @SessionScoped
 @Named("customerBean")
 public class CustomerBean implements Serializable {
-
+    
     private String email;
     private String password;
     private boolean authenticated = false;
@@ -32,8 +31,8 @@ public class CustomerBean implements Serializable {
     private LocaleBean localeBean;
     private String countryDisplayName;
     private final String defaultCountry = "CH";
-
-        public String login() {
+    
+    public String login() {
         try {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
@@ -47,51 +46,6 @@ public class CustomerBean implements Serializable {
         }
     }
     
-    public Type[] getCreditCardTypes() {
-        return Type.values();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public boolean isAuthenticated() {
-        return authenticated;
-    }
-
-    public void setLoginTarget(String loginTarget) {
-        this.loginTarget = loginTarget;
-    }
-
-    public String createCustomer() {
-        return "account";
-    }
-
-    public String getCountryDisplayName() {
-        countryDisplayName = localeBean.getCountryDisplayName(customer.getAddress().getCountry());
-        return countryDisplayName;
-    }
-    
     public String logout() {
         authenticated = false;
         customer = null;
@@ -99,16 +53,72 @@ public class CustomerBean implements Serializable {
         password = null;
         return "/login?faces-redirect=true&menuId=3";
     }
-
+    
+    public String updateCustomer() {
+        try {
+            bookstore.updateCustomer(customer);
+            MessageFactory.info("profileUpdatedSuccessful");
+        } catch (BookstoreException ex) {
+            Logger.getLogger(CustomerBean.class.getName()).log(Level.SEVERE, null, ex);
+            MessageFactory.error("profileNotUpdatede");
+        }
+        return null;
+    }
+    
+    public Type[] getCreditCardTypes() {
+        return Type.values();
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    
+    public Customer getCustomer() {
+        return customer;
+    }
+    
+    public boolean isAuthenticated() {
+        return authenticated;
+    }
+    
+    public void setLoginTarget(String loginTarget) {
+        this.loginTarget = loginTarget;
+    }
+    
+    public String createCustomer() {
+        return "account";
+    }
+    
+    public String getCountryDisplayName() {
+        countryDisplayName = localeBean.getCountryDisplayName(customer.getAddress().getCountry());
+        return countryDisplayName;
+    }
+    
     public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
     }
-
+    
     public String getLoginTarget() {
         if (loginTarget == null || loginTarget.isEmpty()) {
-                loginTarget = "user/account?faces-redirect=true&menuId=3";
-            }
-            return loginTarget;
+            loginTarget = "user/account?faces-redirect=true&menuId=3";
+        }
+        return loginTarget;
     }
-
+    
 }

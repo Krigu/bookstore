@@ -23,7 +23,7 @@
                 </p:panel>
                 <!-- Account -->
                 <p:panel header="#{i18n.creditCard}">
-                    <components:creditCardComponent value="#{registerBean.customer.creditCard}" />
+                    <components:creditCardComponent creditCard="#{registerBean.customer.creditCard}" />
                 </p:panel>
                 <f:facet name="footer">
                     <p:commandButton value="#{i18n.createAccount}" action="#{registerBean.register}"/>

@@ -9,26 +9,27 @@
     <body>
         <composite:interface>
             <composite:attribute name="address" required="true"/>
+            <composite:attribute name="editable" default="true"/>
         </composite:interface>
 
         <composite:implementation>
-            <h:panelGrid columns="3">
+            <p:panelGrid columns="3">
                 <p:outputLabel value="#{i18n.street}" for="it_street" />
-                <p:inputText id="it_street" value="#{cc.attrs.address.street}" required ="true" />
+                <p:inputText id="it_street" value="#{cc.attrs.address.street}" required ="true" disabled="#{not cc.attrs.editable}"/>
                 <p:message for="it_street" />
                 <p:outputLabel value="#{i18n.postaleCode}" for ="it_zip"/>
-                <p:inputText id="it_zip" value="#{cc.attrs.address.postalCode}" required ="true" />
+                <p:inputText id="it_zip" value="#{cc.attrs.address.postalCode}" required ="true" disabled="#{not cc.attrs.editable}"/>
                 <p:message for="it_zip" />
                 <p:outputLabel value="#{i18n.city}" for="it_town"/>
-                <p:inputText id="it_town" value="#{cc.attrs.address.city}" required ="true"/>
+                <p:inputText id="it_town" value="#{cc.attrs.address.city}" required ="true" disabled="#{not cc.attrs.editable}"/>
                 <p:message for="it_town" />
                 <p:outputLabel value="#{i18n.country}" for="country" />
-                <p:selectOneMenu id="country" value="#{cc.attrs.address.country}" required ="true">
+                <p:selectOneMenu id="country" value="#{cc.attrs.address.country}" required ="true" disabled="#{not cc.attrs.editable}">
                     <f:selectItems value="#{localeBean.countries}" var="item" itemValue="#{item.countryCode}"
                                    itemLabel="#{item.countryName}"/>
                 </p:selectOneMenu>
                 <p:message for="country" />
-            </h:panelGrid>
+            </p:panelGrid>
         </composite:implementation>
     </body>
 </html>
