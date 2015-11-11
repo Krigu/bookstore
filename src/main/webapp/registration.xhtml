@@ -1,64 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="/templates/template.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/template.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:components="http://xmlns.jcp.org/jsf/composite/components">
     <ui:define name="content">
         <h:form>
-            <p:panel id="panel" header="#{i18n.userDetails}">
-                <p:messages autoUpdate="true" closable="true"/>
-
-                <h:panelGrid columns="2">
-                    <p:outputLabel value="#{i18n.firstName}"/>
-                    <p:inputText id="it_name" value="#{customerBean.customer.firstName}" required="true"/>
-                    <p:outputLabel value="#{i18n.lastName}"/>
-                    <p:inputText id="it_surname" value="#{customerBean.customer.lastName}" required="true"/>
-                    <p:outputLabel value="#{i18n.email}"/>
-                    <p:inputText id="it_email" value="#{customerBean.customer.email}" required="true"/>
-                </h:panelGrid>
-
-                <p:outputLabel value="#{i18n.address}"/>
-                <h:panelGrid columns="2">
-                    <p:outputLabel value="#{i18n.street}"/>
-                    <p:inputText id="it_street" value="#{customerBean.customer.address.street}" required="true"/>
-                    <p:outputLabel value="#{i18n.postaleCode}"/>
-                    <p:inputText id="it_zip" value="#{customerBean.customer.address.postalCode}" required="true"/>
-                    <p:outputLabel value="#{i18n.city}"/>
-                    <p:inputText id="it_town" value="#{customerBean.customer.address.city}" required="true"/>
-                    <p:outputLabel value="#{i18n.country}"/>
-                    <p:selectOneMenu id="country" value="#{customerBean.customer.address.country}">
-                        <f:selectItems value="#{localeBean.countries}" var="item" itemValue="#{item.countryCode}"
-                                       itemLabel="#{item.countryName}"/>
-                    </p:selectOneMenu>
-
-                </h:panelGrid>
-
-                <p:outputLabel value="#{i18n.creditCard}"/>
-                <h:panelGrid columns="2">
-                    <p:outputLabel value="#{i18n.creditCardType}"/>
-                    <p:selectOneMenu id="creditCardType" value="#{customerBean.customer.creditCard.type}">
-                        <f:selectItems value="#{customerBean.creditCardTypes}"/>
-                    </p:selectOneMenu>
-                    <p:outputLabel value="#{i18n.creditCardNumber}"/>
-                    <p:inputText id="it_number" value="#{customerBean.customer.creditCard.number}" required="true">
-                        <f:validateRegex pattern="\d{16}"/>
-                    </p:inputText>
-                    <p:outputLabel value="#{i18n.creditCardExpiration}"/>
-                    <h:panelGroup>
-                        <p:inputText id="it_month" value="#{customerBean.customer.creditCard.expirationMonth}"
-                                     required="true" size="2" maxlength="2"/>
-                        <p:outputLabel value="/"/>
-                        <p:inputText id="it_year" value="#{customerBean.customer.creditCard.expirationYear}"
-                                     required="true" size="4" validatorMessage="#{i18n.invalidYear}">
-                            <f:validateLength minimum="4" maximum="4"/>
-                        </p:inputText>
-                    </h:panelGroup>
-                </h:panelGrid>
-
-                <p:commandButton value="#{i18n.createAccount}" action="#{customerBean.insertNewCustomer}"/>
-            </p:panel>
+            <p:messages autoUpdate="true" closable="true"/>
+            <p:panelGrid columns="3" layout="grid">
+                <f:facet name="header">#{i18n.registriation}</f:facet>
+                <!-- Account -->
+                <p:panel header="#{i18n.userDetails}">
+                    <components:customerInputComponent customer="#{registerBean.customer}" editEmail="true" showPassword="true"/>
+                </p:panel>
+                <!-- Address -->
+                <p:panel header="#{i18n.address}">
+                    <components:addressInputComponent address="#{registerBean.customer.address}" />
+                </p:panel>
+                <!-- Account -->
+                <p:panel header="#{i18n.creditCard}">
+                    <components:creditCardComponent value="#{registerBean.customer.creditCard}" />
+                </p:panel>
+                <f:facet name="footer">
+                    <p:commandButton value="#{i18n.createAccount}" action="#{registerBean.register}"/>
+                </f:facet>
+            </p:panelGrid>
         </h:form>
     </ui:define>
 </ui:composition>

@@ -1,29 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="templates/template.xhtml"  xmlns:h="http://java.sun.com/jsf/html"
+<ui:composition template="templates/template.xhtml"  
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
-        <h:form>
-            <p:panelGrid columns="2" id="loginPanel">
+        <h:form id="frmLogin" styleClass="center_inside">
+            <p:messages id="msg_booklist" globalOnly="true" autoUpdate="true" />
+            <p:panelGrid columns="3" id="loginPanel">
                 <f:facet name="header">Login</f:facet>
                 <p:outputLabel value="#{i18n.email}"/>
-                <p:inputText id="it_email" value="#{customerBean.email}" required="true"/>
+                <p:inputText id="it_email" value="#{customerBean.email}" required="true" validatorMessage="#{i18n.emailWrongFormat}">
+                    <f:validateRegex pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"/>
+                </p:inputText>
+                <p:message for="it_email"/>
                 <p:outputLabel value="#{i18n.password}"/>
                 <p:password id="it_password" value="#{customerBean.password}" required="true"/>
                 <f:facet name="footer">
                     <p:commandButton value="#{i18n.login}"
-                                     action="#{customerBean.login()}" />
+                                     action="#{customerBean.login()}" update="@form"/>
                     <p:commandButton value="#{i18n.gl_cancel}" update="loginPanel" process="@this"/>
-                    <p:commandButton value="#{i18n.register}"
-                                     action="#{customerBean.register()}" />
                 </f:facet>
             </p:panelGrid>
-            <br/>
-
-            <p:messages id="msg_booklist" globalOnly="true" autoUpdate="true" />
+            <p>
+                <p:link value="#{i18n.register}" outcome="registration" />
+            </p>
+            
         </h:form>
     </ui:define>
 </ui:composition>

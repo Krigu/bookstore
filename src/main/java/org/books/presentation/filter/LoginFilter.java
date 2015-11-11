@@ -16,7 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.books.presentation.CustomerBean;
+import org.books.presentation.bean.CustomerBean;
 
 /**
  *
@@ -39,10 +39,17 @@ public class LoginFilter implements Filter {
         if (!cb.isAuthenticated()) {
             //Cast the ServletRequest
             HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            System.out.println("org.books.presentation.filter.LoginFilter.doFilter() ");
             //Cast the ServletResponse
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+       
+            String contextPath = httpServletRequest.getContextPath();
+            String menuId = httpServletRequest.getParameter("menuId");
+
+            //Set the target for the login
+            cb.setLoginTarget(httpServletRequest.getRequestURI().substring(contextPath.length())+"?faces-redirect=true&menuId="+menuId);
             //Redirect to the login page
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.xhtml?menuId=3");
+            httpServletResponse.sendRedirect(contextPath + "/login.xhtml?menuId="+menuId);
         } else {
             //User is anthententificated
             chain.doFilter(request, response);
