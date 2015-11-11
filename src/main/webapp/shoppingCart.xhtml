@@ -39,7 +39,7 @@
                 </p:column>
 
                 <p:column headerText="#{i18n.total}">
-                    <p:outputLabel id="ol_itemTotalAmount" value="#{item.quantity}"/>
+                    <p:outputLabel id="ol_itemTotalAmount" value="#{item.book.price * item.quantity}"/>
                 </p:column>
                 <p:column style="width:32px">
                     <p:rowEditor />

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.books.presentation;
+package org.books.presentation.bean;
 
+import org.books.presentation.bean.CustomerBean;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;

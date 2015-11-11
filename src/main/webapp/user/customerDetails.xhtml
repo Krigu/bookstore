@@ -9,6 +9,34 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:components="http://xmlns.jcp.org/jsf/composite/components">
     <ui:define name="content">
+        <h:form id="frmUpdateAccountDetails">
+            <p:commandButton value="#{i18n.gl_back}" action="account" immediate="true"/>
+            <p:growl globalOnly="true"/>
+            <p/>
+            <p:panelGrid columns="3" layout="grid">
+                <f:facet name="header">#{i18n.myAccount}</f:facet>
+                <!-- Account -->
+                <p:panel header="#{i18n.userDetails}">
+                    <components:customerInputComponent customer="#{customerBean.customer}" editEmail="false" showPassword="false" editable="true" />
+                </p:panel>
+                <!-- Address -->
+                <p:panel header="#{i18n.address}">
+                    <components:addressInputComponent address="#{customerBean.customer.address}" editable="true"/>
+                </p:panel>
+                <!-- Credit card -->
+                <p:panel header="#{i18n.creditCard}">
+                    <components:creditCardComponent creditCard="#{customerBean.customer.creditCard}" editable="true"/>
+                </p:panel>
+                <f:facet name="footer">
+                    <!-- Command button-->
+                    <p:commandButton value="#{i18n.update}" action="#{customerBean.updateCustomer}" rendered="#{customerBean.authenticated}" update="@form" />
+                </f:facet>
+            </p:panelGrid>
+        </h:form>
+
+
+
+        <!-- 
         <h:form>
             <p:panel id="panel" header="#{i18n.userDetails}">
                 <p:messages autoUpdate="true" closable="true" />
@@ -25,6 +53,6 @@
                     <f:param name="menuId" value="3"/>
                 </p:commandButton>
             </p:panel>
-        </h:form>
+        </h:form>-->
     </ui:define>
 </ui:composition>

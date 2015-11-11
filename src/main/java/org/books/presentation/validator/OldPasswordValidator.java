@@ -14,7 +14,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
-import org.books.presentation.CustomerBean;
+import org.books.presentation.bean.CustomerBean;
 import org.books.util.MessageFactory;
 
 /**

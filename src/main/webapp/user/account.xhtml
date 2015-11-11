@@ -34,6 +34,9 @@
                             <p:commandButton value="#{i18n.editCustomerDetails}" action="/user/customerDetails">
                                 <f:param name="menuId" value="3"/>
                             </p:commandButton>
+                            <p:commandButton value="#{i18n.changePassword}" action="changePassword" rendered="#{customerBean.authenticated}">
+                                <f:param name="menuId" value="3"/>
+                            </p:commandButton>
                             <p:commandButton value="#{i18n.logout}" action="#{customerBean.logout}" />
                         </f:facet>
                     </p:panelGrid>
