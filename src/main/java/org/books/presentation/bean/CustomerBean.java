@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.books.application.Bookstore;
@@ -47,10 +48,7 @@ public class CustomerBean implements Serializable {
     }
     
     public String logout() {
-        authenticated = false;
-        customer = null;
-        email = null;
-        password = null;
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/login?faces-redirect=true&menuId=3";
     }
     
