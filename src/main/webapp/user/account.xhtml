@@ -13,6 +13,12 @@
 
         <div class="ui-grid ui-grid-responsive">
             <div class="ui-grid-row">
+                <components:customer headerName="#{i18n.myAccount}" customer="#{customerBean.customer}"
+                    editEmail="true" showPassword="false" editable="false" 
+                    name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.logout}"/>
+                
+                
+                
                 <!-- My account -->
                 <h:form id="frmUpdateAccount">
                     <p:panelGrid columns="3" layout="grid">
