@@ -27,7 +27,6 @@
                 <p:inputText id="cardNumber" value="#{cc.attrs.creditCard.number}" required="true" size="20" disabled="#{not cc.attrs.editable}">
                     <f:converter converterId="org.books.presentation.CreditCardConverter"/>
                     <bs:validateCardNumber cardTypeId="cardType"/>
-                    <f:ajax event="blur" render="msgZip"/>
                 </p:inputText>
                 <p:message id="msgCardNumber" for="cardNumber"/>
                 <!-- Line expiration date -->

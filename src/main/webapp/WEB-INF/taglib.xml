@@ -8,7 +8,7 @@
     <tag>
         <tag-name>validateCardNumber</tag-name>
         <validator>
-            <validator-id>org.books.presentation.CreditCardValidator</validator-id>
+            <validator-id>org.books.presentation.validator.creditcardvalidator</validator-id>
         </validator>
     </tag>
 </facelet-taglib>
