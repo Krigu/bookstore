@@ -63,6 +63,14 @@ public class CustomerBean implements Serializable {
         return null;
     }
     
+    public String goOnPageCustomerDetails(){
+        return "/user/customerDetails?faces-redirect=true&menuId=3";
+    }
+    
+    public String goOnPageChangePassword(){
+        return "/user/changePassword?faces-redirect=true&menuId=3";
+    }
+    
     public Type[] getCreditCardTypes() {
         return Type.values();
     }

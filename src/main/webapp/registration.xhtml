@@ -3,32 +3,12 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="/templates/template.xhtml" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:components="http://xmlns.jcp.org/jsf/composite/components">
+                xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
     <ui:define name="content">
-        <h:form>
-            <p:messages autoUpdate="true" closable="true"/>
-            <p:panelGrid columns="3" layout="grid">
-                <f:facet name="header">#{i18n.registriation}</f:facet>
-                <!-- Account -->
-                <p:panel header="#{i18n.userDetails}">
-                    <components:customerInputComponent customer="#{registerBean.customer}" editEmail="true" showPassword="true"/>
-                </p:panel>
-                <!-- Address -->
-                <p:panel header="#{i18n.address}">
-                    <components:addressInputComponent address="#{registerBean.customer.address}" />
-                </p:panel>
-                <!-- Account -->
-                <p:panel header="#{i18n.creditCard}">
-                    <components:creditCardComponent creditCard="#{registerBean.customer.creditCard}" />
-                </p:panel>
-                <f:facet name="footer">
-                    <p:commandButton value="#{i18n.createAccount}" action="#{registerBean.register}"/>
-                </f:facet>
-            </p:panelGrid>
-        </h:form>
+        <comp:customer headerName="#{i18n.registriation}" customer="#{registerBean.customer}"
+                       editEmail="true" showPassword="true" editable="true" 
+                       name_bt1="#{i18n.createAccount}" menuId_bt1="3" action_bt1="#{registerBean.register}"
+                       />
     </ui:define>
 </ui:composition>

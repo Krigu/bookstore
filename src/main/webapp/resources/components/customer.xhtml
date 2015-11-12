@@ -32,29 +32,30 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h:form id="frmUserInformation">
-            <p:panelGrid columns="3" layout="grid">
+            <p:growl id="growlUserInformation" globalOnly="true"/>
+            <p:panelGrid columns="2">
                 <f:facet name="header">#{cc.attrs.headerName}</f:facet>
                 <!-- Account -->
                 <p:panel header="#{i18n.userDetails}">
-                    <comp:customerInputComponent customer="#{cc.attrs.customer}" editEmail="true" showPassword="false" editable="false" />
+                    <comp:customerInputComponent customer="#{cc.attrs.customer}" editEmail="#{cc.attrs.editEmail}" showPassword="#{cc.attrs.showPassword}" editable="#{cc.attrs.editable}" />
                 </p:panel>
                 <!-- Address -->
                 <p:panel header="#{i18n.address}">
-                    <comp:addressInputComponent address="#{cc.attrs.customer.address}" editable="false"/>
+                    <comp:addressInputComponent address="#{cc.attrs.customer.address}" editable="#{cc.attrs.editable}"/>
                 </p:panel>
                 <!-- Credit card -->
                 <p:panel header="#{i18n.creditCard}">
-                    <comp:creditCardComponent creditCard="#{cc.attrs.customer.creditCard}" editable="false"/>
+                    <comp:creditCardComponent creditCard="#{cc.attrs.customer.creditCard}" editable="#{cc.attrs.editable}"/>
                 </p:panel>
                 <f:facet name="footer">
                     <!-- Command button-->
-                    <p:commandButton id="bt1" value="#{cc.attrs.name_bt1}" action="#{cc.attrs.action_bt1}" rendered="#{not empty cc.attrs.name_bt1}">
+                    <p:commandButton id="bt1" value="#{cc.attrs.name_bt1}" action="#{cc.attrs.action_bt1}" rendered="#{not empty cc.attrs.name_bt1}" update="@form">
                         <f:param name="menuId" value="#{cc.attrs.menuId_bt1}"/>
                     </p:commandButton>
-                    <p:commandButton id="bt2" value="#{cc.attrs.name_bt2}" action="#{cc.attrs.action_bt2}" rendered="#{not empty cc.attrs.name_bt2}">
+                    <p:commandButton id="bt2" value="#{cc.attrs.name_bt2}" action="#{cc.attrs.action_bt2}" rendered="#{not empty cc.attrs.name_bt2}" update="@form">
                         <f:param name="menuId" value="#{cc.attrs.menuId_bt2}"/>
                     </p:commandButton>
-                    <p:commandButton id="bt3" value="#{cc.attrs.name_bt3}" action="#{cc.attrs.action_bt3}" rendered="#{not empty cc.attrs.name_bt3}">
+                    <p:commandButton id="bt3" value="#{cc.attrs.name_bt3}" action="#{cc.attrs.action_bt3}" rendered="#{not empty cc.attrs.name_bt3}" update="@form">
                          <f:param name="menuId" value="#{cc.attrs.menuId_bt3}"/>
                     </p:commandButton>
                 </f:facet>
