@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:components="http://xmlns.jcp.org/jsf/composite/components">
+                xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
     <ui:param name="headTitle" value="#{i18n.orderOverview}"/>
     <ui:param name="headDescription" value="#{i18n.orderDescription}"/>
     <ui:define name="content">
@@ -14,50 +14,46 @@
         <p:messages id="msg_booklist" globalOnly="true"/>
 
         <h:panelGrid columns="1">
-        <h:form>
+            <!-- Account information-->
+            <comp:customer headerName="#{i18n.myAccount}" customer="#{customerBean.customer}"
+                           editEmail="false" showPassword="false" editable="false"
+                           name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetails}"
+                           />
 
-            <components:accountOverview address="#{customerBean.customer.address}" creditCard="#{customerBean.customer.creditCard}" customer="#{customerBean.customer}" locale="#{localeBean}" />
-            <p:commandLink value="#{i18n.editCustomerDetails}" action="#{customerBean.editCustomerDetailsFromCheckout}">
-                <f:param name="menuId" value="3" />
-            </p:commandLink>
-        </h:form>
+            <p:spacer height="20px"/>
 
-        <p:spacer height="20px"/>
+            <h:form id="dt_orderSummary">
+                <!-- Shopping Cart -->
+                <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" rendered="true" styleClass="order-table">
+                    <p:column>
+                        <f:facet name="header">#{i18n.title}</f:facet>
+                        <p:outputLabel value="#{item.book.title}"/>
+                        <f:facet name="footer">
+                            <h:outputText value="#{i18n.totalAmount}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{i18n.quantity}</f:facet>
+                        <p:inputText id ="quantity" value="#{item.quantity}" required="true" size="4" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{i18n.price}</f:facet>
+                        <p:outputLabel value="#{item.book.price}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{i18n.total}</f:facet>
+                        <p:outputLabel value="#{item.quantity}"/>
+                        <f:facet name="footer">
+                            <h:outputText value="#{shoppingCartBean.shoppingCart.totalAmount}" />
+                        </f:facet>
+                    </p:column>
+                </p:dataTable>
 
-        <h:form id="dt_orderSummary">
-            <!-- Shopping Cart -->
-            <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" rendered="true" emptyMessage="#{i18n.emptySoppingCart}" styleClass="order-table">
-                <p:column>
-                    <f:facet name="header">#{i18n.title}</f:facet>
-                    <p:outputLabel value="#{item.book.title}"/>
-                    <f:facet name="footer">
-                        <h:outputText value="#{i18n.totalAmount}" />
-                    </f:facet>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">#{i18n.quantity}</f:facet>
-                    <p:outputLabel id ="quantity" value="#{item.quantity}" />
-                </p:column>
-                <p:column>
-                    <f:facet name="header">#{i18n.price}</f:facet>
-                    <p:outputLabel value="#{item.book.price}"/>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">#{i18n.total}</f:facet>
-                    <p:outputLabel value="#{item.quantity * item.book.price}"/>
-                    <f:facet name="footer">
-                        <h:outputText value="#{shoppingCartBean.shoppingCart.totalAmount}" />
-                    </f:facet>
-                </p:column>
-            </p:dataTable>
-
-            <p:commandButton value="#{i18n.bestellen}"
-                             styleClass="btn btn-primary"
-                             action="#{orderBean.doSubmitOrder(customerBean.customer.email, shoppingCartBean.shoppingCart.items)}"
-                             ajax="false" rendered="#{not empty shoppingCartBean.shoppingCart.items}">
-                <f:param name="menuId" value="2"/>
-            </p:commandButton>
-        </h:form>
+                <p:commandButton value="#{i18n.bestellen}"
+                                 styleClass="btn btn-primary"
+                                 action="#{orderBean.doSubmitOrder(customerBean.customer.email, shoppingCartBean.shoppingCart.items)}"
+                                 ajax="false" rendered="#{not empty shoppingCartBean.shoppingCart.items}"/>
+            </h:form>
         </h:panelGrid>
     </ui:define>
 </ui:composition>

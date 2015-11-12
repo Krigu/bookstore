@@ -8,6 +8,10 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" 
+                     listener="#{customerBean.checkIfAuthenticated}" />
+        </f:metadata>
         <h:form id="frmLogin" styleClass="center_inside">
             <p:messages id="msg_booklist" globalOnly="true" autoUpdate="true" />
             <p:panelGrid columns="3" id="loginPanel">
@@ -29,7 +33,7 @@
             <p>
                 <p:link value="#{i18n.register}" outcome="registration" />
             </p>
-            
+
         </h:form>
     </ui:define>
 </ui:composition>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <cc:interface>
+            <!-- Attributes -->
+            <cc:attribute name="customer" required="true"/>
+            <cc:attribute name="password" required="false"/>
+            <cc:attribute name="editEmail" default="false"/>
+            <cc:attribute name="showPassword" default="false"/>
+            <cc:attribute name="editable" default="true"/>
+        </cc:interface>
+
+        <cc:implementation>
+            <p:panelGrid columns="3">
+                <!-- Line name -->
+                <p:outputLabel value="#{i18n.firstName}" for="it_name"/>
+                <p:inputText id="it_name" value="#{cc.attrs.customer.firstName}" required="true" disabled="#{not cc.attrs.editable}">
+                    <f:validateLength minimum="3" maximum="30" />
+                    <f:ajax event="blur" render="msgName"/>
+                </p:inputText>
+                <p:message id="msgName" for="it_name" />
+                <!-- Line lastname -->
+                <p:outputLabel value="#{i18n.lastName}" for="it_lastname"/>
+                <p:inputText id="it_lastname" value="#{cc.attrs.customer.lastName}" required="true" disabled="#{not cc.attrs.editable}">
+                    <f:validateLength minimum="3" maximum="30" />
+                    <f:ajax event="blur" render="msgLastname"/>
+                </p:inputText>
+                <p:message id="msgLastname" for="it_lastname" />
+                <!-- Line email -->
+                <p:outputLabel value="#{i18n.email}" for="ol_email"/>
+                <p:inputText id="ol_email" value="#{cc.attrs.customer.email}" disabled="#{not cc.attrs.editEmail or not cc.attrs.editable}" required="true">
+                    <f:validateRegex pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"/>
+                    <f:validator validatorId="org.books.presentation.validator.emailChangevalidator"/>
+                    <f:ajax event="blur" render="msgEmail"/>
+                </p:inputText>
+                <p:message id="msgEmail" for="ol_email"/>
+                <!-- Line password -->
+                <p:outputLabel value="#{i18n.password}" rendered="#{cc.attrs.showPassword}" for="it_password"/>
+                <p:password id="it_password" value="#{cc.attrs.password}" required="true" rendered="#{cc.attrs.showPassword}" disabled="#{not cc.attrs.editable}">
+                    <f:validateLength minimum="6" maximum="30" />
+                    <f:ajax event="blur" render="msgPassword"/>
+                </p:password>
+                <p:message id="msgPassword" for="it_password" rendered="#{cc.attrs.showPassword}"/>
+            </p:panelGrid>
+        </cc:implementation>
+    </body>
+</html>

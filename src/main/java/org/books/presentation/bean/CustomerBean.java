@@ -1,9 +1,11 @@
 package org.books.presentation.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,7 +34,23 @@ public class CustomerBean implements Serializable {
     @Inject
     private LocaleBean localeBean;
     private String countryDisplayName;
+    private final String defaultCountry = "CH";
     
+       /**
+     * If the user is authenticated is redierct on the page account
+     */
+    public void checkIfAuthenticated() {
+        //Redirect if the user is allready authenticated
+        if (isAuthenticated()) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            try {
+                ec.redirect(ec.getRequestContextPath() + "/user/account.xhtml?faces-redirect=true&menuId=3");
+            } catch (IOException ex) {
+                //Nothing
+            }
+        }
+    }
+
     public String login() {
         try {
             bookstore.authenticateCustomer(email, password);
@@ -62,7 +80,7 @@ public class CustomerBean implements Serializable {
         }
         return detailsTarget;
     }
-    
+
     public String editCustomerDetailsFromAccount() {
         detailsTarget = "/user/account?faces-redirect=true&menuId=3";
         return "customerDetails?faces-redirect=true&menuId=3";
@@ -71,6 +89,14 @@ public class CustomerBean implements Serializable {
     public String editCustomerDetailsFromCheckout() {
         detailsTarget = "/user/orderSummary?faces-redirect=true&menuId=2";
         return "customerDetails?faces-redirect=true&menuId=3";
+    }
+
+    public String goOnPageCustomerDetails(){
+        return "/user/customerDetails?faces-redirect=true&menuId=3";
+    }
+
+    public String goOnPageChangePassword(){
+        return "/user/changePassword?faces-redirect=true&menuId=3";
     }
 
     public Type[] getCreditCardTypes() {
