@@ -36,15 +36,15 @@
                             <p:column>
                                 <!-- column header -->
                                 <f:facet name="header"><h:outputText value="#{i18n.number}"/></f:facet>
-                                <p:link outcome="/bookDetails" value="#{order.number}">
-                                    <f:param name="menuId" value="0"/>
-                                </p:link>
+                                <p:commandLink value="#{order.number}" action="#{accountOrderBean.showOrderDetails(order)}">
+                                    <f:param name="menuId" value="3"/>
+                                </p:commandLink>
                             </p:column>
                             <p:column>
                                 <!-- column header -->
                                 <f:facet name="header"><h:outputText value="#{i18n.date}"/></f:facet>
                                 <h:outputText value="#{order.date}">
-                                    <f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm"/>
+                                    <f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Zurich"/>
                                 </h:outputText>
                             </p:column>
                             <p:column>

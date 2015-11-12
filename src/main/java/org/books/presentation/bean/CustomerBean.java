@@ -27,6 +27,7 @@ public class CustomerBean implements Serializable {
     private String password;
     private boolean authenticated = false;
     private String loginTarget;
+    private String detailsTarget;
     @Inject
     private Bookstore bookstore;
     private Customer customer;
@@ -49,7 +50,7 @@ public class CustomerBean implements Serializable {
             }
         }
     }
-    
+
     public String login() {
         try {
             bookstore.authenticateCustomer(email, password);
@@ -77,17 +78,27 @@ public class CustomerBean implements Serializable {
             Logger.getLogger(CustomerBean.class.getName()).log(Level.SEVERE, null, ex);
             MessageFactory.error("profileNotUpdatede");
         }
-        return null;
+        return detailsTarget;
     }
-    
+
+    public String editCustomerDetailsFromAccount() {
+        detailsTarget = "/user/account?faces-redirect=true&menuId=3";
+        return "customerDetails?faces-redirect=true&menuId=3";
+    }
+
+    public String editCustomerDetailsFromCheckout() {
+        detailsTarget = "/user/orderSummary?faces-redirect=true&menuId=2";
+        return "customerDetails?faces-redirect=true&menuId=3";
+    }
+
     public String goOnPageCustomerDetails(){
         return "/user/customerDetails?faces-redirect=true&menuId=3";
     }
-    
+
     public String goOnPageChangePassword(){
         return "/user/changePassword?faces-redirect=true&menuId=3";
     }
-    
+
     public Type[] getCreditCardTypes() {
         return Type.values();
     }
@@ -144,4 +155,7 @@ public class CustomerBean implements Serializable {
         return loginTarget;
     }
     
+    public String getDetailsTarget() {
+        return detailsTarget;
+    }
 }

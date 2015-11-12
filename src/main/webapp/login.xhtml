@@ -23,6 +23,7 @@
                 <p:message for="it_email"/>
                 <p:outputLabel value="#{i18n.password}"/>
                 <p:password id="it_password" value="#{customerBean.password}" required="true"/>
+                <p:message for="it_password"/>
                 <f:facet name="footer">
                     <p:commandButton value="#{i18n.login}"
                                      action="#{customerBean.login()}" update="@form"/>

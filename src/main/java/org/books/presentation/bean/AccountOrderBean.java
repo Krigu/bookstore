@@ -13,6 +13,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.books.data.dto.OrderDTO;
 
 @SessionScoped
 @Named("accountOrderBean")
@@ -27,6 +28,8 @@ public class AccountOrderBean implements Serializable {
     private List<OrderInfo> completedOrders = new ArrayList<>();
 
     private Integer selectedYear;
+    
+    private OrderDTO selectedOrder;
 
     public void displayOrderHistory(String email) {
 
@@ -75,4 +78,20 @@ public class AccountOrderBean implements Serializable {
     public void setSelectedYear(Integer selectedYear) {
         this.selectedYear = selectedYear;
     }
+
+    public OrderDTO getSelectedOrder() {
+        return selectedOrder;
+    }
+    
+    public String showOrderDetails(OrderInfo order) {
+        try {
+            selectedOrder = bookstore.findOrder(order.getNumber());
+        }
+        catch (BookstoreException ex) {
+            return null;
+        }
+        
+        return "orderDetails";
+    }
+    
 }

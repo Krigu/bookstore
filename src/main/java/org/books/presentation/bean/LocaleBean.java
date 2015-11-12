@@ -33,6 +33,10 @@ public class LocaleBean implements Serializable {
     public String getLanguage() {
         return locale.getLanguage();
     }
+    
+    public String getCountry() {
+        return locale.getCountry();
+    }
 
     /**
      * Sets the  {@code Locale} for a user
