@@ -9,6 +9,10 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:components="http://xmlns.jcp.org/jsf/composite/components">
     <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" 
+                     listener="#{registerBean.checkIfAuthenticated}" />
+        </f:metadata>
         <h:form>
             <p:messages autoUpdate="true" closable="true"/>
             <p:panelGrid columns="3" layout="grid">
