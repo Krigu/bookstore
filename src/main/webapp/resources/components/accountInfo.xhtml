@@ -32,7 +32,7 @@
                 </p:inputText>
                 <p:message id="msgLastname" for="it_lastname" />
                 <!-- Line email -->
-                <p:outputLabel value="#{i18n.email}"/>
+                <p:outputLabel value="#{i18n.email}" for="ol_email"/>
                 <p:inputText id="ol_email" value="#{cc.attrs.customer.email}" disabled="#{not cc.attrs.editEmail or not cc.attrs.editable}" required="true">
                     <f:validateRegex pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"/>
                     <f:validator validatorId="org.books.presentation.validator.emailChangevalidator"/>
@@ -40,7 +40,7 @@
                 </p:inputText>
                 <p:message id="msgEmail" for="ol_email"/>
                 <!-- Line password -->
-                <p:outputLabel value="#{i18n.password}" rendered="#{cc.attrs.showPassword}"/>
+                <p:outputLabel value="#{i18n.password}" rendered="#{cc.attrs.showPassword}" for="it_password"/>
                 <p:password id="it_password" value="#{cc.attrs.password}" required="true" rendered="#{cc.attrs.showPassword}" disabled="#{not cc.attrs.editable}">
                     <f:validateLength minimum="6" maximum="30" />
                     <f:ajax event="blur" render="msgPassword"/>

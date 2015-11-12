@@ -4,30 +4,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
       xmlns:bs="http://jsf.examples/books">
     <body>
-        <composite:interface>
-            <composite:attribute name="creditCard" required="true"/>
-            <composite:attribute name="editable" default="true"/>
-        </composite:interface>
+        <cc:interface>
+            <!-- Attributes -->
+            <cc:attribute name="creditCard" required="true"/>
+            <cc:attribute name="editable" default="true"/>
+        </cc:interface>
 
-        <composite:implementation>
+        <cc:implementation>
             <p:panelGrid columns="3">
+                <!-- Line type -->
                 <p:outputLabel value="#{i18n.creditCardType}" for="cardType"/>
                 <p:selectOneMenu id="cardType" value="#{cc.attrs.creditCard.type}" required="true" disabled="#{not cc.attrs.editable}">
                     <f:selectItems value="#{creditCardHelper.cardTypes}"/>
                 </p:selectOneMenu>
-                <p:message for="cardType" styleClass="error"/>
-
+                <p:message for="cardType"/>
+                <!-- Line card number -->
                 <p:outputLabel value="#{i18n.creditCardNumber}" for="cardNumber"/>
                 <p:inputText id="cardNumber" value="#{cc.attrs.creditCard.number}" required="true" size="20" disabled="#{not cc.attrs.editable}">
                     <f:converter converterId="org.books.presentation.CreditCardConverter"/>
                     <bs:validateCardNumber cardTypeId="cardType"/>
+                    <f:ajax event="blur" render="msgZip"/>
                 </p:inputText>
-                <p:message for="cardNumber" styleClass="error"/>
-
+                <p:message id="msgCardNumber" for="cardNumber"/>
+                <!-- Line expiration date -->
                 <p:outputLabel value="#{i18n.creditCardExpiration}" for="expirationMonth"/>
                 <h:panelGroup>
                     <p:selectOneMenu id="expirationMonth" value="#{cc.attrs.creditCard.expirationMonth}" required="true" disabled="#{not cc.attrs.editable}">
@@ -39,11 +42,11 @@
                     </p:selectOneMenu>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <p:message for="expirationMonth" styleClass="error"/>
+                    <p:message for="expirationMonth"/>
                     <p:outputLabel value=" "/>
-                    <p:message for="expirationYear" styleClass="error"/>
+                    <p:message for="expirationYear"/>
                 </h:panelGroup>
             </p:panelGrid>
-        </composite:implementation>
+        </cc:implementation>
     </body>
 </html>

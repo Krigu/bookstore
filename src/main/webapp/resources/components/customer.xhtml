@@ -41,11 +41,11 @@
                 </p:panel>
                 <!-- Address -->
                 <p:panel header="#{i18n.address}">
-                    <comp:addressInputComponent address="#{cc.attrs.customer.address}" editable="#{cc.attrs.editable}"/>
+                    <comp:address address="#{cc.attrs.customer.address}" editable="#{cc.attrs.editable}"/>
                 </p:panel>
                 <!-- Credit card -->
                 <p:panel header="#{i18n.creditCard}">
-                    <comp:creditCardComponent creditCard="#{cc.attrs.customer.creditCard}" editable="#{cc.attrs.editable}"/>
+                    <comp:creditCard creditCard="#{cc.attrs.customer.creditCard}" editable="#{cc.attrs.editable}"/>
                 </p:panel>
                 <f:facet name="footer">
                     <!-- Command button-->

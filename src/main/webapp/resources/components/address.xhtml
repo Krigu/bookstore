@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <cc:interface>
+            <!-- Attributes -->
+            <cc:attribute name="address" required="true"/>
+            <cc:attribute name="editable" default="true"/>
+        </cc:interface>
+
+        <cc:implementation>
+            <p:panelGrid columns="3">
+                <!-- Line street -->
+                <p:outputLabel value="#{i18n.street}" for="it_street" />
+                <p:inputText id="it_street" value="#{cc.attrs.address.street}" disabled="#{not cc.attrs.editable}" />
+                <p:message id="msgStreet" for="it_street" />
+                <!-- Line zip code -->
+                <p:outputLabel value="#{i18n.postaleCode}" for ="it_zip"/>
+                <p:inputText id="it_zip" value="#{cc.attrs.address.postalCode}" required ="true" disabled="#{not cc.attrs.editable}">
+                    <f:validateLength minimum="3" maximum="10" />
+                    <f:ajax event="blur" render="msgZip"/>
+                </p:inputText>
+                <p:message id="msgZip" for="it_zip" />
+                <!-- Line city -->
+                <p:outputLabel value="#{i18n.city}" for="it_city"/>
+                <p:inputText id="it_city" value="#{cc.attrs.address.city}" required ="true" disabled="#{not cc.attrs.editable}">
+                    <f:validateLength minimum="3" maximum="10" />
+                    <f:ajax event="blur" render="msgCity"/>
+                </p:inputText>
+                <p:message id="msgCity" for="it_city" />
+                <!-- Line country -->
+                <p:outputLabel value="#{i18n.country}" for="country" />
+                <p:selectOneMenu id="country" value="#{cc.attrs.address.country}" required ="true" disabled="#{not cc.attrs.editable}">
+                    <f:selectItems value="#{localeBean.countries}" var="item" itemValue="#{item.countryCode}"
+                                   itemLabel="#{item.countryName}"/>
+                </p:selectOneMenu>
+                <p:message for="country" />
+            </p:panelGrid>
+        </cc:implementation>
+    </body>
+</html>
