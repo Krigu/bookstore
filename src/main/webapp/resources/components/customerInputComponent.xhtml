@@ -23,12 +23,12 @@
                 <p:outputLabel value="#{i18n.lastName}" for="it_surname"/>
                 <p:inputText id="it_surname" value="#{cc.attrs.customer.lastName}" required="true" disabled="#{not cc.attrs.editable}"/>
                 <p:message for="it_surname" />
-                <p:outputLabel value="#{i18n.email}"/>
+                <p:outputLabel value="#{i18n.email}" for="ol_email"/>
                 <p:inputText id="ol_email" value="#{cc.attrs.customer.email}" disabled="#{not cc.attrs.editEmail or not cc.attrs.editable}" required="true">
                     <f:validateRegex pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"/>
                 </p:inputText>
                 <p:message for="ol_email"/>
-                <p:outputLabel value="#{i18n.password}" rendered="#{cc.attrs.showPassword}"/>
+                <p:outputLabel value="#{i18n.password}" for="it_password" rendered="#{cc.attrs.showPassword}"/>
                 <p:password id="it_password" value="#{cc.attrs.password}" required="true" rendered="#{cc.attrs.showPassword}" disabled="#{not cc.attrs.editable}"/>
                 <p:message for="it_password" rendered="#{cc.attrs.showPassword}"/>
             </p:panelGrid>

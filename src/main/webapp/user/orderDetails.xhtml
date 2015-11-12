@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:bs="http://org.books/books"
+                xmlns:components="http://xmlns.jcp.org/jsf/composite/components">
+    <ui:define name="content">
+        <p:messages id="msg_booklist" globalOnly="true"/>
+
+        <div class="ui-grid ui-grid-responsive">
+            <div class="ui-grid-row">
+                <h:form id="order_history_form">
+
+                    <p:panel header="Bestelldetails">
+                        <f:facet name="header">
+                            <p:outputLabel value="#{i18n.number} " />
+                            <p:outputLabel value="#{orderBean.order.number}"/>
+                            <p:outputLabel value=" - "/>
+                            <p:outputLabel value="#{orderBean.order.date}">
+                                <f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Zurich"/>
+                            </p:outputLabel>
+                            <p:outputLabel value=" - "/>
+                            <p:outputLabel value="#{i18n[bs:localizeEnum( orderBean.order.status ) ]}"/>
+                        </f:facet>
+                        <components:accountOverview locale="#{localeBean}" customer="#{accountOrderBean.selectedOrder.customer}" creditCard="#{accountOrderBean.selectedOrder.creditCard}" address="#{accountOrderBean.selectedOrder.address}" />
+                        <p:dataTable id="dt_shoppingcart" value="#{accountOrderBean.selectedOrder.items}" var="item" editable="true" emptyMessage="#{i18n.emptySoppingCart}">
+
+
+                            <p:column headerText="#{i18n.title}">
+                                <p:outputLabel value="#{item.book.title}"/>
+
+                            </p:column>
+
+                            <p:column headerText="#{i18n.quantity}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{item.quantity}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id ="quantity" value="#{item.quantity}" required="true">
+                                            <f:validateLongRange minimum="1" maximum="100" />
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="#{i18n.price}">
+                                <p:outputLabel value="#{item.book.price}"/>
+                            </p:column>
+
+                            <p:column headerText="#{i18n.total}">
+                                <p:outputLabel id="ol_itemTotalAmount" value="#{item.book.price * item.quantity}"/>
+                            </p:column>
+
+                            <!-- Summary : total amount -->
+                            <p:columnGroup type="footer">
+                                <p:row>
+                                    <p:column colspan="3" style="text-align:right" footerText="#{i18n.totalAmount}" />
+                                    <p:column >
+                                        <f:facet name="footer">
+                                            <h:outputText id="ot_totalAmount" value="#{accountOrderBean.selectedOrder.amount}"/>
+                                        </f:facet>
+                                    </p:column>
+
+                                </p:row>
+                            </p:columnGroup>
+                        </p:dataTable>
+                    </p:panel>
+                    <p:commandButton value="#{i18n.gl_back}" action="account" >
+                        <f:param name ="menuId" value="3" />
+                    </p:commandButton>
+                </h:form>
+
+
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

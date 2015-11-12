@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <composite:interface>
+            <composite:attribute name="customer" required="true"/>
+            <composite:attribute name="address" required="true"/>
+            <composite:attribute name="creditCard" required="true"/>
+            <composite:attribute name="locale" required="true"/>
+        </composite:interface>
+
+        <composite:implementation>
+            <h:panelGrid columns="2" columnClasses="topAligned"  cellpadding="5">
+                <p:outputLabel value="#{i18n.name}"/>
+                <p:outputLabel value="#{cc.attrs.customer.firstName} #{cc.attrs.customer.lastName}"/>
+                <p:outputLabel value="#{i18n.email}"/>
+                <p:outputLabel value="#{cc.attrs.customer.email}"/>
+
+
+                <p:outputLabel value="#{i18n.address}"/>
+                <h:panelGroup>
+                    <h:panelGrid columns="1" styleClass="noBoarderSpacing">
+                        <p:outputLabel value="#{cc.attrs.address.street}"/>
+                        <h:panelGroup>
+                            <p:outputLabel value="#{cc.attrs.address.postalCode} #{cc.attrs.address.city}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="#{cc.attrs.locale.getCountryDisplayName(cc.attrs.address.country)}"/>
+                    </h:panelGrid>
+                </h:panelGroup>
+                <p:outputLabel value="#{i18n.creditCard}"/>
+                <h:panelGroup>
+                    <h:panelGrid columns="1" styleClass="noBoarderSpacing">
+                        <p:outputLabel value="#{cc.attrs.creditCard.type}"/>
+                        <p:outputLabel value="#{cc.attrs.creditCard.number}">
+                            <f:converter converterId="org.books.presentation.CreditCardConverter"/>
+                        </p:outputLabel>
+                        <h:panelGroup>
+                            <p:outputLabel
+                                    value="#{cc.attrs.creditCard.expirationMonth}/#{cc.attrs.creditCard.expirationYear}"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:panelGrid>
+        </composite:implementation>
+    </body>
+</html>
+

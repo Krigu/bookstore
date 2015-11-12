@@ -15,7 +15,7 @@
                 <p:outputLabel value="#{orderBean.order.number}"/>
                 <p:outputLabel value="#{i18n.date}"/>
                 <p:outputLabel value="#{orderBean.order.date}">
-                    <f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm" />
+                    <f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Zurich"/>
                 </p:outputLabel>
                 <p:outputLabel value="#{i18n.totalAmount}"/>
                 <p:outputLabel value="#{orderBean.order.amount}"/>

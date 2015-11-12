@@ -26,13 +26,15 @@ public class RegisterBean {
     private CustomerBean customerBean;
     @Inject
     private Bookstore bookstore;
-
+    @Inject
+    private LocaleBean localeBean;
     private Customer customer;
     private String password;
 
     @PostConstruct
     public void init() {
         customer = new Customer();
+        customer.getAddress().setCountry(localeBean.getCountry());
     }
 
     public String register() {
