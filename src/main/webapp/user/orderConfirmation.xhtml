@@ -3,7 +3,9 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="../templates/template.xhtml" xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:bs="http://org.books/books">
     <ui:define name="content">
         <p:panel id="panel" header="#{i18n.orderConfirmation}">
             <h:outputText value="#{i18n.thankYouForOrdering}"/>
@@ -12,11 +14,13 @@
                 <p:outputLabel value="#{i18n.number}"/>
                 <p:outputLabel value="#{orderBean.order.number}"/>
                 <p:outputLabel value="#{i18n.date}"/>
-                <p:outputLabel value="#{orderBean.order.date}"/>
+                <p:outputLabel value="#{orderBean.order.date}">
+                    <f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm" />
+                </p:outputLabel>
                 <p:outputLabel value="#{i18n.totalAmount}"/>
                 <p:outputLabel value="#{orderBean.order.amount}"/>
                 <p:outputLabel value="#{i18n.status}"/>
-                <p:outputLabel value="#{orderBean.order.status}"/>
+                <p:outputLabel value="#{i18n[bs:localizeEnum( orderBean.order.status ) ]}"/>
             </h:panelGrid>
             <p:spacer height="20px"/>
             <p:link outcome="/catalogSearch" value="#{i18n.home}"/>
