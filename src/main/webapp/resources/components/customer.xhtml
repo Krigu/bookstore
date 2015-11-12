@@ -13,7 +13,7 @@
         <cc:attribute name="headerName" required="true"/>
         <cc:attribute name="customer" required="true"/>
         <cc:attribute name="password" required="false"/>
-        <!-- Attribute -->
+        <!-- Attributes -->
         <cc:attribute name="editable" default="true"/>
         <cc:attribute name="editEmail" default="false"/>
         <cc:attribute name="showPassword" default="false"/>
@@ -37,7 +37,7 @@
                 <f:facet name="header">#{cc.attrs.headerName}</f:facet>
                 <!-- Account -->
                 <p:panel header="#{i18n.userDetails}">
-                    <comp:customerInputComponent customer="#{cc.attrs.customer}" editEmail="#{cc.attrs.editEmail}" showPassword="#{cc.attrs.showPassword}" editable="#{cc.attrs.editable}" />
+                    <comp:accountInfo customer="#{cc.attrs.customer}" editEmail="#{cc.attrs.editEmail}" showPassword="#{cc.attrs.showPassword}" editable="#{cc.attrs.editable}" />
                 </p:panel>
                 <!-- Address -->
                 <p:panel header="#{i18n.address}">
