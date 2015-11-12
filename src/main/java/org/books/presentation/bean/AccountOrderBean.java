@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SessionScoped
-@Named("orderHistoryBean")
-public class OrderHistoryBean implements Serializable {
+@Named("accountOrderBean")
+public class AccountOrderBean implements Serializable {
 
     @Inject
     private Bookstore bookstore;
@@ -39,6 +39,25 @@ public class OrderHistoryBean implements Serializable {
             // TODO
             MessageFactory.error(e.getMessage());
         }
+    }
+
+    /**
+     * Bricht eine Bestellung ab
+     *
+     * @param number Bestellnummer
+     * @param email  E-Mail des Account für den refresh
+     * @return
+     */
+    public String cancelOrder(String number, String email) {
+
+        try {
+            bookstore.cancelOrder(number);
+            displayOrderHistory(email);
+        } catch (BookstoreException e) {
+            MessageFactory.error(e.getMessage());
+        }
+
+        return null;
     }
 
     public List<OrderInfo> getCompletedOrders() {

@@ -90,6 +90,10 @@ a:link:hover, a:visited:hover {
     vertical-align: top;
 }
 
+.rightAligned{
+    float: right;
+}
+
 .noBoarderSpacing {
     border-spacing: 0px;
 }

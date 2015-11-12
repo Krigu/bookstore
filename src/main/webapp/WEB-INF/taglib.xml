@@ -4,11 +4,17 @@
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facelettaglibrary_2_2.xsd">
 
-    <namespace>http://jsf.examples/books</namespace>
+    <namespace>http://org.books/books</namespace>
     <tag>
         <tag-name>validateCardNumber</tag-name>
         <validator>
             <validator-id>org.books.presentation.CreditCardValidator</validator-id>
         </validator>
     </tag>
+
+    <function>
+        <function-name>localizeEnum</function-name>
+        <function-class>org.books.util.EnumTranslator</function-class>
+        <function-signature>String getMessageKey(java.lang.Enum)</function-signature>
+    </function>
 </facelet-taglib>
