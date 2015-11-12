@@ -8,40 +8,19 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:bs="http://org.books/books"
-                xmlns:components="http://xmlns.jcp.org/jsf/composite/components">
+                xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
     <ui:define name="content">
         <p:messages id="msg_booklist" globalOnly="true"/>
 
         <div class="ui-grid ui-grid-responsive">
             <div class="ui-grid-row">
                 <!-- My account -->
-                <h:form id="frmUpdateAccount">
-                    <p:panelGrid columns="3" layout="grid">
-                        <f:facet name="header">#{i18n.myAccount}</f:facet>
-                        <!-- Account -->
-                        <p:panel header="#{i18n.userDetails}">
-                            <components:customerInputComponent customer="#{customerBean.customer}" editEmail="true" showPassword="false" editable="false" />
-                        </p:panel>
-                        <!-- Address -->
-                        <p:panel header="#{i18n.address}">
-                            <components:addressInputComponent address="#{customerBean.customer.address}" editable="false"/>
-                        </p:panel>
-                        <!-- Credit card -->
-                        <p:panel header="#{i18n.creditCard}">
-                            <components:creditCardComponent creditCard="#{customerBean.customer.creditCard}" editable="false"/>
-                        </p:panel>
-                        <f:facet name="footer">
-                            <!-- Command button-->
-                            <p:commandButton value="#{i18n.editCustomerDetails}" action="/user/customerDetails">
-                                <f:param name="menuId" value="3"/>
-                            </p:commandButton>
-                            <p:commandButton value="#{i18n.changePassword}" action="changePassword" rendered="#{customerBean.authenticated}">
-                                <f:param name="menuId" value="3"/>
-                            </p:commandButton>
-                            <p:commandButton value="#{i18n.logout}" action="#{customerBean.logout}" />
-                        </f:facet>
-                    </p:panelGrid>
-                </h:form>
+                <comp:customer headerName="#{i18n.myAccount}" customer="#{customerBean.customer}"
+                    editEmail="false" showPassword="false" editable="false"
+                    name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetails}"
+                    name_bt2="#{i18n.changePassword}" menuId_bt2="3" action_bt2="#{customerBean.goOnPageChangePassword}"
+                    name_bt3="#{i18n.logout}" menuId_bt3="3" action_bt3="#{customerBean.logout}"
+                    />
             </div>
             <div class="ui-grid-row">
                 <p:spacer height="20"/>    

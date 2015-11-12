@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!-- Field values -->
+        <cc:attribute name="headerName" required="true"/>
+        <cc:attribute name="customer" required="true"/>
+        <cc:attribute name="password" required="false"/>
+        <!-- Attributes -->
+        <cc:attribute name="editable" default="true"/>
+        <cc:attribute name="editEmail" default="false"/>
+        <cc:attribute name="showPassword" default="false"/>
+        <!-- Command Button -->
+        <cc:attribute name="name_bt1"/>
+        <cc:attribute name="action_bt1" method-signature="java.lang.String action()"/>
+        <cc:attribute name="menuId_bt1" default="0"/>
+        <cc:attribute name="name_bt2"/>
+        <cc:attribute name="action_bt2" method-signature="java.lang.String action()"/>
+        <cc:attribute name="menuId_bt2" default="0"/>
+        <cc:attribute name="name_bt3"/>
+        <cc:attribute name="action_bt3" method-signature="java.lang.String action()"/>
+        <cc:attribute name="menuId_bt3" default="0"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="frmUserInformation">
+            <p:growl id="growlUserInformation" globalOnly="true"/>
+            <p:panelGrid columns="2">
+                <f:facet name="header">#{cc.attrs.headerName}</f:facet>
+                <!-- Account -->
+                <p:panel header="#{i18n.userDetails}">
+                    <comp:accountInfo customer="#{cc.attrs.customer}" editEmail="#{cc.attrs.editEmail}" showPassword="#{cc.attrs.showPassword}" editable="#{cc.attrs.editable}" />
+                </p:panel>
+                <!-- Address -->
+                <p:panel header="#{i18n.address}">
+                    <comp:address address="#{cc.attrs.customer.address}" editable="#{cc.attrs.editable}"/>
+                </p:panel>
+                <!-- Credit card -->
+                <p:panel header="#{i18n.creditCard}">
+                    <comp:creditCard creditCard="#{cc.attrs.customer.creditCard}" editable="#{cc.attrs.editable}"/>
+                </p:panel>
+                <f:facet name="footer">
+                    <!-- Command button-->
+                    <p:commandButton id="bt1" value="#{cc.attrs.name_bt1}" action="#{cc.attrs.action_bt1}" rendered="#{not empty cc.attrs.name_bt1}" update="@form">
+                        <f:param name="menuId" value="#{cc.attrs.menuId_bt1}"/>
+                    </p:commandButton>
+                    <p:commandButton id="bt2" value="#{cc.attrs.name_bt2}" action="#{cc.attrs.action_bt2}" rendered="#{not empty cc.attrs.name_bt2}" update="@form">
+                        <f:param name="menuId" value="#{cc.attrs.menuId_bt2}"/>
+                    </p:commandButton>
+                    <p:commandButton id="bt3" value="#{cc.attrs.name_bt3}" action="#{cc.attrs.action_bt3}" rendered="#{not empty cc.attrs.name_bt3}" update="@form">
+                         <f:param name="menuId" value="#{cc.attrs.menuId_bt3}"/>
+                    </p:commandButton>
+                </f:facet>
+            </p:panelGrid>
+        </h:form>
+    </cc:implementation>
+</html>
