@@ -3,11 +3,17 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="/templates/template.xhtml" 
                 xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
     <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView"
+                     listener="#{registerBean.checkIfAuthenticated}" />
+        </f:metadata>
         <comp:customer headerName="#{i18n.registriation}" customer="#{registerBean.customer}"
-                       editEmail="true" showPassword="true" editable="true" 
+                       editEmail="true" showPassword="true" editable="true"
                        name_bt1="#{i18n.createAccount}" menuId_bt1="3" action_bt1="#{registerBean.register}"
                        />
     </ui:define>

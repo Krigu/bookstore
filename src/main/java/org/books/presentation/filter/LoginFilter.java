@@ -39,7 +39,6 @@ public class LoginFilter implements Filter {
         if (!cb.isAuthenticated()) {
             //Cast the ServletRequest
             HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-            System.out.println("org.books.presentation.filter.LoginFilter.doFilter() ");
             //Cast the ServletResponse
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
        

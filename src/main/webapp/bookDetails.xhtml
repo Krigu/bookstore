@@ -54,7 +54,7 @@
                     <p:row>
                         <p:column><h:outputLabel for="otIsbn" value="#{i18n.isbn}"/></p:column>
                         <p:column colspan="2"><h:outputText id="otIsbn" value="#{catalogBean.selectedBook.isbn}"/></p:column>
-                        <p:column colspan="2" rowspan="5"><p:graphicImage library="images" name="no_picture.png" width="100"/></p:column>
+                        <p:column colspan="2" rowspan="5"><p:graphicImage  value="http://ecx.images-amazon.com/images/P/#{catalogBean.selectedBook.isbn}._AA160_.jpg" width="200"/></p:column>
                     </p:row>
                     <p:row>
                         <p:column><h:outputLabel for="otAuthors" value="#{i18n.authors}"/></p:column>
