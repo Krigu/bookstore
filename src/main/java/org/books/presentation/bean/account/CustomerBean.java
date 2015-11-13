@@ -12,6 +12,7 @@ import javax.inject.Named;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
 import org.books.data.entity.Customer;
+import org.books.presentation.bean.LocaleBean;
 import org.books.util.MessageFactory;
 
 /**
@@ -30,8 +31,6 @@ public class CustomerBean implements Serializable {
     private String password;
     private boolean authenticated = false;
     private String navigationTarget;
-    //private String loginTarget;
-    //private String detailsTarget;
     @Inject
     private Bookstore bookstore;
     private Customer customer;
