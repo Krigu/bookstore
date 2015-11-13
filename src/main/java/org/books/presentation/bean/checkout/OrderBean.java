@@ -1,11 +1,10 @@
-package org.books.presentation.bean;
+package org.books.presentation.bean.checkout;
 
 
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
 import org.books.application.ShoppingCart;
 import org.books.data.dto.OrderDTO;
-import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
 import org.books.util.MessageFactory;
 
@@ -30,6 +29,7 @@ public class OrderBean implements Serializable {
     /**
      *
      * @param email
+     * @param orderItems
      * @return
      */
     public String doSubmitOrder(String email, List<OrderItemDTO> orderItems) {
@@ -37,14 +37,13 @@ public class OrderBean implements Serializable {
         try {
             this.order = bookstore.placeOrder(email, orderItems);
         } catch (BookstoreException e) {
-            MessageFactory.error(e.getCode().toString());
-
+            MessageFactory.error(e.getMessage());
             return null;
         }
 
         clearCart();
 
-        return "/user/orderConfirmation";
+        return "/user/orderConfirmation?faces-redirect=true&menuId=2";
     }
 
     private void clearCart() {

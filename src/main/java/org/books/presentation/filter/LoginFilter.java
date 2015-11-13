@@ -16,7 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.books.presentation.bean.CustomerBean;
+import org.books.presentation.bean.account.CustomerBean;
 
 /**
  *

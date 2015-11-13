@@ -5,75 +5,11 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
     <ui:param name="headTitle" value="#{i18n.shoppingCartTitle}"/>
     <ui:param name="headDescription" value="#{i18n.shoppingCartDescription}"/>
     <ui:define name="content">
-        <h:form id="dt_shoppingcartForm">
-            <p:growl id="msgs" showDetail="false"/>
-
-            <p:remoteCommand name="refreshTotalAmout" update=":dt_shoppingcartForm:dt_shoppingcart:ot_totalAmount" />
-            <!--  Shopping Cart -->
-            <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" editable="true" emptyMessage="#{i18n.emptySoppingCart}">
-
-                <p:ajax event="rowEdit" listener="#{shoppingCartBean.onRowEdit}" update=":dt_shoppingcartForm:msgs" oncomplete="refreshTotalAmout()"/>
-
-                <p:column headerText="#{i18n.title}">
-                    <p:outputLabel value="#{item.book.title}"/>
-
-                </p:column>
-
-                <p:column headerText="#{i18n.quantity}">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.quantity}" /></f:facet>
-                        <f:facet name="input">
-                            <p:inputText id ="quantity" value="#{item.quantity}" required="true">
-                                <f:validateLongRange minimum="1" maximum="100" />
-                            </p:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-
-                <p:column headerText="#{i18n.price}">
-                    <p:outputLabel value="#{item.book.price}"/>
-                </p:column>
-
-                <p:column headerText="#{i18n.total}">
-                    <p:outputLabel id="ol_itemTotalAmount" value="#{item.book.price * item.quantity}"/>
-                </p:column>
-                <p:column style="width:32px">
-                    <p:rowEditor />
-                </p:column>
-                <!-- Button remove-->
-                <p:column width="32">
-                    <p:commandButton icon="ui-icon-trash"
-                                     styleClass="btn btn-primary" 
-                                     action="#{shoppingCartBean.removeFromShoppingCart(item)}"
-                                     update="dt_shoppingcartForm">
-                        <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
-                    </p:commandButton>
-                </p:column>
-
-                <!-- Summary : total amount -->
-                <p:columnGroup type="footer">
-                    <p:row>
-                        <p:column colspan="3" style="text-align:right" footerText="#{i18n.totalAmount}" />
-                        <p:column >
-                            <f:facet name="footer">
-                                <h:outputText id="ot_totalAmount" value="#{shoppingCartBean.shoppingCart.totalAmount}"/>
-                            </f:facet>
-                        </p:column>
-
-                    </p:row>
-                </p:columnGroup>
-            </p:dataTable>
-
-
-            <p:confirmDialog global="true">
-                <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="#{i18n.gl_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>
-
-        </h:form>
+        <comp:shoppingcartDataTable shoppingCart="#{shoppingCartBean.shoppingCart}" editable="true"/>
     </ui:define>
 </ui:composition>

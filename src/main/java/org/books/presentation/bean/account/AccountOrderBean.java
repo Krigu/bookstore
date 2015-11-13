@@ -1,4 +1,4 @@
-package org.books.presentation.bean;
+package org.books.presentation.bean.account;
 
 
 import org.books.application.Bookstore;
@@ -40,7 +40,7 @@ public class AccountOrderBean implements Serializable {
             this.completedOrders = bookstore.searchOrders(email, selectedYear);
         } catch (BookstoreException e) {
             // TODO
-            MessageFactory.error(e.getCode().toString());
+            MessageFactory.error(e.getMessage());
         }
     }
 
@@ -57,7 +57,7 @@ public class AccountOrderBean implements Serializable {
             bookstore.cancelOrder(number);
             displayOrderHistory(email);
         } catch (BookstoreException e) {
-            MessageFactory.error(e.getCode().toString());
+            MessageFactory.error(e.getMessage());
         }
 
         return null;

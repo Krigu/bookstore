@@ -1,4 +1,4 @@
-package org.books.presentation.bean;
+package org.books.presentation.bean.catalog;
 
 import org.books.application.*;
 import org.books.data.dto.BookInfo;
@@ -15,26 +15,37 @@ import org.books.util.MessageFactory;
 @Named("catalogBean")
 public class CatalogBean implements Serializable {
 
+    public static String NO_BOOKS_FOUND = "org.books.presentation.bean.catalog.catalogbean.NO_BOOKS_FOUND";
+
     @Inject
     private Bookstore bookstore;
 
+    //ISBN of the selected book
     private String isbn;
-
+    //Book to show on the detail page
     private Book selectedBook;
-
+    //Results of the search
     private List<BookInfo> booksInfoList;
 
     private String searchString;
 
+    /**
+     * Use this method to load a book (before rendering the details page)
+     */
     public void loadSelectedBook() {
         try {
             this.selectedBook = bookstore.findBook(isbn);
         } catch (BookstoreException e) {
             this.selectedBook = null;
-            MessageFactory.info("noBooksFound");
+            MessageFactory.info(NO_BOOKS_FOUND);
         }
     }
 
+    /**
+     * Find the books for the searchString
+     *
+     * @return null (No navigation)
+     */
     public String findBooks() {
         this.booksInfoList = bookstore.searchBooks(searchString);
 
@@ -50,12 +61,18 @@ public class CatalogBean implements Serializable {
         }
         //Send a message if the list is empty
         if (booksInfoList.isEmpty()) {
-            MessageFactory.info("noBooksFound");
+            MessageFactory.info(NO_BOOKS_FOUND);
         }
         return null;
     }
 
-    public String setDetail(BookInfo b) {
+    /**
+     * Go on the detail page for the BookInfo b
+     *
+     * @param b
+     * @return
+     */
+    public String goOnPageDetail(BookInfo b) {
         return "/bookDetails?faces-redirect=true&menuId=0&isbn=" + b.getIsbn();
     }
 
@@ -64,7 +81,7 @@ public class CatalogBean implements Serializable {
      * @return true if the selected book isn't the last element of the booklist
      */
     public boolean hasNext() {
-        return indexOfBookInBookInfoList(selectedBook) < booksInfoList.size()-1;
+        return indexOfBookInBookInfoList(selectedBook) < booksInfoList.size() - 1;
     }
 
     /**
@@ -86,13 +103,19 @@ public class CatalogBean implements Serializable {
         int indexBook = booksInfoList.indexOf(bi);
         try {
             bi = booksInfoList.get(indexBook + difference);
-            return setDetail(bi);
+            return goOnPageDetail(bi);
         } catch (IndexOutOfBoundsException e) {
             //Nothing
             return null;
         }
     }
 
+    /**
+     * Find the index of a book in the book list
+     *
+     * @param book
+     * @return -1 if the book isn't in the list
+     */
     private int indexOfBookInBookInfoList(Book book) {
         int indexBook = -1;
         try {

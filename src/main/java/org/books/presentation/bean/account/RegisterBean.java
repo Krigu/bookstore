@@ -3,15 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.books.presentation.bean;
+package org.books.presentation.bean.account;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.books.application.Bookstore;
@@ -26,6 +21,8 @@ import org.books.util.MessageFactory;
 @Named("registerBean")
 @RequestScoped
 public class RegisterBean {
+
+    public static final String EMAIL_NOT_FREE = "org.books.presentation.bean.account.registerbean.EMAIL_NOT_FREE";
 
     @Inject
     private CustomerBean customerBean;
@@ -43,20 +40,10 @@ public class RegisterBean {
     }
 
     /**
-     * If the user is authenticated is redierct on the page account
+     * Add a new customer in the bookstore
+     *
+     * @return redirect on the account page
      */
-    public void checkIfAuthenticated() {
-        //Redirect if the user is allready authenticated
-        if (customerBean.isAuthenticated()) {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            try {
-                ec.redirect(ec.getRequestContextPath() + "/user/account.xhtml?faces-redirect=true&menuId=3");
-            } catch (IOException ex) {
-                //Nothing
-            }
-        }
-    }
-
     public String register() {
         try {
             bookstore.registerCustomer(customer, password);
@@ -65,7 +52,7 @@ public class RegisterBean {
             return customerBean.getLoginTarget();
         } catch (BookstoreException ex) {
             //An account exist with this email
-            MessageFactory.info("emailNotFree");
+            MessageFactory.info(EMAIL_NOT_FREE);
             return null;
         }
     }

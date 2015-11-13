@@ -9,7 +9,7 @@
     <ui:define name="content">
         <f:metadata>
             <f:event type="preRenderView"
-                     listener="#{registerBean.checkIfAuthenticated}" />
+                     listener="#{customerBean.checkIfAuthenticated}" />
         </f:metadata>
         <comp:customer headerName="#{i18n.registriation}" customer="#{registerBean.customer}"
                        editEmail="true" showPassword="true" editable="true"

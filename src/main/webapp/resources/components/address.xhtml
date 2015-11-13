@@ -29,7 +29,7 @@
                 <!-- Line city -->
                 <p:outputLabel value="#{i18n.city}" for="it_city"/>
                 <p:inputText id="it_city" value="#{cc.attrs.address.city}" required ="true" disabled="#{not cc.attrs.editable}">
-                    <f:validateLength minimum="3" maximum="10" />
+                    <f:validateLength minimum="3" maximum="50" />
                     <f:ajax event="blur" render="msgCity"/>
                 </p:inputText>
                 <p:message id="msgCity" for="it_city" />
