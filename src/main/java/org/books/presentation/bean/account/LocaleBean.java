@@ -1,4 +1,4 @@
-package org.books.presentation.bean;
+package org.books.presentation.bean.account;
 
 
 import javax.annotation.PostConstruct;
@@ -8,11 +8,8 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import org.books.application.Country;
 
 @SessionScoped
@@ -41,7 +38,7 @@ public class LocaleBean implements Serializable {
     /**
      * Sets the  {@code Locale} for a user
      *
-     * @param languageCode - ISO-639 language code
+     * @param language - ISO-639 language code
      */
     public void switchLanguage(String language) {
         locale = new Locale(language);

@@ -37,7 +37,7 @@
                     <h:panelGrid columns="1" styleClass="noBoarderSpacing">
                         <p:outputLabel value="#{cc.attrs.creditCard.type}"/>
                         <p:outputLabel value="#{cc.attrs.creditCard.number}">
-                            <f:converter converterId="org.books.presentation.CreditCardConverter"/>
+                            <f:converter converterId="org.books.presentation.converter.creditcardconverter"/>
                         </p:outputLabel>
                         <h:panelGroup>
                             <p:outputLabel
