@@ -37,7 +37,7 @@ public class OrderBean implements Serializable {
         try {
             this.order = bookstore.placeOrder(email, orderItems);
         } catch (BookstoreException e) {
-            MessageFactory.error(e.getMessage());
+            MessageFactory.error(e.getCode().toString());
 
             return null;
         }

@@ -19,13 +19,13 @@
                     <p:panel header="Bestelldetails">
                         <f:facet name="header">
                             <p:outputLabel value="#{i18n.number} " />
-                            <p:outputLabel value="#{orderBean.order.number}"/>
+                            <p:outputLabel value="#{accountOrderBean.selectedOrder.number}"/>
                             <p:outputLabel value=" - "/>
-                            <p:outputLabel value="#{orderBean.order.date}">
+                            <p:outputLabel value="#{accountOrderBean.selectedOrder.date}">
                                 <f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Zurich"/>
                             </p:outputLabel>
                             <p:outputLabel value=" - "/>
-                            <p:outputLabel value="#{i18n[bs:localizeEnum( orderBean.order.status ) ]}"/>
+                            <p:outputLabel value="#{i18n[bs:localizeEnum( accountOrderBean.selectedOrder.status ) ]}"/>
                         </f:facet>
                         <components:accountOverview locale="#{localeBean}" customer="#{accountOrderBean.selectedOrder.customer}" creditCard="#{accountOrderBean.selectedOrder.creditCard}" address="#{accountOrderBean.selectedOrder.address}" />
                         <p:dataTable id="dt_shoppingcart" value="#{accountOrderBean.selectedOrder.items}" var="item" editable="true" emptyMessage="#{i18n.emptySoppingCart}">
