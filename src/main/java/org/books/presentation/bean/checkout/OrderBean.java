@@ -1,4 +1,4 @@
-package org.books.presentation.bean;
+package org.books.presentation.bean.checkout;
 
 
 import org.books.application.Bookstore;
