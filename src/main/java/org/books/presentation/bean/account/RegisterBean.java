@@ -49,7 +49,7 @@ public class RegisterBean {
             bookstore.registerCustomer(customer, password);
             customerBean.setCustomer(customer);
             customerBean.setAuthenticated(true);
-            return customerBean.getLoginTarget();
+            return customerBean.goOnPageOfNavigationTarget();
         } catch (BookstoreException ex) {
             //An account exist with this email
             MessageFactory.info(EMAIL_NOT_FREE);

@@ -17,7 +17,7 @@
                 <!-- My account -->
                 <comp:customer headerName="#{i18n.myAccount}" customer="#{customerBean.customer}"
                     editEmail="false" showPassword="false" editable="false"
-                    name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetails}"
+                    name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetailsFromAccount}"
                     name_bt2="#{i18n.changePassword}" menuId_bt2="3" action_bt2="#{customerBean.goOnPageChangePassword}"
                     name_bt3="#{i18n.logout}" menuId_bt3="3" action_bt3="#{customerBean.logout}"
                     />
@@ -32,7 +32,7 @@
                         <p:inputText value="#{accountOrderBean.selectedYear}" converter="javax.faces.Integer"/>
                         <p:commandButton update="order_history_form" action="#{accountOrderBean.displayOrderHistory(customerBean.customer.email)}" value="#{i18n.search}" icon="ui-icon-search"/>
                         <br/>
-                        <p:dataTable id="dt_booklist" value="#{accountOrderBean.completedOrders}" var="order" rendered="#{not empty accountOrderBean.completedOrders}">
+                        <p:dataTable id="dt_booklist" value="#{accountOrderBean.completedOrders}" var="order" rendered="#{not empty accountOrderBean.completedOrders}" emptyMessage="">
                             <p:column>
                                 <!-- column header -->
                                 <f:facet name="header"><h:outputText value="#{i18n.number}"/></f:facet>
@@ -72,8 +72,8 @@
                 </h:form>
 
                 <p:confirmDialog global="true">
-                    <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="#{i18n.gl_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="#{i18n.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="#{i18n.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
 
             </div>

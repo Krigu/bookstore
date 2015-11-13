@@ -21,24 +21,23 @@ import org.books.util.MessageFactory;
 @SessionScoped
 @Named("customerBean")
 public class CustomerBean implements Serializable {
-    
-    public static final String LOGIN_FAIL ="org.books.presentation.bean.account.customerbean.LOGIN_FAIL";
-    public static final String UPDATE_PROFIL_SUCCESSFUL ="org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_SUCCESSFUL";
-    public static final String UPDATE_PROFIL_FAIL ="org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_FAIL";
-    
+
+    public static final String LOGIN_FAIL = "org.books.presentation.bean.account.customerbean.LOGIN_FAIL";
+    public static final String UPDATE_PROFIL_SUCCESSFUL = "org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_SUCCESSFUL";
+    public static final String UPDATE_PROFIL_FAIL = "org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_FAIL";
+
     private String email;
     private String password;
     private boolean authenticated = false;
-    private String loginTarget;
-    private String detailsTarget;
+    private String navigationTarget;
     @Inject
     private Bookstore bookstore;
     private Customer customer;
     @Inject
     private LocaleBean localeBean;
     private String countryDisplayName;
-    
-       /**
+
+    /**
      * If the user is authenticated is redierct on the page account
      */
     public void checkIfAuthenticated() {
@@ -55,6 +54,7 @@ public class CustomerBean implements Serializable {
 
     /**
      * Use this method to authentificated an user
+     *
      * @return the target navigation
      */
     public String login() {
@@ -62,7 +62,7 @@ public class CustomerBean implements Serializable {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
             authenticated = true;
-            return getLoginTarget();
+            return goOnPageOfNavigationTarget();
         } catch (BookstoreException ex) {
             //user doesn't exist or the password is wrong
             authenticated = false;
@@ -70,17 +70,21 @@ public class CustomerBean implements Serializable {
             return null;
         }
     }
+
     /**
      * Use this methode to logout
-     * @return 
+     *
+     * @return
      */
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/catalogSearch?faces-redirect=true&menuId=0";
     }
+
     /**
      * Use this method to update the information of the customer
-     * @return 
+     *
+     * @return
      */
     public String updateCustomer() {
         try {
@@ -90,76 +94,70 @@ public class CustomerBean implements Serializable {
             Logger.getLogger(CustomerBean.class.getName()).log(Level.SEVERE, null, ex);
             MessageFactory.error(UPDATE_PROFIL_FAIL);
         }
-        return detailsTarget;
+        return navigationTarget;
     }
 
-    public String editCustomerDetailsFromAccount() {
-        detailsTarget = "/user/account?faces-redirect=true&menuId=3";
+    public String goOnPageCustomerDetailsFromAccount() {
+        navigationTarget = "/user/account?faces-redirect=true&menuId=3";
         return "customerDetails?faces-redirect=true&menuId=3";
     }
 
-    public String editCustomerDetailsFromCheckout() {
-        detailsTarget = "/user/orderSummary?faces-redirect=true&menuId=2";
+    public String goOnPageCustomerDetailsFromCheckout() {
+        navigationTarget = "/user/orderSummary?faces-redirect=true&menuId=2";
         return "customerDetails?faces-redirect=true&menuId=3";
     }
 
-    public String goOnPageCustomerDetails(){
-        return "/user/customerDetails?faces-redirect=true&menuId=3";
-    }
-
-    public String goOnPageChangePassword(){
+    public String goOnPageChangePassword() {
+        navigationTarget = "/user/account?faces-redirect=true&menuId=3";
         return "/user/changePassword?faces-redirect=true&menuId=3";
     }
-    
+
+    public String goOnPageOfNavigationTarget() {
+        if (navigationTarget == null || navigationTarget.isEmpty()) {
+            navigationTarget = "user/account?faces-redirect=true&menuId=3";
+        }
+        return navigationTarget;
+    }
+
     public String getEmail() {
         return email;
     }
-    
+
     public String getPassword() {
         return password;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    
+
     public Customer getCustomer() {
         return customer;
     }
-    
+
     public boolean isAuthenticated() {
         return authenticated;
     }
-    
-    public void setLoginTarget(String loginTarget) {
-        this.loginTarget = loginTarget;
-    }
-    
+
     public String getCountryDisplayName() {
         countryDisplayName = localeBean.getCountryDisplayName(customer.getAddress().getCountry());
         return countryDisplayName;
     }
-    
+
     public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
     }
-    
-    public String getLoginTarget() {
-        if (loginTarget == null || loginTarget.isEmpty()) {
-            loginTarget = "user/account?faces-redirect=true&menuId=3";
-        }
-        return loginTarget;
+
+    public void setNavigationTarget(String navigationTarget) {
+        this.navigationTarget = navigationTarget;
     }
-    
-    public String getDetailsTarget() {
-        return detailsTarget;
-    }
+
 }
