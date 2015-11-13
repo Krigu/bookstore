@@ -34,7 +34,7 @@
                 <p:column>
                     <!-- column header -->
                     <f:facet name="header"><h:outputText value="#{i18n.book}"/></f:facet>
-                    <!-- row record #{catalogBean.setDetail(book)} -->
+                    <!-- row record #{catalogBean.goOnPageDetail(book)} -->
                     <p:link outcome="/bookDetails" value="#{book.title}">
                         <f:param name="isbn" value="#{book.isbn}"/>
                         <f:param name="menuId" value="0"/>
