@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="shoppingCart" required="true"/>
+        <cc:attribute name="editable" default="false"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="dt_shoppingcartForm">
+            <p:growl id="shoppingCartFrmGrowl" showDetail="false"/>
+
+            <p:remoteCommand name="refreshTotalAmout" update="@form:dt_shoppingcart:ot_totalAmount" />
+            <!--  Shopping Cart -->
+            <p:dataTable id="dt_shoppingcart" value="#{cc.attrs.shoppingCart.items}" var="item" editable="#{cc.attrs.editable}" emptyMessage="#{i18n.emptyShoppingCart}">
+
+                <p:ajax event="rowEdit" listener="#{shoppingCartBean.onRowEdit}" update="@form:shoppingCartFrmGrowl" oncomplete="refreshTotalAmout()"/>
+
+                <p:column headerText="#{i18n.title}">
+                    <p:outputLabel value="#{item.book.title}"/>
+
+                </p:column>
+
+                <p:column headerText="#{i18n.quantity}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{item.quantity}" /></f:facet>
+                        <f:facet name="input">
+                            <p:inputText id ="quantity" value="#{item.quantity}" required="true">
+                                <f:validateLongRange minimum="1" maximum="100" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{i18n.price}">
+                    <p:outputLabel value="#{item.book.price}"/>
+                </p:column>
+
+                <p:column headerText="#{i18n.total}">
+                    <p:outputLabel id="ol_itemTotalAmount" value="#{item.book.price * item.quantity}"/>
+                </p:column>
+                <p:column style="width:32px" rendered="#{cc.attrs.editable}">
+                    <p:rowEditor />
+                </p:column>
+                <!-- Button remove-->
+                <p:column width="32" rendered="#{cc.attrs.editable}">
+                    <p:commandButton icon="ui-icon-trash"
+                                     styleClass="btn btn-primary" 
+                                     action="#{shoppingCartBean.removeFromShoppingCart(item)}"
+                                     update="@form">
+                        <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                </p:column>
+
+                <!-- Summary : total amount -->
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="3" style="text-align:right" footerText="#{i18n.totalAmount}" />
+                        <p:column >
+                            <f:facet name="footer">
+                                <h:outputText id="ot_totalAmount" value="#{shoppingCartBean.shoppingCart.totalAmount}"/>
+                            </f:facet>
+                        </p:column>
+
+                    </p:row>
+                </p:columnGroup>
+            </p:dataTable>
+
+            <p:confirmDialog global="true">
+                <p:commandButton value="#{i18n.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="#{i18n.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+    </cc:implementation>
+</html>

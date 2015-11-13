@@ -17,37 +17,15 @@
             <!-- Account information-->
             <comp:customer headerName="#{i18n.myAccount}" customer="#{customerBean.customer}"
                            editEmail="false" showPassword="false" editable="false"
-                           name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetails}"
+                           name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetailsFromCheckout}"
                            />
 
             <p:spacer height="20px"/>
+            <!-- Shopping cart summary -->
+            <comp:shoppingcartDataTable shoppingCart="#{shoppingCartBean.shoppingCart}" editable="false"/>
+
 
             <h:form id="dt_orderSummary">
-                <!-- Shopping Cart -->
-                <p:dataTable id="dt_shoppingcart" value="#{shoppingCartBean.shoppingCart.items}" var="item" rendered="true" styleClass="order-table">
-                    <p:column>
-                        <f:facet name="header">#{i18n.title}</f:facet>
-                        <p:outputLabel value="#{item.book.title}"/>
-                        <f:facet name="footer">
-                            <h:outputText value="#{i18n.totalAmount}" />
-                        </f:facet>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">#{i18n.quantity}</f:facet>
-                        <p:inputText id ="quantity" value="#{item.quantity}" required="true" size="4" />
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">#{i18n.price}</f:facet>
-                        <p:outputLabel value="#{item.book.price}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">#{i18n.total}</f:facet>
-                        <p:outputLabel value="#{item.quantity}"/>
-                        <f:facet name="footer">
-                            <h:outputText value="#{shoppingCartBean.shoppingCart.totalAmount}" />
-                        </f:facet>
-                    </p:column>
-                </p:dataTable>
 
                 <p:commandButton value="#{i18n.bestellen}"
                                  styleClass="btn btn-primary"

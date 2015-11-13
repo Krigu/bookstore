@@ -16,7 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.books.presentation.bean.CustomerBean;
+import org.books.presentation.bean.account.CustomerBean;
 
 /**
  *
@@ -46,7 +46,7 @@ public class LoginFilter implements Filter {
             String menuId = httpServletRequest.getParameter("menuId");
 
             //Set the target for the login
-            cb.setLoginTarget(httpServletRequest.getRequestURI().substring(contextPath.length())+"?faces-redirect=true&menuId="+menuId);
+            cb.setNavigationTarget(httpServletRequest.getRequestURI().substring(contextPath.length())+"?faces-redirect=true&menuId="+menuId);
             //Redirect to the login page
             httpServletResponse.sendRedirect(contextPath + "/login.xhtml?menuId="+menuId);
         } else {
