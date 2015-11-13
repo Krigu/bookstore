@@ -31,7 +31,11 @@ public class ChangePasswordBean implements Serializable {
     @Inject
     private Bookstore bookstore;
 
-    public void updatePassword() {
+    /**
+     * Use this methode to update the password
+     * @return null - No navigation
+     */
+    public String updatePassword() {
         try {
             bookstore.changePassword(customerBean.getCustomer().getEmail(), newPassword);
             MessageFactory.info(PASSWORD_CHANGED_SUCCESSFUL);
@@ -39,6 +43,7 @@ public class ChangePasswordBean implements Serializable {
             //Nothing
             MessageFactory.info(PASSWORD_NOT_CHANGED);
         }
+        return null;
     }
 
     public void setNewPassword(String newPassword) {

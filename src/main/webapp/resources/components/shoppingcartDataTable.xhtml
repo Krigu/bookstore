@@ -20,7 +20,7 @@
 
             <p:remoteCommand name="refreshTotalAmout" update="@form:dt_shoppingcart:ot_totalAmount" />
             <!--  Shopping Cart -->
-            <p:dataTable id="dt_shoppingcart" value="#{cc.attrs.shoppingCart.items}" var="item" editable="#{cc.attrs.editable}" emptyMessage="#{i18n.emptySoppingCart}">
+            <p:dataTable id="dt_shoppingcart" value="#{cc.attrs.shoppingCart.items}" var="item" editable="#{cc.attrs.editable}" emptyMessage="#{i18n.emptyShoppingCart}">
 
                 <p:ajax event="rowEdit" listener="#{shoppingCartBean.onRowEdit}" update="@form:shoppingCartFrmGrowl" oncomplete="refreshTotalAmout()"/>
 
