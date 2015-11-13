@@ -25,7 +25,7 @@
                 <!-- Line card number -->
                 <p:outputLabel value="#{i18n.creditCardNumber}" for="cardNumber"/>
                 <p:inputText id="cardNumber" value="#{cc.attrs.creditCard.number}" required="true" size="20" disabled="#{not cc.attrs.editable}">
-                    <f:converter converterId="org.books.presentation.CreditCardConverter"/>
+                    <f:converter converterId="org.books.presentation.converter.creditcardconverter"/>
                     <bs:validateCardNumber cardTypeId="cardType"/>
                 </p:inputText>
                 <p:message id="msgCardNumber" for="cardNumber"/>

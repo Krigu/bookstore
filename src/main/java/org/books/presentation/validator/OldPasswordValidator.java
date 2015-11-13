@@ -14,15 +14,18 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
-import org.books.presentation.bean.CustomerBean;
+import org.books.presentation.bean.account.CustomerBean;
 import org.books.util.MessageFactory;
 
 /**
  *
  * @author tjd
  */
-@FacesValidator("org.books.presentation.validator.oldPasswordValidator")
+@FacesValidator(OldPasswordValidator.VALIDATOR_ID)
 public class OldPasswordValidator implements Validator {
+
+    public static final String VALIDATOR_ID = "org.books.presentation.validator.oldpasswordvalidator";
+    public static final String WRONG_OLD_PASSWORD = "org.books.presentation.validator.oldpasswordvalidator.WRONG_OLD_PASSWORD";
 
     @Inject
     private CustomerBean customerBean;
@@ -31,15 +34,12 @@ public class OldPasswordValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        System.out.println("org.books.presentation.ChangePasswordBean.checkOldPassword()");
         try {
             bookstore.authenticateCustomer(customerBean.getCustomer().getEmail(), (String) value);
         } catch (BookstoreException ex) {
-            FacesMessage facesMessage = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, "wrongOldPassword");
-            System.out.println("org.books.presentation.ChangePasswordBean.checkOldPassword() FAILDE");
+            FacesMessage facesMessage = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, WRONG_OLD_PASSWORD);
             throw new ValidatorException(facesMessage);
         }
-        System.out.println("org.books.presentation.ChangePasswordBean.checkOldPassword() Success");
     }
 
 }

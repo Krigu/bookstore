@@ -9,9 +9,9 @@
     <ui:define name="content">
         <f:metadata>
             <f:event type="preRenderView"
-                     listener="#{registerBean.checkIfAuthenticated}" />
+                     listener="#{customerBean.checkIfAuthenticated}" />
         </f:metadata>
-        <comp:customer headerName="#{i18n.registriation}" customer="#{registerBean.customer}"
+        <comp:customer headerName="#{i18n.registriation}" customer="#{registerBean.customer}" password="#{registerBean.password}"
                        editEmail="true" showPassword="true" editable="true"
                        name_bt1="#{i18n.createAccount}" menuId_bt1="3" action_bt1="#{registerBean.register}"
                        />

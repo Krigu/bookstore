@@ -1,4 +1,4 @@
-package org.books.presentation.bean;
+package org.books.presentation.bean.util;
 
 import java.io.Serializable;
 import java.util.ArrayList;
