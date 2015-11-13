@@ -40,7 +40,7 @@ public class AccountOrderBean implements Serializable {
             this.completedOrders = bookstore.searchOrders(email, selectedYear);
         } catch (BookstoreException e) {
             // TODO
-            MessageFactory.error(e.getMessage());
+            MessageFactory.error(e.getCode().toString());
         }
     }
 
@@ -57,7 +57,7 @@ public class AccountOrderBean implements Serializable {
             bookstore.cancelOrder(number);
             displayOrderHistory(email);
         } catch (BookstoreException e) {
-            MessageFactory.error(e.getMessage());
+            MessageFactory.error(e.getCode().toString());
         }
 
         return null;
