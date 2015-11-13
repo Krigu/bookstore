@@ -12,7 +12,6 @@ import javax.inject.Named;
 import org.books.application.Bookstore;
 import org.books.util.MessageFactory;
 import org.books.application.BookstoreException;
-import org.books.presentation.bean.CustomerBean;
 
 /**
  *

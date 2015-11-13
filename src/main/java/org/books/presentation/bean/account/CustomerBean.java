@@ -1,4 +1,4 @@
-package org.books.presentation.bean;
+package org.books.presentation.bean.account;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -11,8 +11,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
-import org.books.data.entity.CreditCard.Type;
 import org.books.data.entity.Customer;
+import org.books.presentation.bean.LocaleBean;
 import org.books.util.MessageFactory;
 
 /**
@@ -22,6 +22,10 @@ import org.books.util.MessageFactory;
 @SessionScoped
 @Named("customerBean")
 public class CustomerBean implements Serializable {
+    
+    public static final String LOGIN_FAIL ="org.books.presentation.bean.account.customerbean.LOGIN_FAIL";
+    public static final String UPDATE_PROFIL_SUCCESSFUL ="org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_SUCCESSFUL";
+    public static final String UPDATE_PROFIL_FAIL ="org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_FAIL";
     
     private String email;
     private String password;
@@ -34,7 +38,6 @@ public class CustomerBean implements Serializable {
     @Inject
     private LocaleBean localeBean;
     private String countryDisplayName;
-    private final String defaultCountry = "CH";
     
        /**
      * If the user is authenticated is redierct on the page account
@@ -51,6 +54,10 @@ public class CustomerBean implements Serializable {
         }
     }
 
+    /**
+     * Use this method to authentificated an user
+     * @return the target navigation
+     */
     public String login() {
         try {
             bookstore.authenticateCustomer(email, password);
@@ -60,23 +67,29 @@ public class CustomerBean implements Serializable {
         } catch (BookstoreException ex) {
             //user doesn't exist or the password is wrong
             authenticated = false;
-            MessageFactory.error("authenticationFailed");
+            MessageFactory.error(LOGIN_FAIL);
             return null;
         }
     }
-    
+    /**
+     * Use this methode to logout
+     * @return 
+     */
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/login?faces-redirect=true&menuId=3";
+        return "/catalogSearch?faces-redirect=true&menuId=0";
     }
-    
+    /**
+     * Use this method to update the information of the customer
+     * @return 
+     */
     public String updateCustomer() {
         try {
             bookstore.updateCustomer(customer);
-            MessageFactory.info("profileUpdatedSuccessful");
+            MessageFactory.info(UPDATE_PROFIL_SUCCESSFUL);
         } catch (BookstoreException ex) {
             Logger.getLogger(CustomerBean.class.getName()).log(Level.SEVERE, null, ex);
-            MessageFactory.error("profileNotUpdatede");
+            MessageFactory.error(UPDATE_PROFIL_FAIL);
         }
         return detailsTarget;
     }
@@ -97,10 +110,6 @@ public class CustomerBean implements Serializable {
 
     public String goOnPageChangePassword(){
         return "/user/changePassword?faces-redirect=true&menuId=3";
-    }
-
-    public Type[] getCreditCardTypes() {
-        return Type.values();
     }
     
     public String getEmail() {
@@ -133,10 +142,6 @@ public class CustomerBean implements Serializable {
     
     public void setLoginTarget(String loginTarget) {
         this.loginTarget = loginTarget;
-    }
-    
-    public String createCustomer() {
-        return "account";
     }
     
     public String getCountryDisplayName() {
