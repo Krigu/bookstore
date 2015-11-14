@@ -17,7 +17,6 @@ import org.books.application.BookstoreException;
  *
  * @author tjd
  */
-//@SessionScoped
 @RequestScoped
 @Named("changePasswordBean")
 public class ChangePasswordBean implements Serializable {
