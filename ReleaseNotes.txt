@@ -8,6 +8,8 @@ Allgemein
 - Verwendung aller im Unterricht vorkommenden Themen (Validatoren, Composite, Ajax, etc)
 - Globale ErrorPage für unerwartete Exceptions oder 404
 - WebFilter für den Zugriff auf "userspezifische" Seiten
+- Sourcen-Verwaltung via GitHub (https://github.com/Krigu/bookstore)
+- Continous-: Automatische Überprüfung ob der Sourcecode kompilierbar ist via Travis-CI (https://travis-ci.org/Krigu/bookstore)
 
 Suche
 - Suche nach Büchern mittels Schlüsselwörtern (Titel, ISBN, ...) und Anzeige der Ergenisse in einer Liste
