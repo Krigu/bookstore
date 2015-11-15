@@ -16,11 +16,11 @@
             <div class="ui-grid-row">
                 <!-- My account -->
                 <comp:customer headerName="#{i18n.myAccount}" customer="#{customerBean.customer}"
-                    editEmail="false" showPassword="false" editable="false"
-                    name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetails}"
-                    name_bt2="#{i18n.changePassword}" menuId_bt2="3" action_bt2="#{customerBean.goOnPageChangePassword}"
-                    name_bt3="#{i18n.logout}" menuId_bt3="3" action_bt3="#{customerBean.logout}"
-                    />
+                               editEmail="false" showPassword="false" editable="false"
+                               name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetails}"
+                               name_bt2="#{i18n.changePassword}" menuId_bt2="3" action_bt2="#{customerBean.goOnPageChangePassword}"
+                               name_bt3="#{i18n.logout}" menuId_bt3="3" action_bt3="#{customerBean.logout}"
+                               />
             </div>
             <div class="ui-grid-row">
                 <p:spacer height="20"/>    
@@ -28,54 +28,60 @@
             <div class="ui-grid-row">
                 <h:form id="order_history_form">
                     <p:panel header="#{i18n.orderConfirmation}">
-                        <p:outputLabel value="#{i18n.orders}"/>
-                        <p:inputText value="#{accountOrderBean.selectedYear}" converter="javax.faces.Integer"/>
-                        <p:commandButton update="order_history_form" action="#{accountOrderBean.displayOrderHistory(customerBean.customer.email)}" value="#{i18n.search}" icon="ui-icon-search"/>
-                        <br/>
-                        <p:dataTable id="dt_booklist" value="#{accountOrderBean.completedOrders}" var="order" rendered="#{not empty accountOrderBean.completedOrders}">
-                            <p:column>
-                                <!-- column header -->
-                                <f:facet name="header"><h:outputText value="#{i18n.number}"/></f:facet>
-                                <p:commandLink value="#{order.number}" action="#{accountOrderBean.showOrderDetails(order)}">
-                                    <f:param name="menuId" value="3"/>
-                                </p:commandLink>
-                            </p:column>
-                            <p:column>
-                                <!-- column header -->
-                                <f:facet name="header"><h:outputText value="#{i18n.date}"/></f:facet>
-                                <h:outputText value="#{order.date}">
-                                    <f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Zurich"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column>
-                                <!-- column header -->
-                                <f:facet name="header"><h:outputText value="#{i18n.totalAmount}"/></f:facet>
-                                <h:outputText value="#{order.amount}"/>
-                            </p:column>
-                            <p:column>
-                                <!-- column header -->
-                                <f:facet name="header"><h:outputText value="#{i18n.status}"/></f:facet>
-                                <p:outputLabel value="#{i18n[bs:localizeEnum( order.status ) ]}"/>
+                        <h:panelGrid columns="1">
+                            <h:panelGroup>
+                                <p:outputLabel value="#{i18n.orders}"/>
+                                <p:spacer height="3px"/>
+                                <p:inputText value="#{accountOrderBean.selectedYear}" converter="javax.faces.Integer"/>
+                                <p:spacer height="3px"/>
+                                <p:commandButton update="order_history_form" action="#{accountOrderBean.displayOrderHistory}" value="#{i18n.search}" icon="ui-icon-search"/>
+                            </h:panelGroup>
+                            <p:spacer width="10px"/>
+                            <p:growl id="growl_order"/>
+                            <p:dataTable id="dt_booklist" value="#{accountOrderBean.completedOrders}" var="order" rendered="#{not empty accountOrderBean.completedOrders}">
+                                <p:column>
+                                    <!-- column header -->
+                                    <f:facet name="header"><h:outputText value="#{i18n.number}"/></f:facet>
+                                    <p:commandLink value="#{order.number}" action="#{accountOrderBean.showOrderDetails(order)}">
+                                        <f:param name="menuId" value="3"/>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column>
+                                    <!-- column header -->
+                                    <f:facet name="header"><h:outputText value="#{i18n.date}"/></f:facet>
+                                    <h:outputText value="#{order.date}">
+                                        <f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Zurich"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <!-- column header -->
+                                    <f:facet name="header"><h:outputText value="#{i18n.totalAmount}"/></f:facet>
+                                    <h:outputText value="#{order.amount}"/>
+                                </p:column>
+                                <p:column>
+                                    <!-- column header -->
+                                    <f:facet name="header"><h:outputText value="#{i18n.status}"/></f:facet>
+                                    <p:outputLabel value="#{i18n[bs:localizeEnum( order.status ) ]}"/>
+                                </p:column>
+                                <!-- Button remove-->
+                                <p:column width="32">
 
-                                <p:commandButton
-                                                 styleClass="btn btn-primary rightAligned"
-                                                 value="#{i18n.cancelOrder}"
-                                                 action="#{accountOrderBean.cancelOrder(order.number, customerBean.customer.email)}"
-                                                 rendered="#{order.status == 'processing'}"
-                                                 ajax="true"
-                                                 update="dt_booklist">
-                                    <p:confirm header="#{i18n.cancelOrder}" message="#{i18n.confirmCancelOrder}" icon="ui-icon-alert" />
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
+                                    <p:commandButton icon="ui-icon-trash"
+                                                     action="#{accountOrderBean.cancelOrder(order.number)}"
+                                                     rendered="#{order.status == 'processing'}"
+                                                     ajax="true"
+                                                     update="dt_booklist">
+                                        <p:confirm header="#{i18n.cancelOrder}" message="#{i18n.confirmCancelOrder}" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
                     </p:panel>
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="#{i18n.gl_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
                 </h:form>
-
-                <p:confirmDialog global="true">
-                    <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="#{i18n.gl_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
-
             </div>
         </div>
     </ui:define>
