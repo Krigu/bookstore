@@ -1,0 +1,56 @@
+Release-Notes Bookstore
+
+Allgemein
+- Der Bookstore ist in den Sprachen Deutsch, Englisch und Französisch verfügbar
+    - Die Sprache lässt sich beliebig über ein Menu ändern
+- Als Komponentenbibliothek wurde Primefaces verwendet
+- Growl Komponente zum Anzeigen von globalen Nachrichten (z.B. Artikel zum Warenkorb hinzugefügt)
+- Verwendung aller im Unterricht vorkommenden Themen (Validatoren, Composite, Ajax, etc)
+- Globale ErrorPage für unerwartete Exceptions oder 404
+- WebFilter für den Zugriff auf "userspezifische" Seiten
+
+Suche
+- Suche nach Büchern mittels Schlüsselwörtern (Titel, ISBN, ...) und Anzeige der Ergenisse in einer Liste
+- Auswählen einzelner Bücher in den Warenkorb, bei Mehrfachauswahl wird die Menge erhöht
+- Löschen ausgewählter Bücher aus dem Warenkorb
+
+Buchdetail
+- Anzeigen der Buchdetails
+- Darstellen des Buchcovers
+- URL ist bookmarkable via der ISBN Nummer
+
+Warenkorb
+- Anzeigen der Bücher im Warenkorb mit Angabe von Titel, Menge, Preis und Gesamtpreis in einer Liste
+- Möglichkeit zum Ändern der Mengenangabe
+- Möglichkeit zum Löschen eines Buches aus dem Warenkorb (mit Nachfrage ob das Buch wirklich gelöscht werden soll)
+- Bei einer Anpassung der Menge wird automatisch der Preis neu berechnet
+
+Registriereung
+- Die E-Mail-Adresse muss dem E-Mail-Format entsprechen
+- Per Ajax-Request wird automatisch überprüft ob die E-Mail-Adresse noch frei ist
+- Das Kennwort muss mindestens 6 Zeichen lang sein
+- Kreditkartennummer wird abhängig vom Kreditkartentyp auf ihre Gültigkeit überprüft
+    - Gültige Testkreditkarten sind
+      - MasterCard: 5111005111051128
+      - Visa: 4012888888881881
+
+Login
+- Die E-Mail-Adresse muss dem E-Mail-Format entsprechen
+- Ein Kennwort muss angegegeben werden
+
+Kasse
+- Ein Login bzw. Registrierung wird benötigt, falls der Benutzer nicht authentifiziert ist
+- Anzeige der Kontodetails und des aktuellen Warenkorbes
+- Button zum Ändern der Kontodetails
+- Bestätigung der Bestellung
+- Anzeige einer Bestellbestätigung mit Bestellnummer, -datum, -betrag und -status
+
+Konto
+- Ein Login bzw. Registrierung wird benötigt, falls der Benutzer nicht authentifiziert ist
+- Anzeige der Kontodetails und einer Liste der Bestellhistorie
+- Suche nach Bestellungen anhand der Jahreszahl
+- Anzeige der Bestelldetails mit Kontodetails zum Zeitpunkt der Bestellung und Liste der bestellten Artikel
+- Möglichkeit zum Stornieren einer Bestellung
+- Möglichkeit zum Bearbeiten der Kontodetails
+- Möglichkeit zum Ändern des Kennworts
+- Beim Ändern des Kennworts wird das aktuelle Kennwort nochmals abgefragt

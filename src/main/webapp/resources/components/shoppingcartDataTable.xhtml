@@ -4,7 +4,6 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
     <!-- INTERFACE -->
@@ -37,7 +36,7 @@
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{item.quantity}" /></f:facet>
                         <f:facet name="input">
-                            <p:spinner id ="quantity" value="#{item.quantity}" required="true" min="1" max="100"/>
+                            <p:spinner id ="quantity" value="#{item.quantity}" required="true" min="0" max="100"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
@@ -77,8 +76,8 @@
             </p:dataTable>
 
             <p:confirmDialog global="true">
-                <p:commandButton value="#{i18n.gl_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="#{i18n.gl_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                <p:commandButton value="#{i18n.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="#{i18n.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
 
         </h:form>

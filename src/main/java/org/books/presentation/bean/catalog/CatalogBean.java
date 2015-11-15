@@ -4,11 +4,14 @@ import org.books.application.*;
 import org.books.data.dto.BookInfo;
 import org.books.data.entity.Book;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
 import org.books.util.MessageFactory;
 
 @SessionScoped
@@ -28,6 +31,11 @@ public class CatalogBean implements Serializable {
     private List<BookInfo> booksInfoList;
 
     private String searchString;
+
+    @PostConstruct
+    public void init(){
+        booksInfoList = new ArrayList<>();
+    }
 
     /**
      * Use this method to load a book (before rendering the details page)
@@ -77,15 +85,14 @@ public class CatalogBean implements Serializable {
     }
 
     /**
-     *
      * @return true if the selected book isn't the last element of the booklist
      */
     public boolean hasNext() {
+
         return indexOfBookInBookInfoList(selectedBook) < booksInfoList.size() - 1;
     }
 
     /**
-     *
      * @return true if the selected book isn't the first element of the booklist
      */
     public boolean hasPrevious() {
@@ -93,9 +100,8 @@ public class CatalogBean implements Serializable {
     }
 
     /**
-     *
      * @param difference difference of position in the booksInfoList between the
-     * selectedbook and the other book
+     *                   selectedbook and the other book
      * @return go on the bookDetail if we found the other book
      */
     public String navigateOnBookList(int difference) {
@@ -127,7 +133,7 @@ public class CatalogBean implements Serializable {
         return indexBook;
     }
 
-    public Book getselectedBook() {
+    public Book getSelectedBook() {
         return selectedBook;
     }
 

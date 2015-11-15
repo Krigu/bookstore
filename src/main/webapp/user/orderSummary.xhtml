@@ -3,7 +3,6 @@
 <ui:composition template="../templates/template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
@@ -17,7 +16,7 @@
             <!-- Account information-->
             <comp:customer headerName="#{i18n.myAccount}" customer="#{customerBean.customer}"
                            editEmail="false" showPassword="false" editable="false"
-                           name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetails}"
+                           name_bt1="#{i18n.editCustomerDetails}" menuId_bt1="3" action_bt1="#{customerBean.goOnPageCustomerDetailsFromCheckout}"
                            />
 
             <p:spacer height="20px"/>
