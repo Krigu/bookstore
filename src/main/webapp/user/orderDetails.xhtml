@@ -28,7 +28,7 @@
                             <p:outputLabel value="#{i18n[bs:localizeEnum( accountOrderBean.selectedOrder.status ) ]}"/>
                         </f:facet>
                         <components:accountOverview locale="#{localeBean}" customer="#{accountOrderBean.selectedOrder.customer}" creditCard="#{accountOrderBean.selectedOrder.creditCard}" address="#{accountOrderBean.selectedOrder.address}" />
-                        <p:dataTable id="dt_shoppingcart" value="#{accountOrderBean.selectedOrder.items}" var="item" editable="true" emptyMessage="#{i18n.emptySoppingCart}">
+                        <p:dataTable id="dt_shoppingcart" value="#{accountOrderBean.selectedOrder.items}" var="item" editable="true" emptyMessage="#{i18n.emptyShoppingCart}">
 
 
                             <p:column headerText="#{i18n.title}">
