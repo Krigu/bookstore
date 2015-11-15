@@ -127,7 +127,7 @@ public class CatalogBean implements Serializable {
         return indexBook;
     }
 
-    public Book getselectedBook() {
+    public Book getSelectedBook() {
         return selectedBook;
     }
 
