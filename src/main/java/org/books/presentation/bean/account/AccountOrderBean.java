@@ -1,46 +1,50 @@
 package org.books.presentation.bean.account;
 
-
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
-import org.books.application.ShoppingCart;
 import org.books.data.dto.OrderInfo;
 import org.books.util.MessageFactory;
-
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.enterprise.context.SessionScoped;
 import org.books.data.dto.OrderDTO;
 
 @SessionScoped
 @Named("accountOrderBean")
 public class AccountOrderBean implements Serializable {
+    
+    public static final String NO_ORDER_FOUND = "org.books.presentation.bean.account.accountorderbean.NO_ORDER_FOUND";
 
     @Inject
     private Bookstore bookstore;
-
+    
     @Inject
-    private ShoppingCart shoppingCart;
+    private CustomerBean customerBean;
 
     private List<OrderInfo> completedOrders = new ArrayList<>();
 
     private Integer selectedYear;
-    
+
     private OrderDTO selectedOrder;
 
-    public void displayOrderHistory(String email) {
+    public void displayOrderHistory() {
 
-        if (selectedYear == null || email == null)
+        if (selectedYear == null) {
             return;
+        }
 
         try {
-            this.completedOrders = bookstore.searchOrders(email, selectedYear);
+            this.completedOrders = bookstore.searchOrders(customerBean.getCustomer().getEmail(), selectedYear);
         } catch (BookstoreException e) {
             // TODO
             MessageFactory.error(e.getMessage());
+        }
+        
+        if(completedOrders.isEmpty()){
+            MessageFactory.info(NO_ORDER_FOUND);
         }
     }
 
@@ -48,14 +52,13 @@ public class AccountOrderBean implements Serializable {
      * Bricht eine Bestellung ab
      *
      * @param number Bestellnummer
-     * @param email  E-Mail des Account für den refresh
      * @return
      */
-    public String cancelOrder(String number, String email) {
+    public String cancelOrder(String number) {
 
         try {
             bookstore.cancelOrder(number);
-            displayOrderHistory(email);
+            displayOrderHistory();
         } catch (BookstoreException e) {
             MessageFactory.error(e.getMessage());
         }
@@ -82,16 +85,15 @@ public class AccountOrderBean implements Serializable {
     public OrderDTO getSelectedOrder() {
         return selectedOrder;
     }
-    
+
     public String showOrderDetails(OrderInfo order) {
         try {
             selectedOrder = bookstore.findOrder(order.getNumber());
-        }
-        catch (BookstoreException ex) {
+        } catch (BookstoreException ex) {
             return null;
         }
-        
+
         return "orderDetails";
     }
-    
+
 }
