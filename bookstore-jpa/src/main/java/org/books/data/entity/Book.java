@@ -1,11 +1,11 @@
 package org.books.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
+@NamedQueries({
+        @NamedQuery(name = "Book.findByISBN", query = "from Book b where UPPER(b.isbn) = UPPER(:isbn)")
+})
 @Entity
 public class Book extends BaseEntity {
 

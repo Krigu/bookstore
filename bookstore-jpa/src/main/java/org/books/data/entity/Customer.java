@@ -1,9 +1,12 @@
 package org.books.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
+
+@NamedQueries({
+        @NamedQuery(name = "Customer.findByLastNameOrFirstName",
+                query = "from Customer c where UPPER(c.firstName) like UPPER(:firstName) or UPPER(c.lastName) like UPPER(:lastName)")
+})
 @Entity
 public class Customer extends BaseEntity {
 
