@@ -1,62 +1,69 @@
 package org.books.data.entity;
 
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+@Embeddable
 public class CreditCard {
 
-	public enum Type {
+    public enum Type {
 
-		MasterCard, Visa
-	}
-	private Type type;
-	private String number;
-	private Integer expirationMonth;
-	private Integer expirationYear;
+        MasterCard, Visa
+    }
 
-	public CreditCard() {
-	}
+    @Enumerated(EnumType.STRING)
+    private Type type;
+    private String number;
+    private Integer expirationMonth;
+    private Integer expirationYear;
 
-	public CreditCard(Type type, String number, Integer expirationMonth, Integer expirationYear) {
-		this.type = type;
-		this.number = number;
-		this.expirationMonth = expirationMonth;
-		this.expirationYear = expirationYear;
-	}
+    public CreditCard() {
+    }
 
-	public CreditCard(CreditCard other) {
-		this.type = other.type;
-		this.number = other.number;
-		this.expirationMonth = other.expirationMonth;
-		this.expirationYear = other.expirationYear;
-	}
+    public CreditCard(Type type, String number, Integer expirationMonth, Integer expirationYear) {
+        this.type = type;
+        this.number = number;
+        this.expirationMonth = expirationMonth;
+        this.expirationYear = expirationYear;
+    }
 
-	public Type getType() {
-		return type;
-	}
+    public CreditCard(CreditCard other) {
+        this.type = other.type;
+        this.number = other.number;
+        this.expirationMonth = other.expirationMonth;
+        this.expirationYear = other.expirationYear;
+    }
 
-	public void setType(Type type) {
-		this.type = type;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	public String getNumber() {
-		return number;
-	}
+    public void setType(Type type) {
+        this.type = type;
+    }
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
+    public String getNumber() {
+        return number;
+    }
 
-	public Integer getExpirationMonth() {
-		return expirationMonth;
-	}
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-	public void setExpirationMonth(Integer expirationMonth) {
-		this.expirationMonth = expirationMonth;
-	}
+    public Integer getExpirationMonth() {
+        return expirationMonth;
+    }
 
-	public Integer getExpirationYear() {
-		return expirationYear;
-	}
+    public void setExpirationMonth(Integer expirationMonth) {
+        this.expirationMonth = expirationMonth;
+    }
 
-	public void setExpirationYear(Integer expirationYear) {
-		this.expirationYear = expirationYear;
-	}
+    public Integer getExpirationYear() {
+        return expirationYear;
+    }
+
+    public void setExpirationYear(Integer expirationYear) {
+        this.expirationYear = expirationYear;
+    }
 }

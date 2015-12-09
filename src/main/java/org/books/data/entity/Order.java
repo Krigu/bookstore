@@ -1,105 +1,123 @@
 package org.books.data.entity;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Order {
+@Entity
+public class Order extends BaseEntity {
 
-	public enum Status {
+    public enum Status {
 
-		accepted, processing, shipped, canceled
-	}
+        accepted, processing, shipped, canceled
+    }
 
-	private String number;
-	private Date date;
-	private BigDecimal amount;
-	private Status status;
-	private Customer customer;
-	private Address address;
-	private CreditCard creditCard;
-	private List<OrderItem> items;
+    @Column(nullable = false)
+    private String number;
 
-	public Order() {
-	}
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    private Date date;
 
-	public Order(String number, Date date, BigDecimal amount, Status status,
-			Customer customer, Address address, CreditCard creditCard, List<OrderItem> items) {
-		this.number = number;
-		this.date = date;
-		this.amount = amount;
-		this.status = status;
-		this.customer = customer;
-		this.address = address;
-		this.creditCard = creditCard;
-		this.items = items;
-	}
+    @Column(nullable = false)
+    private BigDecimal amount;
 
-	public String getNumber() {
-		return number;
-	}
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
+    @ManyToOne(optional = false)
+    private Customer customer;
 
-	public Date getDate() {
-		return date;
-	}
+    @Embedded
+    private Address address;
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    @Embedded
+    private CreditCard creditCard;
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items;
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
+    public Order() {
+    }
 
-	public Status getStatus() {
-		return status;
-	}
+    public Order(String number, Date date, BigDecimal amount, Status status,
+                 Customer customer, Address address, CreditCard creditCard, List<OrderItem> items) {
+        this.number = number;
+        this.date = date;
+        this.amount = amount;
+        this.status = status;
+        this.customer = customer;
+        this.address = address;
+        this.creditCard = creditCard;
+        this.items = items;
+    }
 
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+    public String getNumber() {
+        return number;
+    }
 
-	public Customer getCustomer() {
-		return customer;
-	}
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-	public CreditCard getCreditCard() {
-		return creditCard;
-	}
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
 
-	public void setCreditCard(CreditCard card) {
-		this.creditCard = card;
-	}
+    public Status getStatus() {
+        return status;
+    }
 
-	public List<OrderItem> getItems() {
-		if (items == null) {
-			items = new ArrayList<>();
-		}
-		return items;
-	}
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
-	public void setItems(List<OrderItem> items) {
-		this.items = items;
-	}
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCard card) {
+        this.creditCard = card;
+    }
+
+    public List<OrderItem> getItems() {
+        if (items == null) {
+            items = new ArrayList<>();
+        }
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
 }

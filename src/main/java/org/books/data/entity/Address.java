@@ -1,5 +1,8 @@
 package org.books.data.entity;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Address {
 
 	private String street;

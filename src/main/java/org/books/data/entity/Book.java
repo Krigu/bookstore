@@ -1,99 +1,108 @@
 package org.books.data.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 
-public class Book {
+@Entity
+public class Book extends BaseEntity {
 
-	public enum Binding {
+    public enum Binding {
 
-		Hardcover, Paperback, Ebook, Unknown
-	}
+        Hardcover, Paperback, Ebook, Unknown
+    }
 
-	private String isbn;
-	private String title;
-	private String authors;
-	private String publisher;
-	private Integer publicationYear;
-	private Binding binding;
-	private Integer numberOfPages;
-	private BigDecimal price;
+    @Column(nullable = false)
+    private String isbn;
+    private String title;
+    private String authors;
+    private String publisher;
+    private Integer publicationYear;
 
-	public Book() {
-	}
+    @Enumerated(EnumType.STRING)
+    private Binding binding;
 
-	public Book(String isbn, String title, String authors, String publisher,
-			Integer publicationYear, Binding binding, Integer numberOfPages, BigDecimal price) {
-		this.isbn = isbn;
-		this.title = title;
-		this.authors = authors;
-		this.publisher = publisher;
-		this.publicationYear = publicationYear;
-		this.binding = binding;
-		this.numberOfPages = numberOfPages;
-		this.price = price;
-	}
+    private Integer numberOfPages;
+    private BigDecimal price;
 
-	public String getIsbn() {
-		return isbn;
-	}
+    public Book() {
+    }
 
-	public void setIsbn(String isbn) {
-		this.isbn = isbn;
-	}
+    public Book(String isbn, String title, String authors, String publisher,
+                Integer publicationYear, Binding binding, Integer numberOfPages, BigDecimal price) {
+        this.isbn = isbn;
+        this.title = title;
+        this.authors = authors;
+        this.publisher = publisher;
+        this.publicationYear = publicationYear;
+        this.binding = binding;
+        this.numberOfPages = numberOfPages;
+        this.price = price;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getIsbn() {
+        return isbn;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
 
-	public String getAuthors() {
-		return authors;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setAuthors(String authors) {
-		this.authors = authors;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getPublisher() {
-		return publisher;
-	}
+    public String getAuthors() {
+        return authors;
+    }
 
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
+    public void setAuthors(String authors) {
+        this.authors = authors;
+    }
 
-	public Integer getPublicationYear() {
-		return publicationYear;
-	}
+    public String getPublisher() {
+        return publisher;
+    }
 
-	public void setPublicationYear(Integer publicationYear) {
-		this.publicationYear = publicationYear;
-	}
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
 
-	public Binding getBinding() {
-		return binding;
-	}
+    public Integer getPublicationYear() {
+        return publicationYear;
+    }
 
-	public void setBinding(Binding binding) {
-		this.binding = binding;
-	}
+    public void setPublicationYear(Integer publicationYear) {
+        this.publicationYear = publicationYear;
+    }
 
-	public Integer getNumberOfPages() {
-		return numberOfPages;
-	}
+    public Binding getBinding() {
+        return binding;
+    }
 
-	public void setNumberOfPages(Integer numberOfPages) {
-		this.numberOfPages = numberOfPages;
-	}
+    public void setBinding(Binding binding) {
+        this.binding = binding;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public Integer getNumberOfPages() {
+        return numberOfPages;
+    }
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    public void setNumberOfPages(Integer numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 }

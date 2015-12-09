@@ -1,67 +1,81 @@
 package org.books.data.entity;
 
-public class Customer {
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
 
-	private String email;
-	private String firstName;
-	private String lastName;
-	private Address address;
-	private CreditCard creditCard;
+@Entity
+public class Customer extends BaseEntity {
 
-	public Customer() {
-	}
+    @Column(nullable = false, unique = true)
+    private String email;
 
-	public Customer(String email, String firstName, String lastName, Address address, CreditCard creditCard) {
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.address = address;
-		this.creditCard = creditCard;
-	}
+    @Column(nullable = false)
+    private String firstName;
 
-	public String getEmail() {
-		return email;
-	}
+    @Column(nullable = false)
+    private String lastName;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @Embedded
+    private Address address;
 
-	public String getFirstName() {
-		return firstName;
-	}
+    @Embedded
+    private CreditCard creditCard;
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public Customer() {
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public Customer(String email, String firstName, String lastName, Address address, CreditCard creditCard) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.creditCard = creditCard;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public Address getAddress() {
-		if (address == null) {
-			address = new Address();
-		}
-		return address;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public CreditCard getCreditCard() {
-		if (creditCard == null) {
-			creditCard = new CreditCard();
-		}
-		return creditCard;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setCreditCard(CreditCard creditCard) {
-		this.creditCard = creditCard;
-	}
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Address getAddress() {
+        if (address == null) {
+            address = new Address();
+        }
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public CreditCard getCreditCard() {
+        if (creditCard == null) {
+            creditCard = new CreditCard();
+        }
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
+    }
 }

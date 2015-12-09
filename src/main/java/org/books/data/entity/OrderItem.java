@@ -1,43 +1,53 @@
 package org.books.data.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
-public class OrderItem {
+@Entity
+public class OrderItem extends BaseEntity {
 
-	private Book book;
-	private BigDecimal price;
-	private Integer quantity;
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
+    private Book book;
 
-	public OrderItem() {
-	}
+    @Column(nullable = false)
+    private BigDecimal price;
 
-	public OrderItem(Book book, BigDecimal price, Integer quantity) {
-		this.book = book;
-		this.price = price;
-		this.quantity = quantity;
-	}
+    @Column(nullable = false)
+    private Integer quantity;
 
-	public Book getBook() {
-		return book;
-	}
+    public OrderItem() {
+    }
 
-	public void setBook(Book book) {
-		this.book = book;
-	}
+    public OrderItem(Book book, BigDecimal price, Integer quantity) {
+        this.book = book;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public Book getBook() {
+        return book;
+    }
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    public void setBook(Book book) {
+        this.book = book;
+    }
 
-	public Integer getQuantity() {
-		return quantity;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }
