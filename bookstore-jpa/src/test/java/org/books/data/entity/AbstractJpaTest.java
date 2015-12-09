@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class AbstractJpaTest {
 
-    protected static final Logger LOGGER = java.util.logging.Logger.getLogger(AbstractJpaTest.class.getName());
+    protected static final Logger LOGGER = Logger.getLogger(AbstractJpaTest.class.getName());
     protected static EntityManagerFactory emf;
     protected static EntityManager em;
 
