@@ -8,12 +8,17 @@
 
     <groupId>ch.bfh.eadj</groupId>
     <artifactId>bookstore</artifactId>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
     <version>0.1-SNAPSHOT</version>
+    <modules>
+        <module>bookstore-jpa</module>
+        <module>bookstore-web</module>
+    </modules>
     <name>bookstore</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <eclipselink.version>2.6.1</eclipselink.version>
     </properties>
 
     <dependencies>
@@ -22,13 +27,6 @@
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- Primefaces -->
-        <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>5.3</version>
         </dependency>
     </dependencies>
 
