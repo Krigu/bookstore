@@ -5,8 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.math.BigDecimal;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name = Book.FINB_BY_ISBN, query = "SELECT b FROM Book b WHERE b.isbn=:isbn")})
 public class Book extends BaseEntity {
 
     public enum Binding {
@@ -14,7 +18,9 @@ public class Book extends BaseEntity {
         Hardcover, Paperback, Ebook, Unknown
     }
 
-    @Column(nullable = false)
+    public static final String FINB_BY_ISBN = "Book.findByISBN";
+
+    @Column(nullable = false, unique = true)
     private String isbn;
     private String title;
     private String authors;
@@ -31,7 +37,7 @@ public class Book extends BaseEntity {
     }
 
     public Book(String isbn, String title, String authors, String publisher,
-                Integer publicationYear, Binding binding, Integer numberOfPages, BigDecimal price) {
+            Integer publicationYear, Binding binding, Integer numberOfPages, BigDecimal price) {
         this.isbn = isbn;
         this.title = title;
         this.authors = authors;
