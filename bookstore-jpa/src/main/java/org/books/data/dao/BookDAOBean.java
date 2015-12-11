@@ -57,9 +57,9 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
             String keywordUpper = keyword.toUpperCase();
             
             where = cb.and(where, cb.or(
-                    cb.like(cb.upper(book.get(Book_.title).as(String.class)), "%" + keywordUpper + "%"),
-                    cb.like(cb.upper(book.get(Book_.authors).as(String.class)), "%" + keywordUpper + "%"),
-                    cb.like(cb.upper(book.get(Book_.publisher).as(String.class)), "%" + keywordUpper + "%")
+                    cb.like(cb.upper(book.get(Book_.title)), "%" + keywordUpper + "%"),
+                    cb.like(cb.upper(book.get(Book_.authors)), "%" + keywordUpper + "%"),
+                    cb.like(cb.upper(book.get(Book_.publisher)), "%" + keywordUpper + "%")
             ));
         }
         
