@@ -56,7 +56,7 @@
                     <p:commandButton icon="ui-icon-trash"
                                      styleClass="btn btn-primary" 
                                      action="#{shoppingCartBean.removeFromShoppingCart(item)}"
-                                     update="@form">
+                                     update="@form :frm_main_navigation">
                         <p:confirm header="#{i18n.remove}" message="#{i18n.confirmRemoveFromShoppingCart}" icon="ui-icon-alert"/>
                     </p:commandButton>
                 </p:column>
