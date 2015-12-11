@@ -5,7 +5,12 @@
  */
 package org.books.data.dao;
 
-import java.util.List;
+import org.apache.log4j.Logger;
+import org.books.data.dao.generic.GenericDAOImpl;
+import org.books.data.dto.BookInfo;
+import org.books.data.entity.Book;
+import org.books.data.entity.Book_;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
@@ -13,10 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.apache.log4j.Logger;
-import org.books.data.dao.generic.GenericDAOImpl;
-import org.books.data.dto.BookInfo;
-import org.books.data.entity.Book;
+import java.util.List;
 
 /**
  * <h1>BookDAOBean</h1>
@@ -55,14 +57,14 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
             String keywordUpper = keyword.toUpperCase();
             
             where = cb.and(where, cb.or(
-                    cb.like(cb.upper(book.get("title").as(String.class)), "%" + keywordUpper + "%"),
-                    cb.like(cb.upper(book.get("authors").as(String.class)), "%" + keywordUpper + "%"), 
-                    cb.like(cb.upper(book.get("publisher").as(String.class)), "%" + keywordUpper + "%")
+                    cb.like(cb.upper(book.get(Book_.title)), "%" + keywordUpper + "%"),
+                    cb.like(cb.upper(book.get(Book_.authors)), "%" + keywordUpper + "%"),
+                    cb.like(cb.upper(book.get(Book_.publisher)), "%" + keywordUpper + "%")
             ));
         }
         
         cq.where(where);
-        cq.multiselect(book.get("isbn"), book.get("title"), book.get("price"));
+        cq.multiselect(book.get(Book_.isbn), book.get(Book_.title), book.get(Book_.price));
         TypedQuery<BookInfo> q = entityManager.createQuery(cq);
 
         return q.getResultList();
