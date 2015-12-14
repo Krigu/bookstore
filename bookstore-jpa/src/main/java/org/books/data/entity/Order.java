@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(name = "Order.findByNumber", query = "from Order o where UPPER(o.number) = UPPER(:number)"),
+        @NamedQuery(name = "Order.findByCustomerAndYear", query = "from Order o where o.customer = :customer AND EXTRACT(YEAR from o.date) = :year")
+})
 @Entity
 public class Order extends BaseEntity {
 
@@ -37,7 +41,8 @@ public class Order extends BaseEntity {
     private CreditCard creditCard;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> items;
+    @JoinColumn(name = "order_id")
+    private List<OrderItem> items = new ArrayList<>();
 
     public Order() {
     }
@@ -111,9 +116,6 @@ public class Order extends BaseEntity {
     }
 
     public List<OrderItem> getItems() {
-        if (items == null) {
-            items = new ArrayList<>();
-        }
         return items;
     }
 
