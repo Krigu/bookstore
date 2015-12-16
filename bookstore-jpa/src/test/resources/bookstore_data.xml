@@ -34,4 +34,16 @@
     <LOGIN id="10001" username="test" password="test"/>
     <LOGIN id="10002" username="user" password="password"/>
 
+    <CUSTOMER id="100001" firstName="Alice" lastName="Smith" email="alice@example.org"
+              street="123 Maple Street" city="Mill Valley" postalCode="CA 90952" country="US" type="MasterCard"
+              number="5400000000000005" expirationMonth="01" expirationYear="2018"
+
+    />
+
+    <PURCHASE_ORDER id="100001" order_number="12345" date="2015-12-20" status="accepted" amount="1000.75" customer_id="100001"
+              street="123 Maple Street" city="Mill Valley" postalCode="CA 90952" country="US" type="MasterCard"
+              number="5400000000000005" expirationMonth="01" expirationYear="2018"
+
+    />
+
 </dataset>
