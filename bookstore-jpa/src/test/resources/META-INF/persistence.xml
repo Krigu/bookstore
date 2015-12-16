@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="bookstore" transaction-type="RESOURCE_LOCAL">
-        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>org.books.data.entity.Order</class>
-        <class>org.books.data.entity.Customer</class>
-        <class>org.books.data.entity.OrderItem</class>
-        <class>org.books.data.entity.Book</class>
-        <class>org.books.data.entity.Login</class>
-
-        <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:test;create=true"/>
-            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-            <property name="javax.persistence.jdbc.user" value="app"/>
-            <property name="javax.persistence.jdbc.password" value="app"/>
-            <property name="eclipselink.ddl-generation" value="create-tables"/>
-            <property name="eclipselink.logging.level" value="FINE"/>
-            <property name="eclipselink.logging.parameters" value="true"/>
-            <property name="eclipselink.logging.timestamp" value="false"/>
-            <property name="eclipselink.logging.session" value="false"/>
-            <property name="eclipselink.logging.connection" value="false"/>
-            <property name="eclipselink.logging.thread" value="false"/>
-        </properties>
-    </persistence-unit>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="bookstore" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>org.books.data.entity.Order</class>
+    <class>org.books.data.entity.Customer</class>
+    <class>org.books.data.entity.OrderItem</class>
+    <class>org.books.data.entity.Book</class>
+    <class>org.books.data.entity.Login</class>
+    <properties>
+      <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="eclipselink.logging.level.sql" value="FINE"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+    </properties>
+  </persistence-unit>
 </persistence>

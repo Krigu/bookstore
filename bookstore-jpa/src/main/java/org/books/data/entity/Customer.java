@@ -26,6 +26,8 @@ public class Customer extends BaseEntity {
     private CreditCard creditCard;
 
     public Customer() {
+        this.address = new Address();
+        this.creditCard = new CreditCard();
     }
 
     public Customer(String email, String firstName, String lastName, Address address, CreditCard creditCard) {

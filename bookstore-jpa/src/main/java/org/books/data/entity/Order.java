@@ -7,10 +7,11 @@ import java.util.Date;
 import java.util.List;
 
 @NamedQueries({
-        @NamedQuery(name = "Order.findByNumber", query = "from Order o where UPPER(o.number) = UPPER(:number)"),
-        @NamedQuery(name = "Order.findByCustomerAndYear", query = "from Order o where o.customer = :customer AND EXTRACT(YEAR from o.date) = :year")
+    @NamedQuery(name = "Order.findByNumber", query = "from Order o where UPPER(o.number) = UPPER(:number)"),
+    @NamedQuery(name = "Order.findByCustomerAndYear", query = "from Order o where o.customer = :customer AND EXTRACT(YEAR from o.date) = :year")
 })
 @Entity
+@Table(name="command")
 public class Order extends BaseEntity {
 
     public enum Status {
@@ -18,7 +19,7 @@ public class Order extends BaseEntity {
         accepted, processing, shipped, canceled
     }
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "command_number")
     private String number;
 
     @Temporal(TemporalType.DATE)
@@ -32,6 +33,7 @@ public class Order extends BaseEntity {
     private Status status;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @Embedded
@@ -48,7 +50,7 @@ public class Order extends BaseEntity {
     }
 
     public Order(String number, Date date, BigDecimal amount, Status status,
-                 Customer customer, Address address, CreditCard creditCard, List<OrderItem> items) {
+            Customer customer, Address address, CreditCard creditCard, List<OrderItem> items) {
         this.number = number;
         this.date = date;
         this.amount = amount;
