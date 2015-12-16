@@ -17,7 +17,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.logging.Logger;
 
-public class AbstractJpaTest {
+public abstract class AbstractJpaTest {
 
     protected static final Logger LOGGER = Logger.getLogger(AbstractJpaTest.class.getName());
     protected static EntityManagerFactory emf;
@@ -31,7 +31,7 @@ public class AbstractJpaTest {
         emf = Persistence.createEntityManagerFactory("bookstore");
         em = emf.createEntityManager();
 
-        con = DriverManager.getConnection("jdbc:h2:mem:test", "sa", "");
+        con = DriverManager.getConnection("jdbc:derby:memory:test;create=true", "app", "app");
         dbConnection = new DatabaseConnection(con);
 
         InputStream strm = AbstractJpaTest.class.getClassLoader().getResourceAsStream("bookstore_data.xml");
