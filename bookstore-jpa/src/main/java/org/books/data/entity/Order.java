@@ -8,10 +8,10 @@ import java.util.List;
 
 @NamedQueries({
     @NamedQuery(name = "Order.findByNumber", query = "from Order o where UPPER(o.number) = UPPER(:number)"),
-    @NamedQuery(name = "Order.findByCustomerAndYear", query = "from Order o where o.customer = :customer AND EXTRACT(YEAR from o.date) = :year")
+    @NamedQuery(name = "Order.findByCustomerAndYear", query = "from Order o where o.customer.id = :customerId AND EXTRACT(YEAR from o.date) = :year")
 })
 @Entity
-@Table(name="command")
+@Table(name="PURCHASE_ORDER")
 public class Order extends BaseEntity {
 
     public enum Status {
@@ -19,7 +19,7 @@ public class Order extends BaseEntity {
         accepted, processing, shipped, canceled
     }
 
-    @Column(nullable = false, name = "command_number")
+    @Column(nullable = false, name = "order_number", unique = true)
     private String number;
 
     @Temporal(TemporalType.DATE)
@@ -32,7 +32,7 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
