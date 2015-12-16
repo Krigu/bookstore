@@ -1,8 +1,8 @@
 package org.books.data.entity;
 
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -22,10 +22,10 @@ public class LoginTest extends AbstractJpaTest {
 
     }
 
-    @Test(expected = NoResultException.class)
+    @Test(expectedExceptions = NoResultException.class)
     public void LoginFindByUsernameTestNullValue() {
         TypedQuery<Login> query = em.createNamedQuery("Login.findByUsername", Login.class);
-        query.setParameter("username", null);
+        query.setParameter("username", "abc");
 
         Login login = query.getSingleResult();
 

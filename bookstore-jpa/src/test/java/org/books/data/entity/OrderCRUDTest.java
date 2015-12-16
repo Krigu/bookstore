@@ -5,18 +5,17 @@
  */
 package org.books.data.entity;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityTransaction;
-import java.util.Date;
-import java.util.List;
-import org.books.data.dao.BookDAOBean;
 import org.books.data.dao.CustomerDAOBean;
 import org.books.data.dao.OrderDAOBean;
-import static org.books.data.entity.AbstractJpaTest.em;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityTransaction;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *

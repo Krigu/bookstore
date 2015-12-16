@@ -1,8 +1,8 @@
 package org.books.data.entity;
 
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -21,10 +21,10 @@ public class BookTest extends AbstractJpaTest {
 
     }
 
-    @Test(expected = NoResultException.class)
+    @Test(expectedExceptions = NoResultException.class)
     public void BookFindByISBNTestNullValue() {
         TypedQuery<Book> query = em.createNamedQuery("Book.findByISBN", Book.class);
-        query.setParameter("isbn", null);
+        query.setParameter("isbn", "123");
 
         Book book = query.getSingleResult();
     }

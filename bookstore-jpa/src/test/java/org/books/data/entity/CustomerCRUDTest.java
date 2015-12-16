@@ -8,8 +8,8 @@ package org.books.data.entity;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import org.books.data.dao.CustomerDAOBean;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  *

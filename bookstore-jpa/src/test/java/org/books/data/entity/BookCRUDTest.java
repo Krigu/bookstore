@@ -5,25 +5,24 @@
  */
 package org.books.data.entity;
 
-import java.math.BigDecimal;
+import org.books.data.dao.BookDAOBean;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
-import org.junit.Assert;
-import org.books.data.dao.BookDAOBean;
-import static org.books.data.entity.AbstractJpaTest.em;
-import org.junit.Test;
+import java.math.BigDecimal;
 
 /**
- *
  * @author tjd
  */
-public class BookCRUDTest  extends AbstractJpaTest {
+public class BookCRUDTest extends AbstractJpaTest {
 
     private static final String ISBN = "isbn12345";
 
     @Test
     public void crudBook() {
-        EntityTransaction tx = em.getTransaction();    
+        EntityTransaction tx = em.getTransaction();
         BookDAOBean bean = new BookDAOBean();
         bean.setEntityManager(em);
 
