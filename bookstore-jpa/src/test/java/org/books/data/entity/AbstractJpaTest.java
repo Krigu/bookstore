@@ -16,12 +16,16 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.logging.Logger;
+import javax.persistence.EntityTransaction;
 
 public abstract class AbstractJpaTest {
 
     protected static final Logger LOGGER = Logger.getLogger(AbstractJpaTest.class.getName());
+    
     protected static EntityManagerFactory emf;
     protected static EntityManager em;
+    protected static EntityTransaction transaction;
+    
     private static Connection con;
     private static DatabaseConnection dbConnection;
     private static FlatXmlDataSet dataSet;
@@ -30,6 +34,7 @@ public abstract class AbstractJpaTest {
     public static void setUpBeforeClass() throws Exception {
         emf = Persistence.createEntityManagerFactory("bookstoreTest");
         em = emf.createEntityManager();
+        transaction = em.getTransaction();
 
         con = DriverManager.getConnection("jdbc:derby:memory:test;create=true", "app", "app");
         dbConnection = new DatabaseConnection(con);

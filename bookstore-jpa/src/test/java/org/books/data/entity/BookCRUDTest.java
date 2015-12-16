@@ -19,18 +19,17 @@ import java.math.BigDecimal;
 public class BookCRUDTest extends AbstractJpaTest {
 
     private static final String ISBN = "isbn12345";
+    private static Book book = new Book(ISBN, "title", "authors", "publisher", 2015, Book.Binding.Ebook, 300, new BigDecimal(12.34));
 
     @Test
     public void crudBook() {
-        EntityTransaction tx = em.getTransaction();
         BookDAOBean bean = new BookDAOBean();
         bean.setEntityManager(em);
 
         //Create
-        Book book = new Book(ISBN, "title", "authors", "publisher", 2015, Book.Binding.Ebook, 300, new BigDecimal(12.34));
-        tx.begin();
+        transaction.begin();
         Book createBook = bean.create(book);
-        tx.commit();
+        transaction.commit();
 
         Assert.assertTrue(createBook.getId() != 0);
         Assert.assertTrue(createBook.getIsbn().equals(ISBN));
@@ -42,15 +41,15 @@ public class BookCRUDTest extends AbstractJpaTest {
         //Update
         String newTitle = "new title";
         findBook.setTitle(newTitle);
-        tx.begin();
+        transaction.begin();
         Book updateBook = bean.update(findBook);
-        tx.commit();
+        transaction.commit();
         Assert.assertTrue(updateBook.getTitle().equals(newTitle));
 
         //Delete
-        tx.begin();
+        transaction.begin();
         bean.remove(updateBook);
-        tx.commit();
+        transaction.commit();
 
         try {
             bean.find(updateBook.getId());
