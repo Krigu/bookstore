@@ -10,9 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
-import org.books.data.entity.PopulateDBJpaTest;
 import org.books.data.entity.BasisJpaTest;
 import org.books.data.entity.Book;
 import org.testng.annotations.BeforeClass;
@@ -25,7 +23,6 @@ public class BookCRUDTest extends BasisJpaTest {
     private static final String ISBN = "isbn12345";
     private BookDAOBean bean;
     private Book book = new Book(ISBN, "title", "authors", "publisher", 2015, Book.Binding.Ebook, 300, new BigDecimal(12.34));
-    
 
     @BeforeClass
     public void initDAO() throws Exception {
@@ -40,35 +37,33 @@ public class BookCRUDTest extends BasisJpaTest {
         book = bean.create(book);
         transaction.commit();
         Assert.assertNotNull(book.getId());
-        Assert.assertEquals(1,1);
     }
 
     @Test(dependsOnMethods = "createBook")
-    public void crudBook() {
+    public void findBookById() {
+        em.clear();
+        book = bean.find(book.getId());
+        em.clear();
+        Assert.assertNotNull(book);
+    }
 
-        //em.clear();
-        //Find
-        Book findBook = bean.find(book.getId());
-        Assert.assertEquals(book.getId(), findBook.getId());
-
-        //Update
+    @Test(dependsOnMethods = "findBookById")
+    public void updateBook() {
         String newTitle = "new title";
-        findBook.setTitle(newTitle);
+        book.setTitle(newTitle);
         transaction.begin();
-        Book updateBook = bean.update(findBook);
+        book = bean.update(book);
         transaction.commit();
-        Assert.assertTrue(updateBook.getTitle().equals(newTitle));
+        em.clear();
+        Assert.assertTrue(book.getTitle().equals(newTitle));
+    }
 
-        //Delete
+    @Test(dependsOnMethods = "updateBook", expectedExceptions = EntityNotFoundException.class)
+    public void crudBook() {
         transaction.begin();
-        bean.remove(updateBook);
+        bean.remove(book);
         transaction.commit();
-
-        try {
-            bean.find(updateBook.getId());
-            Assert.assertTrue(false);
-        } catch (EntityNotFoundException e) {
-            Assert.assertTrue(true);
-        }
+        em.clear();
+        bean.find(book.getId());
     }
 }
