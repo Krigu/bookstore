@@ -11,7 +11,7 @@ import java.util.List;
     @NamedQuery(name = "Order.findByCustomerAndYear", query = "from Order o where o.customer = :customer AND EXTRACT(YEAR from o.date) = :year")
 })
 @Entity
-@Table(name="PuchaseOrder")
+@Table(name="command")
 public class Order extends BaseEntity {
 
     public enum Status {
@@ -19,7 +19,7 @@ public class Order extends BaseEntity {
         accepted, processing, shipped, canceled
     }
 
-    @Column(nullable = false, name = "orderNumber")
+    @Column(nullable = false, name = "command_number")
     private String number;
 
     @Temporal(TemporalType.DATE)
