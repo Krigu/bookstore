@@ -4,10 +4,10 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -28,7 +28,7 @@ public abstract class AbstractJpaTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        emf = Persistence.createEntityManagerFactory("bookstore");
+        emf = Persistence.createEntityManagerFactory("bookstoreTest");
         em = emf.createEntityManager();
 
         con = DriverManager.getConnection("jdbc:derby:memory:test;create=true", "app", "app");
@@ -53,7 +53,7 @@ public abstract class AbstractJpaTest {
 
 
 
-    @Before
+    @BeforeMethod
     public void insertTestData() throws Exception {
         em.clear();
         emf.getCache().evictAll();
@@ -61,8 +61,11 @@ public abstract class AbstractJpaTest {
         DatabaseOperation.CLEAN_INSERT.execute(dbConnection, dataSet);
     }
 
-    @After
+    @AfterMethod
     public void deleteTestData() throws Exception {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
         DatabaseOperation.DELETE_ALL.execute(dbConnection, dataSet);
     }
 }

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 
-    <BOOK id="1" isbn="143024626X" title="Beginning Java EE 7 (Expert Voice in Java)" authors="Antonio Goncalves"
+    <BOOK id="10001" isbn="143024626X" title="Beginning Java EE 7 (Expert Voice in Java)" authors="Antonio Goncalves"
           publisher="Apress" publicationYear="2013" binding="Paperback" numberOfPages="608" price="49.99"/>
-    <BOOK id="2" isbn="1449370179" title="Java EE 7 Essentials" authors="Arun Gupta" publisher="O'Reilly Media"
+    <BOOK id="10002" isbn="1449370179" title="Java EE 7 Essentials" authors="Arun Gupta" publisher="O'Reilly Media"
           publicationYear="2013" binding="Paperback" numberOfPages="362" price="49.99"/>
-    <BOOK id="3" isbn="0071837345" title="Java EE 7: The Big Picture" authors="Dr. Danny Coward"
+    <BOOK id="10003" isbn="0071837345" title="Java EE 7: The Big Picture" authors="Dr. Danny Coward"
           publisher="McGraw-Hill Osborne Media" publicationYear="2014" binding="Paperback" numberOfPages="512"
           price="50.00"/>
-    <BOOK id="4" isbn="1300149310" title="Real World Java EE Patterns-Rethinking Best Practices" authors="Adam Bien"
+    <BOOK id="10004" isbn="1300149310" title="Real World Java EE Patterns-Rethinking Best Practices" authors="Adam Bien"
           publisher="lulu.com" publicationYear="2012" binding="Paperback" numberOfPages="432" price="51.91"/>
-    <BOOK id="5" isbn="0596158025" title="Enterprise JavaBeans 3.1" authors="Andrew Lee Rubinger, Bill Burke"
+    <BOOK id="10005" isbn="0596158025" title="Enterprise JavaBeans 3.1" authors="Andrew Lee Rubinger, Bill Burke"
           publisher="O'Reilly Media" publicationYear="2010" binding="Paperback" numberOfPages="766" price="54.99"/>
-    <BOOK id="6" isbn="1935182994" title="EJB 3 in Action" authors="Debu Panda, Reza Rahman, Ryan Cuprak, Michael Remijan"
+    <BOOK id="10006" isbn="1935182994" title="EJB 3 in Action" authors="Debu Panda, Reza Rahman, Ryan Cuprak, Michael Remijan"
           publisher="Manning Publications" publicationYear="2014" binding="Paperback" numberOfPages="560"
           price="54.99"/>
-    <BOOK id="7" isbn="1430246928" title="Beginning EJB 3, Java EE, 7th Edition"
+    <BOOK id="10007" isbn="1430246928" title="Beginning EJB 3, Java EE, 7th Edition"
           authors="Jonathan Wetherbee, Raghu Kodali, Chirag Rathod, Peter Zadrozny" publisher="Apress"
           publicationYear="2013" binding="Paperback" numberOfPages="452" price="49.99"/>
-    <BOOK id="8" isbn="1430249269" title="Pro JPA 2 (Expert's Voice in Java)" authors="Mike Keith, Merrick Schincariol"
+    <BOOK id="10008" isbn="1430249269" title="Pro JPA 2 (Expert's Voice in Java)" authors="Mike Keith, Merrick Schincariol"
           publisher="Apress" publicationYear="2013" binding="Paperback" numberOfPages="508" price="54.99"/>
-    <BOOK id="9" isbn="1782176462" title="Mastering JavaServer Faces 2.2" authors="Anghel Leonard"
+    <BOOK id="10009" isbn="1782176462" title="Mastering JavaServer Faces 2.2" authors="Anghel Leonard"
           publisher="Packt Publishing - ebooks Account" publicationYear="2014" binding="Paperback" numberOfPages="501"
           price="59.99"/>
-    <BOOK id="10" isbn="0133795748" title="Core JavaServer Faces (4th Edition) (Core Series)"
+    <BOOK id="100010" isbn="0133795748" title="Core JavaServer Faces (4th Edition) (Core Series)"
           authors="David Geary, Cay S. Horstmann, Marty Hall" publisher="Prentice Hall" publicationYear="2015"
           binding="Paperback" numberOfPages="672" price="59.99"/>
-    <BOOK id="11" isbn="1449365116" title="Java Web Services: Up and Running" authors="Martin Kalin" publisher="O'Reilly Media"
+    <BOOK id="100011" isbn="1449365116" title="Java Web Services: Up and Running" authors="Martin Kalin" publisher="O'Reilly Media"
           publicationYear="2013" binding="Paperback" numberOfPages="360" price="39.99"/>
-    <BOOK id="12" isbn="144936134X" title="RESTful Java with JAX-RS 2.0" authors="Bill Burke" publisher="O'Reilly Media"
+    <BOOK id="100012" isbn="144936134X" title="RESTful Java with JAX-RS 2.0" authors="Bill Burke" publisher="O'Reilly Media"
           publicationYear="2013" binding="Paperback" numberOfPages="392" price="39.99"/>
 
-    <LOGIN id="1" username="test" password="test"/>
-    <LOGIN id="2" username="user" password="password"/>
+    <LOGIN id="10001" username="test" password="test"/>
+    <LOGIN id="10002" username="user" password="password"/>
 
 </dataset>
