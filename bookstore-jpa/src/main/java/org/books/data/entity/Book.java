@@ -14,8 +14,9 @@ public class Book extends BaseEntity {
         Hardcover, Paperback, Ebook, Unknown
     }
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
+
     private String title;
     private String authors;
     private String publisher;
