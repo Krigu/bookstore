@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-public class BookTest extends AbstractJpaTest {
+public class BookTest extends PopulateDBJpaTest {
 
     @Test
     public void BookFindByISBNTest() {

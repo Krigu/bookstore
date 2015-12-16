@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author tjd
  */
-public class OrderCRUDTest extends AbstractJpaTest {
+public class OrderCRUDTest extends PopulateDBJpaTest {
     
     @Test
     public void crudOrder() {

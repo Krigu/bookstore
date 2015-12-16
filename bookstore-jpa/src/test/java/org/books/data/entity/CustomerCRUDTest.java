@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
  *
  * @author tjd
  */
-public class CustomerCRUDTest extends AbstractJpaTest {
+public class CustomerCRUDTest extends PopulateDBJpaTest {
 
     private static final String CITY_NAME_1 = "city 1";
     private static final String CARD_NUMBER_1 = "1234";

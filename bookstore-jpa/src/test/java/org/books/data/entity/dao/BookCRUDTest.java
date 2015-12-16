@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.books.data.entity;
+package org.books.data.entity.dao;
 
 import org.books.data.dao.BookDAOBean;
 import org.testng.Assert;
@@ -12,31 +12,44 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
+import org.books.data.entity.PopulateDBJpaTest;
+import org.books.data.entity.BasisJpaTest;
+import org.books.data.entity.Book;
+import org.testng.annotations.BeforeClass;
 
 /**
  * @author tjd
  */
-public class BookCRUDTest extends AbstractJpaTest {
+public class BookCRUDTest extends BasisJpaTest {
 
     private static final String ISBN = "isbn12345";
-    private static Book book = new Book(ISBN, "title", "authors", "publisher", 2015, Book.Binding.Ebook, 300, new BigDecimal(12.34));
+    private BookDAOBean bean;
+    private Book book = new Book(ISBN, "title", "authors", "publisher", 2015, Book.Binding.Ebook, 300, new BigDecimal(12.34));
+    
+
+    @BeforeClass
+    public void initDAO() throws Exception {
+        bean = new BookDAOBean();
+        bean.setEntityManager(em);
+    }
 
     @Test
-    public void crudBook() {
-        BookDAOBean bean = new BookDAOBean();
-        bean.setEntityManager(em);
-
+    public void createBook() {
         //Create
         transaction.begin();
-        Book createBook = bean.create(book);
+        book = bean.create(book);
         transaction.commit();
+        Assert.assertNotNull(book.getId());
+        Assert.assertEquals(1,1);
+    }
 
-        Assert.assertTrue(createBook.getId() != 0);
-        Assert.assertTrue(createBook.getIsbn().equals(ISBN));
+    @Test(dependsOnMethods = "createBook")
+    public void crudBook() {
 
+        //em.clear();
         //Find
-        Book findBook = bean.find(createBook.getId());
-        Assert.assertEquals(createBook.getId(), findBook.getId());
+        Book findBook = bean.find(book.getId());
+        Assert.assertEquals(book.getId(), findBook.getId());
 
         //Update
         String newTitle = "new title";
