@@ -33,5 +33,7 @@
 
     <LOGIN id="10001" username="test" password="test"/>
     <LOGIN id="10002" username="user" password="password"/>
-
+    
+    <customer id="10001" firstName="Alice" lastName="Smith" email="alice@example.org" street="123 Maple Street" city="Mill Valley" postalCode="CA 90952" country="US" type="MasterCard" number="5400000000000005" expirationMonth="01" expirationYear="2018"/>
+    <customer id="10002" firstName="Bob" lastName="Smith" email="bob@google.org" street="123 Hauptstrasse" city="Zurich" postalCode="7000" country="CH" type="MasterCard" number="5400000000000005" expirationMonth="01" expirationYear="2017"/>
 </dataset>
