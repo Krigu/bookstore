@@ -1,8 +1,9 @@
 package org.books.data.dto;
 
+import java.io.Serializable;
 import org.books.data.entity.Customer;
 
-public class CustomerInfo {
+public class CustomerInfo implements Serializable{
 
 	private String email;
 	private String firstName;

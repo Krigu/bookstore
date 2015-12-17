@@ -1,5 +1,6 @@
 package org.books.data.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +11,7 @@ import org.books.data.entity.Order;
 import org.books.data.entity.Order.Status;
 import org.books.data.entity.OrderItem;
 
-public class OrderDTO extends OrderInfo {
+public class OrderDTO extends OrderInfo implements Serializable{
 
 	private CustomerInfo customer;
 	private Address address;

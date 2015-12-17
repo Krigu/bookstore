@@ -1,10 +1,11 @@
 package org.books.data.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import org.books.data.entity.Book;
 
-public class BookInfo {
+public class BookInfo implements Serializable {
 
 	private String isbn;
 	private String title;

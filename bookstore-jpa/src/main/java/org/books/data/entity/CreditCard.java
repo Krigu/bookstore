@@ -1,11 +1,12 @@
 package org.books.data.entity;
 
+import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Embeddable
-public class CreditCard {
+public class CreditCard implements Serializable {
 
     public enum Type {
 
