@@ -40,8 +40,9 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
 
     @Override
     public Book find(String isbn) throws EntityNotFoundException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TypedQuery<Book> query = entityManager.createNamedQuery(Book.FINB_BY_ISBN, Book.class);
+        query.setParameter("isbn", isbn);
+        return query.getSingleResult();
     }
 
     @Override
