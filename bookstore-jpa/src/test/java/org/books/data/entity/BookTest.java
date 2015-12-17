@@ -10,7 +10,7 @@ import org.books.data.dao.BookDAOBean;
 import org.books.data.dto.BookInfo;
 import static org.books.data.entity.AbstractJpaTest.em;
 
-public class BookTest extends AbstractJpaTest {
+public class BookTest extends PopulateDBJpaTest {
 
     @Test
     public void BookFindByISBNTest() {

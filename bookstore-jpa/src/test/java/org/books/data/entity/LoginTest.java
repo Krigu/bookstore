@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-public class LoginTest extends AbstractJpaTest {
+public class LoginTest extends PopulateDBJpaTest {
 
     @Test
     public void LoginFindByUsernamTest() {
