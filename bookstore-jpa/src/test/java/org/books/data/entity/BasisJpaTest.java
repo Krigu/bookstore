@@ -33,7 +33,7 @@ public abstract class BasisJpaTest {
         transaction = em.getTransaction();
     }
 
-    @AfterClass
+    /*@AfterClass
     public static void tearDownAfterClass() throws Exception {
         if (em != null) {
             em.close();
@@ -41,7 +41,7 @@ public abstract class BasisJpaTest {
         if (emf != null) {
             emf.close();
         }
-    }
+    }*/
 
     @AfterMethod
     public void rollback() throws Exception {
