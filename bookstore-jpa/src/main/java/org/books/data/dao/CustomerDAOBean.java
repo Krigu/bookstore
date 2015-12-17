@@ -9,7 +9,6 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 import org.apache.log4j.Logger;
 import org.books.data.dto.CustomerInfo;
-import org.books.data.entity.Book;
 import org.books.data.entity.Customer;
 
 /**

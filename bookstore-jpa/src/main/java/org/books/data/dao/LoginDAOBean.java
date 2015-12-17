@@ -7,6 +7,9 @@ package org.books.data.dao;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.TypedQuery;
 import org.books.data.dao.generic.GenericDAOImpl;
 import org.books.data.entity.Login;
 
@@ -18,9 +21,10 @@ import org.books.data.entity.Login;
  *
  * @author Thomas Jeanmonod
  *
- **/
+ *
+ */
 @Stateless
-public class LoginDAOBean extends GenericDAOImpl<Login> implements LoginDAOLocal{
+public class LoginDAOBean extends GenericDAOImpl<Login> implements LoginDAOLocal {
 
     public LoginDAOBean() {
         super(Login.class);
@@ -28,7 +32,13 @@ public class LoginDAOBean extends GenericDAOImpl<Login> implements LoginDAOLocal
 
     @Override
     public Login find(String username) throws EntityNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TypedQuery<Login> query = entityManager.createNamedQuery(Login.FIND_BY_USERNAME, Login.class);
+        query.setParameter("username", username);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
-    
+
 }
