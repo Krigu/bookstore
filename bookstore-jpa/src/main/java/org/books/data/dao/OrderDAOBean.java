@@ -3,6 +3,9 @@ package org.books.data.dao;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.TypedQuery;
 import org.apache.log4j.Logger;
 import org.books.data.dao.generic.GenericDAOImpl;
 import org.books.data.dto.OrderInfo;
@@ -17,7 +20,8 @@ import org.books.data.entity.Order;
  *
  * @author Thomas Jeanmonod
  *
- **/
+ *
+ */
 @Stateless
 public class OrderDAOBean extends GenericDAOImpl<Order> implements OrderDAOLocal {
 
@@ -29,14 +33,21 @@ public class OrderDAOBean extends GenericDAOImpl<Order> implements OrderDAOLocal
 
     @Override
     public Order find(String number) throws EntityNotFoundException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TypedQuery<Order> query = entityManager.createNamedQuery(Order.FIND_BY_NUMBER, Order.class);
+        query.setParameter("number", number);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 
     @Override
     public List<OrderInfo> search(Customer customer, int year) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TypedQuery<OrderInfo> query = entityManager.createNamedQuery(Order.FIND_BY_CUSTOMER_AND_YEAR, OrderInfo.class);
+        query.setParameter("customer", customer);
+        query.setParameter("year", year);
+        return query.getResultList();
     }
-    
+
 }
