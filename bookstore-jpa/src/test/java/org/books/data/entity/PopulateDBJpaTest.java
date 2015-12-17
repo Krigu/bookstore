@@ -44,9 +44,7 @@ public abstract class PopulateDBJpaTest extends BasisJpaTest {
 
     @AfterMethod
     public void deleteTestData() throws Exception {
-        if (em.getTransaction().isActive()) {
-            em.getTransaction().rollback();
-        }
+        rollback();
         DatabaseOperation.DELETE_ALL.execute(dbConnection, dataSet);
     }
 }

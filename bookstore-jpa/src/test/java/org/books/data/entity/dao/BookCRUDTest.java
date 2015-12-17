@@ -11,6 +11,8 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
+import java.sql.SQLIntegrityConstraintViolationException;
+import javax.persistence.PersistenceException;
 import org.books.data.entity.BasisJpaTest;
 import org.books.data.entity.Book;
 import org.testng.annotations.BeforeClass;
@@ -35,6 +37,17 @@ public class BookCRUDTest extends BasisJpaTest {
         //Create
         transaction.begin();
         book = bean.create(book);
+        transaction.commit();
+        Assert.assertNotNull(book.getId());
+    }
+
+    @Test(dependsOnMethods = "createBook", expectedExceptions = PersistenceException.class)
+    public void checkUniqueISBN() {
+        Book checkBook = new Book();
+        checkBook.setIsbn(ISBN);
+        //Create
+        transaction.begin();
+        bean.create(checkBook);
         transaction.commit();
         Assert.assertNotNull(book.getId());
     }
