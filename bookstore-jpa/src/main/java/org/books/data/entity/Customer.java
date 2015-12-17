@@ -2,13 +2,17 @@ package org.books.data.entity;
 
 import javax.persistence.*;
 
-
 @NamedQueries({
-        @NamedQuery(name = "Customer.findByLastNameOrFirstName",
-                query = "from Customer c where UPPER(c.firstName) like UPPER(:firstName) or UPPER(c.lastName) like UPPER(:lastName)")
+    @NamedQuery(name = Customer.FIND_BY_NAME,
+            query = "SELECT NEW org.books.data.dto.CustomerInfo(c) from Customer c where UPPER(c.firstName) like UPPER(:firstName) or UPPER(c.lastName) like UPPER(:lastName)"),
+    @NamedQuery(name = Customer.FIND_BY_EMAIL,
+            query = "from Customer c where UPPER(c.email) like UPPER(:email)")
 })
 @Entity
 public class Customer extends BaseEntity {
+
+    public static final String FIND_BY_NAME = "Customer.findByLastNameOrFirstName";
+    public static final String FIND_BY_EMAIL = "Customer.findByEmail";
 
     @Column(nullable = false, unique = true)
     private String email;

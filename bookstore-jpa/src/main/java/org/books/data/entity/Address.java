@@ -1,9 +1,10 @@
 package org.books.data.entity;
 
+import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Address {
+public class Address implements Serializable {
 
 	private String street;
 	private String city;

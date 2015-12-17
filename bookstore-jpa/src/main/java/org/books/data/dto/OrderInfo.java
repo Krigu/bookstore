@@ -1,11 +1,12 @@
 package org.books.data.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.books.data.entity.Order;
 import org.books.data.entity.Order.Status;
 
-public class OrderInfo {
+public class OrderInfo implements Serializable{
 
 	private String number;
 	private Date date;

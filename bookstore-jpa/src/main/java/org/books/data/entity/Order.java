@@ -7,13 +7,16 @@ import java.util.Date;
 import java.util.List;
 
 @NamedQueries({
-    @NamedQuery(name = "Order.findByNumber", query = "from Order o where UPPER(o.number) = UPPER(:number)"),
-    @NamedQuery(name = "Order.findByCustomerAndYear", query = "from Order o where o.customer = :customer AND EXTRACT(YEAR from o.date) = :year")
+    @NamedQuery(name = Order.FIND_BY_NUMBER, query = "from Order o where UPPER(o.number) = UPPER(:number)"),
+    @NamedQuery(name = Order.FIND_BY_CUSTOMER_AND_YEAR, query = "SELECT NEW org.books.data.dto.OrderInfo(o) from Order o where o.customer = :customer AND EXTRACT(YEAR from o.date) = :year")
 })
 @Entity
 @Table(name="command")
 public class Order extends BaseEntity {
 
+    public static final String FIND_BY_NUMBER = "Order.findByNumber";
+    public static final String FIND_BY_CUSTOMER_AND_YEAR = "Order.findByCustomerAndYear";
+    
     public enum Status {
 
         accepted, processing, shipped, canceled

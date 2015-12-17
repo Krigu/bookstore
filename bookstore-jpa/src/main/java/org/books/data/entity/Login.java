@@ -6,11 +6,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @NamedQueries({
-        @NamedQuery(name = "Login.findByUsername", query = "from Login l where UPPER(l.userName) = UPPER(:username)")
+        @NamedQuery(name = Login.FIND_BY_USERNAME, query = "from Login l where UPPER(l.userName) = UPPER(:username)")
 })
 @Entity
 public class Login extends BaseEntity {
 
+    public static final String FIND_BY_USERNAME ="Login.findByUsername";
+    
     @Column(nullable = false, unique = true)
     private String userName;
 

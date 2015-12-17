@@ -22,7 +22,7 @@ public interface CustomerDAOLocal extends GenericDAO<Customer>{
      * <h1>T find(String number)</h1>
      *
      * <p>
-     * a login with a particular user name
+     * a customer with a particular user name
      * </p>
      *
      * @param email email of the customer

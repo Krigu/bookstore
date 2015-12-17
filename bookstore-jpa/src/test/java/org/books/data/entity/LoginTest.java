@@ -11,7 +11,7 @@ public class LoginTest extends AbstractJpaTest {
 
     @Test
     public void LoginFindByUsernamTest() {
-        TypedQuery<Login> query = em.createNamedQuery("Login.findByUsername", Login.class);
+        TypedQuery<Login> query = em.createNamedQuery(Login.FIND_BY_USERNAME, Login.class);
         final String user = "uSeR";
         query.setParameter("username", user);
 
@@ -24,7 +24,7 @@ public class LoginTest extends AbstractJpaTest {
 
     @Test(expectedExceptions = NoResultException.class)
     public void LoginFindByUsernameTestNullValue() {
-        TypedQuery<Login> query = em.createNamedQuery("Login.findByUsername", Login.class);
+        TypedQuery<Login> query = em.createNamedQuery(Login.FIND_BY_USERNAME, Login.class);
         query.setParameter("username", "abc");
 
         Login login = query.getSingleResult();

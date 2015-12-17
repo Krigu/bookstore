@@ -1,6 +1,8 @@
 package org.books.data.dto;
 
-public class OrderItemDTO {
+import java.io.Serializable;
+
+public class OrderItemDTO implements Serializable{
 
 	private BookInfo book;
 	private Integer quantity;
