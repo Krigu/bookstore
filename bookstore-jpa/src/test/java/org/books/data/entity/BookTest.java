@@ -36,7 +36,8 @@ public class BookTest extends PopulateDBJpaTest {
     public void BookFindByISBNDAOTest() {
         BookDAOBean bean = new BookDAOBean();
         bean.setEntityManager(em);
-        Book book = bean.find("143024626X");
+        final String isbn = "143024626X";
+        Book book = bean.find(isbn);
         Assert.assertEquals(isbn, book.getIsbn());
         Assert.assertEquals("Beginning Java EE 7 (Expert Voice in Java)", book.getTitle());
     }
