@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.books.data.entity.dao;
 
 import org.books.data.dao.BookDAOBean;
@@ -12,13 +7,10 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import javax.persistence.PersistenceException;
-import org.books.data.entity.BasisJpaTest;
+import org.books.data.BasisJpaTest;
 import org.books.data.entity.Book;
 import org.testng.annotations.BeforeClass;
 
-/**
- * @author tjd
- */
 @Test(groups="BookCRUD",dependsOnGroups = "CustomerCRUD")
 public class BookCRUDTest extends BasisJpaTest {
 

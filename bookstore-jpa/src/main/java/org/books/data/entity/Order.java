@@ -18,7 +18,6 @@ public class Order extends BaseEntity {
     public static final String FIND_BY_CUSTOMER_AND_YEAR = "Order.findByCustomerAndYear";
     
     public enum Status {
-
         accepted, processing, shipped, canceled
     }
 
@@ -36,10 +35,10 @@ public class Order extends BaseEntity {
     private Status status;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id",nullable = false)
     private Customer customer;
 
-    @Embedded
+    @Embedded   
     private Address address;
 
     @Embedded

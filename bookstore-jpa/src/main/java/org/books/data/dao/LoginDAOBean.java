@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.books.data.dao;
 
 import javax.ejb.Stateless;
@@ -10,6 +5,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
+import org.apache.log4j.Logger;
 import org.books.data.dao.generic.GenericDAOImpl;
 import org.books.data.entity.Login;
 
@@ -18,20 +14,19 @@ import org.books.data.entity.Login;
  * <p>
  * class DAO for the entity Login
  * </p>
- *
- * @author Thomas Jeanmonod
- *
- *
  */
 @Stateless
 public class LoginDAOBean extends GenericDAOImpl<Login> implements LoginDAOLocal {
 
+    private static final Logger LOGGER = Logger.getLogger(LoginDAOBean.class);
+    
     public LoginDAOBean() {
         super(Login.class);
     }
 
     @Override
     public Login find(String username) throws EntityNotFoundException {
+        LOGGER.info("Find login by username : "+username);
         TypedQuery<Login> query = entityManager.createNamedQuery(Login.FIND_BY_USERNAME, Login.class);
         query.setParameter("username", username);
         try {

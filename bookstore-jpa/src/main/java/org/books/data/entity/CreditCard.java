@@ -1,6 +1,7 @@
 package org.books.data.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,14 +10,17 @@ import javax.persistence.Enumerated;
 public class CreditCard implements Serializable {
 
     public enum Type {
-
         MasterCard, Visa
     }
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Type type;
+    @Column(nullable = false)
     private String number;
+    @Column(nullable = false)
     private Integer expirationMonth;
+    @Column(nullable = false)
     private Integer expirationYear;
 
     public CreditCard() {
