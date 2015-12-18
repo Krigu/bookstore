@@ -16,10 +16,6 @@ import org.books.data.entity.Customer;
  * <p>
  * class DAO for the entity Customer
  * </p>
- *
- * @author Thomas Jeanmonod
- *
- *
  */
 @Stateless
 public class CustomerDAOBean extends GenericDAOImpl<Customer> implements CustomerDAOLocal {

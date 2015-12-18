@@ -12,8 +12,6 @@ import org.books.data.entity.BaseEntity;
  * implementation of the generic DAO. All DAOs use to implements this class. It
  * contains the basis CRUD operations.
  * </p>
- *
- * @author Thomas Jeanmonod
  * @param <T> Entity
  */
 public abstract class GenericDAOImpl<T extends BaseEntity> implements GenericDAO<T> {

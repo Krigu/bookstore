@@ -8,10 +8,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-/**
- *
- * @author tjd
- */
 public class CustomerQueryTest extends PopulateDBJpaTest {
 
     private static CustomerDAOBean bean;

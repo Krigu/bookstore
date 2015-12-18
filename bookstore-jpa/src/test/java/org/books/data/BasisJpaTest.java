@@ -7,10 +7,6 @@ import javax.persistence.Persistence;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 
-/**
- *
- * @author tjd
- */
 public abstract class BasisJpaTest {
 
     protected static EntityManagerFactory emf;

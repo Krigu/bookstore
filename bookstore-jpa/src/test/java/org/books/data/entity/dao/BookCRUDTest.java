@@ -11,9 +11,6 @@ import org.books.data.BasisJpaTest;
 import org.books.data.entity.Book;
 import org.testng.annotations.BeforeClass;
 
-/**
- * @author tjd
- */
 @Test(groups="BookCRUD",dependsOnGroups = "CustomerCRUD")
 public class BookCRUDTest extends BasisJpaTest {
 

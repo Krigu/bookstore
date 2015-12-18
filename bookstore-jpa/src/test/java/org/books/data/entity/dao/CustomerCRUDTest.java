@@ -11,10 +11,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- *
- * @author tjd
- */
 @Test(groups="CustomerCRUD")
 public class CustomerCRUDTest extends BasisJpaTest {
 

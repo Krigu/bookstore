@@ -12,8 +12,6 @@ import org.books.data.entity.Book;
  * <p>
  * Interface for the Book DAO layer
  * </p>
- *
- * @author Thomas Jeanmonod
  */
 @Local
 public interface BookDAOLocal extends GenericDAO<Book> {

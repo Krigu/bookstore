@@ -2,7 +2,6 @@ package org.books.data.entity.dao;
 
 import java.math.BigDecimal;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceException;
 import org.books.data.dao.BookDAOBean;
 import org.books.data.dao.OrderItemDAOBean;
 import org.books.data.BasisJpaTest;
@@ -12,10 +11,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- *
- * @author tjd
- */
 @Test(groups = "OrderItemCRUD", dependsOnGroups = {"BookCRUD", "CustomerCRUD"})
 public class OrderItemCRUDTest extends BasisJpaTest {
 

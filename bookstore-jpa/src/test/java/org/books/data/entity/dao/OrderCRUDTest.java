@@ -22,10 +22,6 @@ import org.books.data.entity.Order;
 import org.books.data.entity.OrderItem;
 import org.testng.annotations.BeforeClass;
 
-/**
- *
- * @author tjd
- */
 @Test(groups = "OrderCRUD", dependsOnGroups = {"BookCRUD", "CustomerCRUD"})
 public class OrderCRUDTest extends BasisJpaTest {
 

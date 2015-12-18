@@ -12,9 +12,6 @@ import org.books.data.entity.Customer;
  * <p>
  * Interface for the Customer DAO layer
  * </p>
- *
- * @author Thomas Jeanmonod
- *
  **/
 @Local
 public interface CustomerDAOLocal extends GenericDAO<Customer>{

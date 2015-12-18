@@ -9,9 +9,6 @@ import org.books.data.entity.OrderItem;
  * <p>
  * class DAO for the entity OrderItem
  * </p>
- *
- * @author Thomas Jeanmonod
- *
  **/
 @Stateless
 public class OrderItemDAOBean extends GenericDAOImpl<OrderItem> implements OrderItemDAOLocal {

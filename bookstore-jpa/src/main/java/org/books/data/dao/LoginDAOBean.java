@@ -14,10 +14,6 @@ import org.books.data.entity.Login;
  * <p>
  * class DAO for the entity Login
  * </p>
- *
- * @author Thomas Jeanmonod
- *
- *
  */
 @Stateless
 public class LoginDAOBean extends GenericDAOImpl<Login> implements LoginDAOLocal {

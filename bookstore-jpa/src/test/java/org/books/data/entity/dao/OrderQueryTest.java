@@ -12,10 +12,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- *
- * @author tjd
- */
 public class OrderQueryTest extends PopulateDBJpaTest {
 
     private static OrderDAOBean bean;
