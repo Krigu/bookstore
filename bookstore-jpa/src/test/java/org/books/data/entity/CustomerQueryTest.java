@@ -8,7 +8,7 @@ package org.books.data.entity;
 import java.util.List;
 import org.books.data.dao.CustomerDAOBean;
 import org.books.data.dto.CustomerInfo;
-import static org.books.data.entity.AbstractJpaTest.em;
+import static org.books.data.entity.BasisJpaTest.em;
 import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,13 +17,13 @@ import org.testng.annotations.Test;
  *
  * @author tjd
  */
-public class CustomerQueryTest extends AbstractJpaTest {
+public class CustomerQueryTest extends BasisJpaTest {
 
     private static CustomerDAOBean bean;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        AbstractJpaTest.setUpBeforeClass();
+        BasisJpaTest.setUpBeforeClass();
         bean = new CustomerDAOBean();
         bean.setEntityManager(em);
     }

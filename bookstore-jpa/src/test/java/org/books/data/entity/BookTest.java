@@ -8,7 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import org.books.data.dao.BookDAOBean;
 import org.books.data.dto.BookInfo;
-import static org.books.data.entity.AbstractJpaTest.em;
+import static org.books.data.entity.BasisJpaTest.em;
 
 public class BookTest extends PopulateDBJpaTest {
 
@@ -48,6 +48,15 @@ public class BookTest extends PopulateDBJpaTest {
         List<BookInfo> searchList = bean.search("ee java");
         Assert.assertEquals(searchList.size(), 6);
     }
+    
+    @Test
+    public void searchByKeyWordsJavaEEQuoted() {
+        BookDAOBean bean = new BookDAOBean();
+        bean.setEntityManager(em);
+
+        List<BookInfo> searchList = bean.search("\"java ee\"");
+        Assert.assertEquals(searchList.size(), 5);
+    }
 
     @Test
     public void searchByKeyWordsApressBeginning() {
@@ -67,7 +76,7 @@ public class BookTest extends PopulateDBJpaTest {
         Assert.assertEquals(searchList.size(), 1);
     }
     
-     @Test
+    @Test
     public void searchByKeyWordsMicrosoft() {
         BookDAOBean bean = new BookDAOBean();
         bean.setEntityManager(em);
@@ -75,4 +84,7 @@ public class BookTest extends PopulateDBJpaTest {
         List<BookInfo> searchList = bean.search("Microsoft");
         Assert.assertEquals(searchList.size(), 0);
     }
+
+
+    
 }

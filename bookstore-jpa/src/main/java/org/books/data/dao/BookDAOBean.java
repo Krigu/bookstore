@@ -5,6 +5,7 @@
  */
 package org.books.data.dao;
 
+import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import org.books.data.dao.generic.GenericDAOImpl;
 import org.books.data.dto.BookInfo;
@@ -19,6 +20,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <h1>BookDAOBean</h1>
@@ -47,14 +50,15 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
 
     @Override
     public List<BookInfo> search(String keywords) {
-        String[] keywordArr = keywords.split("\\s+");
+
+        List<String> keywordList = getKeywordsAsList(keywords);
         
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<BookInfo> cq = cb.createQuery(BookInfo.class);
         Root<Book> book = cq.from(Book.class);
         Predicate where = cb.conjunction();
         
-        for (String keyword: keywordArr) {
+        for (String keyword: keywordList) {
             String keywordUpper = keyword.toUpperCase();
             
             where = cb.and(where, cb.or(
@@ -69,6 +73,16 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
         TypedQuery<BookInfo> q = entityManager.createQuery(cq);
 
         return q.getResultList();
+    }
+    
+    private List<String> getKeywordsAsList(String keywords) {
+        List<String> list = new ArrayList<>();
+        Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(keywords);
+        while (m.find()) {
+            list.add(m.group(1).replace("\"", ""));
+        }
+        
+        return list;
     }
     
 }
