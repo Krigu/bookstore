@@ -19,8 +19,6 @@ import org.books.data.entity.Order;
  * </p>
  *
  * @author Thomas Jeanmonod
- *
- *
  */
 @Stateless
 public class OrderDAOBean extends GenericDAOImpl<Order> implements OrderDAOLocal {

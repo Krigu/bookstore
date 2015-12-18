@@ -13,11 +13,11 @@ import org.testng.annotations.Test;
  *
  * @author tjd
  */
-@Test(groups = "LoginCRUD",dependsOnGroups = "BookCRUD")
+@Test(groups = "LoginCRUD", dependsOnGroups = "BookCRUD")
 public class LoginCRUDTest extends BasisJpaTest {
 
     private LoginDAOBean bean;
-    
+
     private static final String USERNAME = "username";
     private Login login = new Login(USERNAME, "password");
 
@@ -26,8 +26,8 @@ public class LoginCRUDTest extends BasisJpaTest {
         bean = new LoginDAOBean();
         bean.setEntityManager(em);
     }
-    
-        @Test
+
+    @Test
     public void createLogin() {
         //Create
         transaction.begin();
@@ -36,7 +36,7 @@ public class LoginCRUDTest extends BasisJpaTest {
         em.clear();
         Assert.assertNotNull(login.getId());
     }
-    
+
     @Test(dependsOnMethods = "createLogin", expectedExceptions = PersistenceException.class)
     public void checkUniqueUsername() {
         Login checkLogin = new Login();

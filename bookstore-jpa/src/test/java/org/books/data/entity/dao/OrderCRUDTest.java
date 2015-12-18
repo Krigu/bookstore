@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.books.data.entity.dao;
 
 import org.books.data.dao.CustomerDAOBean;
@@ -15,8 +10,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.PersistenceException;
+import org.books.data.dao.BookDAOBean;
+import org.books.data.dao.OrderItemDAOBean;
 import org.books.data.entity.Address;
 import org.books.data.entity.BasisJpaTest;
+import org.books.data.entity.Book;
 import org.books.data.entity.CreditCard;
 import org.books.data.entity.Customer;
 import org.books.data.entity.Order;
@@ -27,18 +26,22 @@ import org.testng.annotations.BeforeClass;
  *
  * @author tjd
  */
-@Test(groups="OrderCRUD", dependsOnGroups={"BookCRUD","CustomerCRUD"})
+@Test(groups = "OrderCRUD", dependsOnGroups = {"BookCRUD", "CustomerCRUD"})
 public class OrderCRUDTest extends BasisJpaTest {
 
     private CustomerDAOBean customerBean;
     private OrderDAOBean bean;
+    private BookDAOBean bookDAOBean;
+    private OrderItemDAOBean orderItemDAOBean;
 
     private final Address address = new Address("street", "city", "1234", "CH");
     private final CreditCard cc = new CreditCard(CreditCard.Type.MasterCard, "0123456", 12, 2020);
     private Customer customer = new Customer("customer@2.com", "first name 1", "last name 1", address, cc);
+    private Book book = new Book();
     private final List<OrderItem> items = new ArrayList<>();
 
     private Order order = new Order("2015", new Date(), BigDecimal.ONE, Order.Status.shipped, customer, customer.getAddress(), customer.getCreditCard(), items);
+    private OrderItem orderItem = new OrderItem();
 
     @BeforeClass
     public void initDAO() throws Exception {
@@ -48,20 +51,35 @@ public class OrderCRUDTest extends BasisJpaTest {
         bean = new OrderDAOBean();
         bean.setEntityManager(em);
 
+        bookDAOBean = new BookDAOBean();
+        bookDAOBean.setEntityManager(em);
+
+        orderItemDAOBean = new OrderItemDAOBean();
+        orderItemDAOBean.setEntityManager(em);
+
+        book.setIsbn("12345678");
+
         transaction.begin();
         customer = customerBean.create(customer);
+        book = bookDAOBean.create(book);
         transaction.commit();
     }
 
     @Test
     public void createOrder() {
-        //Create
-
         transaction.begin();
         order = bean.create(order);
         transaction.commit();
         em.clear();
         Assert.assertNotNull(order.getId());
+    }
+
+    @Test(dependsOnMethods = "createOrder", expectedExceptions = PersistenceException.class)
+    public void checkMandatoryCustomer() {
+        Order orderWithoutCustomer = new Order("2016", new Date(), BigDecimal.ONE, Order.Status.shipped, null, customer.getAddress(), customer.getCreditCard(), items);
+        transaction.begin();
+        bean.create(orderWithoutCustomer);
+        transaction.commit();
     }
 
     @Test(dependsOnMethods = "createOrder")
@@ -81,6 +99,19 @@ public class OrderCRUDTest extends BasisJpaTest {
         Assert.assertEquals(order.getAmount(), BigDecimal.TEN);
     }
 
+    @Test(dependsOnMethods = "updateOrder")
+    public void addOrderItem() {
+        orderItem.setBook(book);
+        orderItem.setQuantity(1);
+        orderItem.setPrice(new BigDecimal(30));
+        order.getItems().add(orderItem);
+        transaction.begin();
+        order = bean.update(order);
+        transaction.commit();
+        Assert.assertEquals(order.getItems().size(), 1);
+        orderItem = order.getItems().get(0);
+    }
+
     @Test(dependsOnMethods = "updateOrder", expectedExceptions = EntityNotFoundException.class)
     public void removeOrder() {
         transaction.begin();
@@ -88,6 +119,10 @@ public class OrderCRUDTest extends BasisJpaTest {
         transaction.commit();
 
         bean.find(order.getId());
+    }
 
+    @Test(dependsOnMethods = "removeOrder", expectedExceptions = EntityNotFoundException.class)
+    public void orphanRemovalOrderItem() {
+        orderItemDAOBean.find(orderItem.getId());
     }
 }
