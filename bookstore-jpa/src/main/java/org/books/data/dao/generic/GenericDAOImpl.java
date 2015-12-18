@@ -31,6 +31,7 @@ public abstract class GenericDAOImpl<T extends BaseEntity> implements GenericDAO
 
     @Override
     public T create(T entity) {
+        LOGGER.info("creat entity " + classT.getClass().getName());
         entityManager.persist(entity);
         entityManager.flush();
         return entity;
@@ -49,13 +50,13 @@ public abstract class GenericDAOImpl<T extends BaseEntity> implements GenericDAO
 
     @Override
     public T update(T entity) {
-        LOGGER.info("save " + entity.toString());
+        LOGGER.info("update : " + entity.toString());
         return entityManager.merge(entity);
     }
 
     @Override
     public void remove(T entity) {
-        LOGGER.info("remove " + entity.toString());
+        LOGGER.info("remove : " + entity.toString());
         // Check if the entity is managed (contains()) and if not,
         // then make it managed it (merge()).
         entityManager.remove(entityManager.contains(entity) ? entity

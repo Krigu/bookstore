@@ -31,6 +31,7 @@ public class OrderDAOBean extends GenericDAOImpl<Order> implements OrderDAOLocal
 
     @Override
     public Order find(String number) throws EntityNotFoundException {
+        LOGGER.info("Find order by number : "+number);
         TypedQuery<Order> query = entityManager.createNamedQuery(Order.FIND_BY_NUMBER, Order.class);
         query.setParameter("number", number);
         try {
@@ -42,6 +43,7 @@ public class OrderDAOBean extends GenericDAOImpl<Order> implements OrderDAOLocal
 
     @Override
     public List<OrderInfo> search(Customer customer, int year) {
+        LOGGER.info("Search orderinfo by customer : "+customer.getId() +" and by year : "+year);
         TypedQuery<OrderInfo> query = entityManager.createNamedQuery(Order.FIND_BY_CUSTOMER_AND_YEAR, OrderInfo.class);
         query.setParameter("customer", customer);
         query.setParameter("year", year);

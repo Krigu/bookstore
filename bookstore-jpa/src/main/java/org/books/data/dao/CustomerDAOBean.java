@@ -32,6 +32,7 @@ public class CustomerDAOBean extends GenericDAOImpl<Customer> implements Custome
 
     @Override
     public Customer find(String email) throws EntityNotFoundException {
+        LOGGER.info("Find customer by email : "+email);
         TypedQuery<Customer> query = entityManager.createNamedQuery(Customer.FIND_BY_EMAIL, Customer.class);
         query.setParameter("email", email);
         try {
@@ -43,6 +44,7 @@ public class CustomerDAOBean extends GenericDAOImpl<Customer> implements Custome
 
     @Override
     public List search(String name) {
+        LOGGER.info("Search customers by name : "+name);
         TypedQuery<CustomerInfo> query = entityManager.createNamedQuery(Customer.FIND_BY_NAME, CustomerInfo.class);
         query.setParameter("firstName", name);
         query.setParameter("lastName", name);
