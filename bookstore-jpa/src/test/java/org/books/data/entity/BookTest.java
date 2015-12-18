@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.persistence.NoResultException;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import org.books.data.dao.BookDAOBean;
 import org.books.data.dto.BookInfo;
@@ -31,6 +32,22 @@ public class BookTest extends PopulateDBJpaTest {
         Book book = query.getSingleResult();
     }
 
+    @Test
+    public void BookFindByISBNDAOTest() {
+        BookDAOBean bean = new BookDAOBean();
+        bean.setEntityManager(em);
+        Book book = bean.find("143024626X");
+        Assert.assertEquals(isbn, book.getIsbn());
+        Assert.assertEquals("Beginning Java EE 7 (Expert Voice in Java)", book.getTitle());
+    }
+
+    @Test(expectedExceptions = EntityNotFoundException.class)
+    public void BookFindByISBNDAOTestNullValue() {
+        BookDAOBean bean = new BookDAOBean();
+        bean.setEntityManager(em);
+        Book book = bean.find("123");
+    }
+    
     @Test
     public void searchByKeyWordsJava() {
         BookDAOBean bean = new BookDAOBean();

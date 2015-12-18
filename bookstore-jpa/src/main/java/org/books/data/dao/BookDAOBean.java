@@ -14,6 +14,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,7 +40,11 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
         LOGGER.info("Find book by isbn : "+isbn);
         TypedQuery<Book> query = entityManager.createNamedQuery(Book.FINB_BY_ISBN, Book.class);
         query.setParameter("isbn", isbn);
-        return query.getSingleResult();
+        try {        
+            return query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 
     @Override
