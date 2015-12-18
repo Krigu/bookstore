@@ -1,5 +1,6 @@
 package org.books.data.entity;
 
+import org.books.data.PopulateDBJpaTest;
 import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -8,7 +9,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import org.books.data.dao.BookDAOBean;
 import org.books.data.dto.BookInfo;
-import static org.books.data.entity.BasisJpaTest.em;
 
 public class BookTest extends PopulateDBJpaTest {
 

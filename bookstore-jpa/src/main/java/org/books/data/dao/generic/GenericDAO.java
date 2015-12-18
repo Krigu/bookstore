@@ -8,11 +8,7 @@ import org.books.data.entity.BaseEntity;
  * <p>
  * The goal of this interface is to provide the basic CRUD action
  * </p>
- *
- * @author Thomas Jeanmonod
- * @param <T>
- *
- *
+ * @param <T> entity
  */
 public interface GenericDAO<T extends BaseEntity> {
 

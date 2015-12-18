@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.books.data.dao;
 
 import java.util.ArrayList;
@@ -28,9 +23,6 @@ import java.util.regex.Pattern;
  * <p>
  * class DAO for the entity Book
  * </p>
- *
- * @author Thomas Jeanmonod
- *
  **/
 @Stateless
 public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
@@ -43,6 +35,7 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
 
     @Override
     public Book find(String isbn) throws EntityNotFoundException {
+        LOGGER.info("Find book by isbn : "+isbn);
         TypedQuery<Book> query = entityManager.createNamedQuery(Book.FINB_BY_ISBN, Book.class);
         query.setParameter("isbn", isbn);
         return query.getSingleResult();
@@ -50,9 +43,9 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
 
     @Override
     public List<BookInfo> search(String keywords) {
-
+        LOGGER.info("Search books by keywords : "+keywords);
         List<String> keywordList = getKeywordsAsList(keywords);
-        
+       
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<BookInfo> cq = cb.createQuery(BookInfo.class);
         Root<Book> book = cq.from(Book.class);

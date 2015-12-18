@@ -12,9 +12,6 @@ import org.books.data.entity.Order;
  * <p>
  * Interface for the Order DAO layer
  * </p>
- *
- * @author Thomas Jeanmonod
- *
  **/
 @Local
 public interface OrderDAOLocal extends GenericDAO<Order> {

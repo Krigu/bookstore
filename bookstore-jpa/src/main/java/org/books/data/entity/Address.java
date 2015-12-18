@@ -1,14 +1,18 @@
 package org.books.data.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Address implements Serializable {
 
 	private String street;
+        @Column(nullable = false)
 	private String city;
+        @Column(nullable = false)
 	private String postalCode;
+        @Column(nullable = false)
 	private String country;
 
 	public Address() {
