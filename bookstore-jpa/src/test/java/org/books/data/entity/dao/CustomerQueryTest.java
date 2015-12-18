@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.books.data.entity;
+package org.books.data.entity.dao;
 
 import java.util.List;
 import org.books.data.dao.CustomerDAOBean;
 import org.books.data.dto.CustomerInfo;
-import static org.books.data.entity.AbstractJpaTest.em;
+import org.books.data.entity.PopulateDBJpaTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,13 +17,13 @@ import org.testng.annotations.Test;
  *
  * @author tjd
  */
-public class CustomerQueryTest extends AbstractJpaTest {
+public class CustomerQueryTest extends PopulateDBJpaTest {
 
     private static CustomerDAOBean bean;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        AbstractJpaTest.setUpBeforeClass();
+        PopulateDBJpaTest.setUpBeforeClass();
         bean = new CustomerDAOBean();
         bean.setEntityManager(em);
     }

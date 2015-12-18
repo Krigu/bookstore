@@ -8,7 +8,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import org.books.data.dao.BookDAOBean;
 import org.books.data.dto.BookInfo;
-import static org.books.data.entity.AbstractJpaTest.em;
 
 public class BookTest extends PopulateDBJpaTest {
 
