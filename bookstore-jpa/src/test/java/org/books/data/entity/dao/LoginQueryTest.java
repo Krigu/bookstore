@@ -3,7 +3,7 @@ package org.books.data.entity.dao;
 import javax.persistence.EntityNotFoundException;
 import org.books.data.dao.LoginDAOBean;
 import org.books.data.entity.Login;
-import org.books.data.entity.PopulateDBJpaTest;
+import org.books.data.PopulateDBJpaTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

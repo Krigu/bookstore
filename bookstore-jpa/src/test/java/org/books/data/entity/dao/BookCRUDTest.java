@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import javax.persistence.PersistenceException;
-import org.books.data.entity.BasisJpaTest;
+import org.books.data.BasisJpaTest;
 import org.books.data.entity.Book;
 import org.testng.annotations.BeforeClass;
 

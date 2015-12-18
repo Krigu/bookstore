@@ -14,7 +14,7 @@ import javax.persistence.PersistenceException;
 import org.books.data.dao.BookDAOBean;
 import org.books.data.dao.OrderItemDAOBean;
 import org.books.data.entity.Address;
-import org.books.data.entity.BasisJpaTest;
+import org.books.data.BasisJpaTest;
 import org.books.data.entity.Book;
 import org.books.data.entity.CreditCard;
 import org.books.data.entity.Customer;

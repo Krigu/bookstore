@@ -1,5 +1,6 @@
 package org.books.data.entity;
 
+import org.books.data.PopulateDBJpaTest;
 import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;

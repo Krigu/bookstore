@@ -5,7 +5,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import org.books.data.dao.BookDAOBean;
 import org.books.data.dao.OrderItemDAOBean;
-import org.books.data.entity.BasisJpaTest;
+import org.books.data.BasisJpaTest;
 import org.books.data.entity.Book;
 import org.books.data.entity.OrderItem;
 import org.testng.Assert;

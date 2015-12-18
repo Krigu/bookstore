@@ -1,5 +1,6 @@
-package org.books.data.entity;
+package org.books.data;
 
+import org.books.data.BasisJpaTest;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;

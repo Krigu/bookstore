@@ -4,7 +4,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import org.books.data.dao.CustomerDAOBean;
 import org.books.data.entity.Address;
-import org.books.data.entity.BasisJpaTest;
+import org.books.data.BasisJpaTest;
 import org.books.data.entity.CreditCard;
 import org.books.data.entity.Customer;
 import org.testng.Assert;

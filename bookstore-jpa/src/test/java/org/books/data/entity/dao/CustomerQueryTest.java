@@ -3,7 +3,7 @@ package org.books.data.entity.dao;
 import java.util.List;
 import org.books.data.dao.CustomerDAOBean;
 import org.books.data.dto.CustomerInfo;
-import org.books.data.entity.PopulateDBJpaTest;
+import org.books.data.PopulateDBJpaTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
 import org.testng.annotations.Test;
