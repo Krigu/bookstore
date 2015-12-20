@@ -1,9 +1,8 @@
-package org.books.data.entity.dao;
+package org.books.data.dao;
 
 import java.math.BigDecimal;
 import javax.persistence.EntityNotFoundException;
-import org.books.data.dao.BookDAOBean;
-import org.books.data.dao.OrderItemDAOBean;
+
 import org.books.data.BasisJpaTest;
 import org.books.data.entity.Book;
 import org.books.data.entity.OrderItem;

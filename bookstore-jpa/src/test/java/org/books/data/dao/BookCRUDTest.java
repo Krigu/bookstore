@@ -1,6 +1,5 @@
-package org.books.data.entity.dao;
+package org.books.data.dao;
 
-import org.books.data.dao.BookDAOBean;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -1,8 +1,8 @@
-package org.books.data.entity.dao;
+package org.books.data.dao;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
-import org.books.data.dao.LoginDAOBean;
+
 import org.books.data.BasisJpaTest;
 import org.books.data.entity.Login;
 import org.testng.Assert;
