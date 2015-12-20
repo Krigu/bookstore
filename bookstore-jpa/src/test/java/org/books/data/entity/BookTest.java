@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.persistence.NoResultException;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import org.books.data.dao.BookDAOBean;
 import org.books.data.dto.BookInfo;
@@ -32,6 +33,23 @@ public class BookTest extends PopulateDBJpaTest {
     }
 
     @Test
+    public void BookFindByISBNDAOTest() {
+        BookDAOBean bean = new BookDAOBean();
+        bean.setEntityManager(em);
+        final String isbn = "143024626X";
+        Book book = bean.find(isbn);
+        Assert.assertEquals(isbn, book.getIsbn());
+        Assert.assertEquals("Beginning Java EE 7 (Expert Voice in Java)", book.getTitle());
+    }
+
+    @Test(expectedExceptions = EntityNotFoundException.class)
+    public void BookFindByISBNDAOTestNullValue() {
+        BookDAOBean bean = new BookDAOBean();
+        bean.setEntityManager(em);
+        Book book = bean.find("123");
+    }
+    
+    @Test
     public void searchByKeyWordsJava() {
         BookDAOBean bean = new BookDAOBean();
         bean.setEntityManager(em);
@@ -47,6 +65,15 @@ public class BookTest extends PopulateDBJpaTest {
 
         List<BookInfo> searchList = bean.search("ee java");
         Assert.assertEquals(searchList.size(), 6);
+    }
+    
+    @Test
+    public void searchByKeyWordsJavaEEQuoted() {
+        BookDAOBean bean = new BookDAOBean();
+        bean.setEntityManager(em);
+
+        List<BookInfo> searchList = bean.search("\"java ee\"");
+        Assert.assertEquals(searchList.size(), 5);
     }
 
     @Test
@@ -67,7 +94,7 @@ public class BookTest extends PopulateDBJpaTest {
         Assert.assertEquals(searchList.size(), 1);
     }
     
-     @Test
+    @Test
     public void searchByKeyWordsMicrosoft() {
         BookDAOBean bean = new BookDAOBean();
         bean.setEntityManager(em);
@@ -75,4 +102,7 @@ public class BookTest extends PopulateDBJpaTest {
         List<BookInfo> searchList = bean.search("Microsoft");
         Assert.assertEquals(searchList.size(), 0);
     }
+
+
+    
 }

@@ -21,7 +21,7 @@ public class Order extends BaseEntity {
         accepted, processing, shipped, canceled
     }
 
-    @Column(nullable = false, name = "orderNumber")
+    @Column(nullable = false, name = "orderNumber", unique = true)
     private String number;
 
     @Temporal(TemporalType.DATE)
@@ -34,8 +34,8 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id",nullable = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     @Embedded   
