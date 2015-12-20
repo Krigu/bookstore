@@ -1,0 +1,22 @@
+ReadMe Bookstore JPA
+
+Entities
+- Die Entities wurden gemäss des vorgegebenen Entity Models umgesetzt
+- Zusätzlich wurde eine BaseEntity als MappedSuperclass umgesetzt, die den Primärschlüssel, das Versionsfeld für optimistic locking und die timestamps für insert und update enthält
+- Die fachlichen Schlüssel Customer.email, Order.number und Book.isbn sind Pflichtfelder und müssen eindeutig sein
+
+DAOs
+- Die DAOs wurden gemäss des vorgegebenen Data Access Model umgesetzt
+- Die angeforderten Suchabfragen wurden mit einer Ausnahme über JPQL-NamedQueries umgesetzt. Die allgemeine Büchersuche wurde über criteria API umgesetzt
+
+Tests
+- Für die Abfragen und die CRUD-Operationen wurden entsprechende Unit-Tests implementiert
+- Die Testdaten für Bücher und Kunden werden aus einem xml-file in die DB importiert
+- Die DB für die Tests läuft "in memory"
+
+Allgemein:
+- Sourcen-Verwaltung via GitHub (https://github.com/Krigu/bookstore)
+- Continous-: Automatische Überprüfung ob der Sourcecode kompilierbar ist via Travis-CI (https://travis-ci.org/Krigu/bookstore)
+- Statisches Weaving eingebaut
+- Metamodel der Entitäten wird via Maven gebaut und wird für typsicherheit bei der Criteria API verwendet
+- Für die Unittests wird Derby im In-Memory-Modus in zusammen mit DBUnit verwendet

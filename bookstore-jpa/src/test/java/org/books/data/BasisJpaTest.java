@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 
@@ -19,16 +20,6 @@ public abstract class BasisJpaTest {
         em = emf.createEntityManager();
         transaction = em.getTransaction();
     }
-
-    /*@AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        if (em != null) {
-            em.close();
-        }
-        if (emf != null) {
-            emf.close();
-        }
-    }*/
 
     @AfterMethod
     public void rollback() throws Exception {

@@ -1,9 +1,8 @@
-package org.books.data.entity.dao;
+package org.books.data.dao;
 
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
-import org.books.data.dao.CustomerDAOBean;
-import org.books.data.dao.OrderDAOBean;
+
 import org.books.data.dto.OrderInfo;
 import org.books.data.entity.Customer;
 import org.books.data.entity.Order;

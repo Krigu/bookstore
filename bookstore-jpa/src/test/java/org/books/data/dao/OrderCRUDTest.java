@@ -1,7 +1,5 @@
-package org.books.data.entity.dao;
+package org.books.data.dao;
 
-import org.books.data.dao.CustomerDAOBean;
-import org.books.data.dao.OrderDAOBean;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.PersistenceException;
-import org.books.data.dao.BookDAOBean;
-import org.books.data.dao.OrderItemDAOBean;
+
 import org.books.data.entity.Address;
 import org.books.data.BasisJpaTest;
 import org.books.data.entity.Book;

@@ -1,7 +1,7 @@
-package org.books.data.entity.dao;
+package org.books.data.dao;
 
 import java.util.List;
-import org.books.data.dao.CustomerDAOBean;
+
 import org.books.data.dto.CustomerInfo;
 import org.books.data.PopulateDBJpaTest;
 import org.testng.annotations.BeforeClass;

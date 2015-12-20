@@ -1,7 +1,7 @@
-package org.books.data.entity.dao;
+package org.books.data.dao;
 
 import javax.persistence.EntityNotFoundException;
-import org.books.data.dao.LoginDAOBean;
+
 import org.books.data.entity.Login;
 import org.books.data.PopulateDBJpaTest;
 import org.testng.Assert;
