@@ -12,7 +12,6 @@
         <version>0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>ch.bfh.eadj</groupId>
     <artifactId>bookstore-app</artifactId>
     <packaging>ear</packaging>
     <name>bookstore-app</name>
@@ -50,6 +49,7 @@
                 <version>2.8</version>
                 <configuration>
                     <version>6</version>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <applicationName>bookstore-app</applicationName>
                     <modules>
                         <webModule>
