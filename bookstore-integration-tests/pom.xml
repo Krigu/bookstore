@@ -49,7 +49,7 @@
                     <name>bookstore-app</name>
                     <app>${basedir}/../bookstore-app/target/bookstore-app-${project.version}.ear</app>
                     <port>8080</port>
-                    <configFile>${basedir}/domain.xml</configFile>
+                    <configFile>${basedir}/src/test/resources/domain.xml</configFile>
                     <autoDelete>true</autoDelete>
                 </configuration>
                 <executions>
