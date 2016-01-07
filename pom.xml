@@ -15,6 +15,7 @@
         <module>bookstore-web</module>
         <module>bookstore-ejb</module>
         <module>bookstore-jpa</module>
+        <module>bookstore-integration-tests</module>
     </modules>
     <name>bookstore</name>
 
