@@ -1,17 +1,17 @@
 package org.books.application;
 
-import java.util.List;
 import org.books.application.exception.BookAlreadyExistsException;
 import org.books.application.exception.BookNotFoundException;
+import org.books.data.dao.BookDAOLocal;
+import org.books.data.dto.BookDTO;
+import org.books.data.dto.BookInfo;
 import org.books.data.entity.Book;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.books.data.dao.BookDAOLocal;
-import org.books.data.dto.BookDTO;
-import org.books.data.dto.BookInfo;
 
 @Stateless(name = "CatalogService")
 public class CatalogServiceBean implements CatalogService {
