@@ -62,7 +62,7 @@ public interface CustomerService {
      * @return the number of the registered customer
      * @throws CustomerAlreadyExistsException if another customer with the same email address already exists
      */
-    String registerCustomer(CustomerDTO customer, String password) throws CustomerAlreadyExistsException;
+    CustomerDTO registerCustomer(CustomerDTO customer, String password) throws CustomerAlreadyExistsException;
 
     /**
      * Searches for customers by name.
