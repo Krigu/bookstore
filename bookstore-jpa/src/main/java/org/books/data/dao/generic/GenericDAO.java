@@ -42,7 +42,7 @@ public interface GenericDAO<T extends BaseEntity> {
      *
      * @return the found entity instance
      */
-    public T find(Long id) throws EntityNotFoundException;
+    public T find(Long id);
 
     /**
      *

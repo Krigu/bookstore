@@ -27,7 +27,22 @@ public interface CustomerDAOLocal extends GenericDAO<Customer>{
      *
      * @return the found entity instance
      */
-    public Customer find(String email) throws EntityNotFoundException;
+    public Customer find(String email) ;
+
+    /**
+     * <h1>T find(String number)</h1>
+     *
+     * <p>
+     * a customer with a particular user name
+     * </p>
+     *
+     * @param email email of the customer
+     * @exception EntityNotFoundException happen if the customer isn't find
+     *
+     * @return the found entity instance
+     */
+    public Customer findByCustomerNumber(String email) ;
+
     /**
      * <h1>List<CustomerInfo> search(String name)</h1>
      *

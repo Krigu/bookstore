@@ -25,5 +25,5 @@ public interface LoginDAOLocal extends GenericDAO<Login>{
      *
      * @return the found entity instance
      */
-    public Login find(String username) throws EntityNotFoundException;
+    public Login find(String username);
 }

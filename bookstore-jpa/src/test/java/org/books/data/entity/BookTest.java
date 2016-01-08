@@ -15,7 +15,7 @@ public class BookTest extends PopulateDBJpaTest {
 
     @Test
     public void BookFindByISBNTest() {
-        TypedQuery<Book> query = em.createNamedQuery(Book.FINB_BY_ISBN, Book.class);
+        TypedQuery<Book> query = em.createNamedQuery(Book.FIND_BY_ISBN, Book.class);
         final String isbn = "143024626X";
         query.setParameter("isbn", isbn);
 

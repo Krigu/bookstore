@@ -28,7 +28,7 @@ public interface OrderDAOLocal extends GenericDAO<Order> {
      *
      * @return the found entity instance
      */
-    public Order find(String number) throws EntityNotFoundException;
+    public Order find(String number);
 
     /**
      * <h1>List<OrderInfo> search(Customer customer, int year)</h1>

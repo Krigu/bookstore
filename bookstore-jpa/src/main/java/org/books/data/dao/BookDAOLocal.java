@@ -28,7 +28,7 @@ public interface BookDAOLocal extends GenericDAO<Book> {
      *
      * @return the found entity instance
      */
-    public Book find(String isbn) throws EntityNotFoundException;
+    public Book find(String isbn) ;
 
     /**
      * <h1>List<BookInfo> search(String keywords)</h1>
