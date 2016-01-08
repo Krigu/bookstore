@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @NamedQueries({
-        @NamedQuery(name = Book.FINB_BY_ISBN, query = "from Book b where UPPER(b.isbn) = UPPER(:isbn)")
+        @NamedQuery(name = Book.FIND_BY_ISBN, query = "from Book b where UPPER(b.isbn) = UPPER(:isbn)")
 })
 @Entity
 public class Book extends BaseEntity {
     
-    public static final String FINB_BY_ISBN = "Book.findByISBN";
+    public static final String FIND_BY_ISBN = "Book.findByISBN";
 
     public enum Binding {
 
