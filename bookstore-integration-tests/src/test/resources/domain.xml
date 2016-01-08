@@ -40,7 +40,7 @@
     <jdbc-connection-pool datasource-classname="org.apache.derby.jdbc.EmbeddedDataSource" name="ConnectionPool" res-type="javax.sql.DataSource">
       <property name="Password" value=""></property>
       <property name="User" value=""></property>
-      <property name="DatabaseName" value="bookstores"></property>
+      <property name="DatabaseName" value="target/bookstores"></property>
       <property name="connectionAttributes" value=";create=true"></property>
     </jdbc-connection-pool>
     <jdbc-resource pool-name="ConnectionPool" jndi-name="jdbc/bookstore"></jdbc-resource>
