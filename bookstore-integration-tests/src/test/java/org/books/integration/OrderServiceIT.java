@@ -1,4 +1,4 @@
-package org.books.application;
+package org.books.integration;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -7,11 +7,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
+import org.books.application.CatalogService;
+import org.books.application.CustomerService;
+import org.books.application.OrderService;
 import org.books.application.exception.BookNotFoundException;
 import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
-import org.books.application.exception.OrderAlreadyShippedException;
-import org.books.application.exception.OrderNotFoundException;
 import org.books.application.exception.PaymentFailedException;
 import org.books.data.dto.AddressDTO;
 import org.books.data.dto.BookDTO;
@@ -19,10 +21,8 @@ import org.books.data.dto.BookInfo;
 import org.books.data.dto.CreditCardDTO;
 import org.books.data.dto.CustomerDTO;
 import org.books.data.dto.OrderItemDTO;
-import org.books.data.entity.Address;
 import org.books.data.entity.Book;
 import org.books.data.entity.CreditCard;
-import org.books.data.entity.Customer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -39,7 +39,7 @@ public class OrderServiceIT {
 
     private final AddressDTO addressDTO = new AddressDTO("street 1", "city 1", "1111", "CH");
     private final CreditCardDTO ccDTO = new CreditCardDTO(CreditCard.Type.MasterCard, "5111005111051128", 12, 2020);
-    private CustomerDTO customerDTO;
+    private CustomerDTO customerDTO = new CustomerDTO();
 
     private BookDTO bookDTO1 = new BookDTO("Antonio Goncalves", Book.Binding.Paperback, "12345", 608, new BigDecimal("50.00"), 2013, "Apress", "Beginning Java EE 7");
     private BookDTO bookDTO2 = new BookDTO("U2", Book.Binding.Hardcover, "67890", 432, new BigDecimal("10.00"), 2010, "Rock", "Java EE 7 for the newbies");
