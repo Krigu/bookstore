@@ -42,11 +42,11 @@ public class BookTest extends PopulateDBJpaTest {
         Assert.assertEquals("Beginning Java EE 7 (Expert Voice in Java)", book.getTitle());
     }
 
-    @Test(expectedExceptions = EntityNotFoundException.class)
+    @Test
     public void BookFindByISBNDAOTestNullValue() {
         BookDAOBean bean = new BookDAOBean();
         bean.setEntityManager(em);
-        Book book = bean.find("123");
+        Assert.assertNull(bean.find("123"));
     }
     
     @Test

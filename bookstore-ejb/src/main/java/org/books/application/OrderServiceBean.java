@@ -102,11 +102,11 @@ public class OrderServiceBean implements OrderService {
         try {
             order = orderDAO.find(orderNr);
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING,"Order not found");
+            LOGGER.log(Level.WARNING, "Order not found");
             throw new OrderNotFoundException();
         }
         if (order.getStatus() == Order.Status.shipped) {
-            LOGGER.log(Level.WARNING,"Order already shipped");
+            LOGGER.log(Level.WARNING, "Order already shipped");
             throw new OrderAlreadyShippedException();
         }
         order.setStatus(Order.Status.canceled);
@@ -123,7 +123,6 @@ public class OrderServiceBean implements OrderService {
         
         LOGGER.info("*******************book sended "+book.getAuthors());
     }*/
-
     /**
      * Find a customer by customerNr
      *
@@ -132,12 +131,9 @@ public class OrderServiceBean implements OrderService {
      * @throws CustomerNotFoundException
      */
     private Customer findCustomer(String customerNr) throws CustomerNotFoundException {
-        LOGGER.info("Find customer number : " + customerNr);
-        Customer customer;
-        try {
-            //TODO Remplace this methode by find by customerNr
-            customer = customerDAO.find(customerNr);
-        } catch (Exception e) {
+        LOGGER.log(Level.INFO, "Find customer number : {0}", customerNr);
+        Customer customer = customerDAO.findByCustomerNumber(customerNr);
+        if (customer == null) {
             throw new CustomerNotFoundException();
         }
         return customer;
@@ -154,11 +150,9 @@ public class OrderServiceBean implements OrderService {
         LOGGER.info("Convert OrderItemDTO to OrderItem");
         List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItemDTO item : items) {
-            Book book;
-            try {
-                book = bookDAO.find(item.getBook().getIsbn());
-            } catch (Exception e) {
-                LOGGER.log(Level.WARNING,"This book isn't found : " + item.getBook().getIsbn());
+            Book book = bookDAO.find(item.getBook().getIsbn());
+            if (book==null) {
+                LOGGER.log(Level.WARNING, "This book isn''t found : {0}", item.getBook().getIsbn());
                 throw new BookNotFoundException();
             }
 
@@ -184,7 +178,7 @@ public class OrderServiceBean implements OrderService {
             total = total.add(new BigDecimal(itemAmount));
         }
         if (total.floatValue() > maxAmount) {
-            LOGGER.log(Level.WARNING,"The total is too big : " + total);
+            LOGGER.log(Level.WARNING, "The total is too big : {0}", total);
             throw new PaymentFailedException(PaymentFailedException.Code.PAYMENT_LIMIT_EXCEEDED);
         }
         return total;

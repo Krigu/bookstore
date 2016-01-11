@@ -49,7 +49,7 @@ public class OrderServiceIT {
 
     private List<OrderItemDTO> items = new ArrayList<>();
 
-    //@BeforeClass
+    @BeforeClass
     public void lookupService() throws Exception {
         Context jndiContext = new InitialContext();
         orderService = (OrderService) jndiContext.lookup(ORDER_SERVICE_NAME);
@@ -63,26 +63,26 @@ public class OrderServiceIT {
         customerDTO.setAdress(addressDTO);
         customerDTO = customerService.registerCustomer(customerDTO, "1234");
 
-        catalogService.addBook(bookDTO1);
-        bookDTO1 = catalogService.findBook(bookDTO1.getIsbn());
-        catalogService.addBook(bookDTO2);
-        bookDTO2 = catalogService.findBook(bookDTO2.getIsbn());
+        //catalogService.addBook(bookDTO1);
+        //bookDTO1 = catalogService.findBook(bookDTO1.getIsbn());
+        //catalogService.addBook(bookDTO2);
+        //bookDTO2 = catalogService.findBook(bookDTO2.getIsbn());
 
         init();
     }
 
-    //@Test(expectedExceptions = CustomerNotFoundException.class)
+    @Test(expectedExceptions = CustomerNotFoundException.class)
     public void placeOrderCustomerNotFound() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
         orderService.placeOrder("a@b.c", items);
     }
 
-    /*@Test(expectedExceptions = BookNotFoundException.class)
+    @Test(expectedExceptions = BookNotFoundException.class)
     public void placeOrderBookNotFound() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
-        items.add(new OrderItemDTO(new BookInfo(book3), 2));
-        orderService.placeOrder("a@b.c", items);
+        items.add(new OrderItemDTO(new BookInfo("no_isbn", "no_title",new BigDecimal(15)), 2));
+        orderService.placeOrder("C-1", items);
     }
 
-    @Test(expectedExceptions = PaymentFailedException.class)
+    /*@Test(expectedExceptions = PaymentFailedException.class)
     public void placeOrderTotalTooBig() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
         items.add(new OrderItemDTO(new BookInfo(book1), 200));
         orderService.placeOrder("a@b.c", items);
@@ -159,8 +159,8 @@ public class OrderServiceIT {
 
     private void initListOrderItemDTO() {
         items.clear();
-        items.add(new OrderItemDTO(new BookInfo(bookDTO1.getIsbn(), bookDTO1.getTitle(), bookDTO1.getPrice()), 2));
-        items.add(new OrderItemDTO(new BookInfo(bookDTO2.getIsbn(), bookDTO2.getTitle(), bookDTO2.getPrice()), 1));
+        //items.add(new OrderItemDTO(new BookInfo(bookDTO1.getIsbn(), bookDTO1.getTitle(), bookDTO1.getPrice()), 2));
+        //items.add(new OrderItemDTO(new BookInfo(bookDTO2.getIsbn(), bookDTO2.getTitle(), bookDTO2.getPrice()), 1));
     }
 
     private void initCustomer() {
