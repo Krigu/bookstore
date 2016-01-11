@@ -15,7 +15,7 @@ public class CustomerConverter {
         dto.setFirstName(customer.getFirstName());
         dto.setLastName(customer.getLastName());
         dto.setEmail(customer.getEmail());
-        dto.setCustomerNumber(customer.getCustomerNumber());
+        dto.setNumber(customer.getNumber());
 
         if (customer.getAddress() != null) {
             AddressDTO address = new AddressDTO();
@@ -23,7 +23,7 @@ public class CustomerConverter {
             address.setPostalCode(customer.getAddress().getPostalCode());
             address.setCity(customer.getAddress().getCity());
             address.setCountry(customer.getAddress().getCountry());
-            dto.setAdress(address);
+            dto.setAddress(address);
         }
 
         if (customer.getCreditCard() != null) {
@@ -42,7 +42,7 @@ public class CustomerConverter {
         entity.setFirstName(customer.getFirstName());
         entity.setLastName(customer.getLastName());
         entity.setEmail(customer.getEmail());
-        entity.setCustomerNumber(customer.getCustomerNumber());
+        entity.setNumber(customer.getNumber());
 
         if (customer.getAddress() != null) {
             Address a = new Address();
@@ -63,7 +63,7 @@ public class CustomerConverter {
         entity.setFirstName(customer.getFirstName());
         entity.setLastName(customer.getLastName());
         entity.setEmail(customer.getEmail());
-        entity.setCustomerNumber(customer.getCustomerNumber());
+        entity.setNumber(customer.getNumber());
 
         if (customer.getAddress() != null) {
             Address a = entity.getAddress() == null ? new Address() : entity.getAddress();

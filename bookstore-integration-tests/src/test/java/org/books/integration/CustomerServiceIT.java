@@ -4,11 +4,7 @@ import org.books.application.CustomerService;
 import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.InvalidPasswordException;
-import org.books.data.dto.AddressDTO;
-import org.books.data.dto.CreditCardDTO;
-import org.books.data.dto.CustomerDTO;
-import org.books.data.dto.CustomerInfo;
-import org.books.data.entity.CreditCard;
+import org.books.data.dto.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -44,7 +40,7 @@ public class CustomerServiceIT {
 
         customerDTO = customerService.registerCustomer(customerDTO, PASSWORD);
 
-        Assert.assertEquals(customerDTO.getCustomerNumber(),  "C-1");
+        Assert.assertEquals(customerDTO.getNumber(),  "C-1");
     }
 
     @Test(expectedExceptions = EJBException.class)
@@ -78,10 +74,10 @@ public class CustomerServiceIT {
         addressDTO.setPostalCode("3000");
         addressDTO.setCity(CITY);
         addressDTO.setCountry("Switzerland");
-        customerDTO.setAdress(addressDTO);
+        customerDTO.setAddress(addressDTO);
 
         CreditCardDTO creditCardDTO = new CreditCardDTO();
-        creditCardDTO.setType(CreditCard.Type.MasterCard);
+        creditCardDTO.setType(CreditCardType.MasterCard);
         creditCardDTO.setNumber(CREDIT_CARD_NUMBER);
         creditCardDTO.setExpirationMonth(12);
         creditCardDTO.setExpirationYear(2020);
@@ -224,7 +220,7 @@ public class CustomerServiceIT {
         customer2.setEmail(email);
         customer2 = customerService.registerCustomer(customer2, PASSWORD);
 
-        Assert.assertEquals("C-2", customer2.getCustomerNumber());
+        Assert.assertEquals("C-2", customer2.getNumber());
 
         // Find customer 1
         CustomerDTO customer = customerService.findCustomer(CUSTOMER_NR);

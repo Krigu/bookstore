@@ -1,5 +1,7 @@
 package org.books.data.entity;
 
+import org.books.data.dto.CreditCardType;
+
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -9,13 +11,11 @@ import javax.persistence.Enumerated;
 @Embeddable
 public class CreditCard implements Serializable {
 
-    public enum Type {
-        MasterCard, Visa
-    }
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Type type;
+    private CreditCardType type;
     @Column(nullable = false)
     private String number;
     @Column(nullable = false)
@@ -26,7 +26,7 @@ public class CreditCard implements Serializable {
     public CreditCard() {
     }
 
-    public CreditCard(Type type, String number, Integer expirationMonth, Integer expirationYear) {
+    public CreditCard(CreditCardType type, String number, Integer expirationMonth, Integer expirationYear) {
         this.type = type;
         this.number = number;
         this.expirationMonth = expirationMonth;
@@ -40,11 +40,11 @@ public class CreditCard implements Serializable {
         this.expirationYear = other.expirationYear;
     }
 
-    public Type getType() {
+    public CreditCardType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(CreditCardType type) {
         this.type = type;
     }
 

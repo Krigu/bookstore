@@ -1,5 +1,6 @@
 package org.books.data.dao;
 
+import org.books.data.dto.CreditCardType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -28,7 +29,7 @@ public class OrderCRUDTest extends BasisJpaTest {
     private OrderItemDAOBean orderItemDAOBean;
 
     private final Address address = new Address("street", "city", "1234", "CH");
-    private final CreditCard cc = new CreditCard(CreditCard.Type.MasterCard, "0123456", 12, 2020);
+    private final CreditCard cc = new CreditCard(CreditCardType.MasterCard.MasterCard, "0123456", 12, 2020);
     private Customer customer = new Customer("customer@2.com", "first name 1", "last name 1", "1C", address, cc);
     private Book book = new Book();
     private final List<OrderItem> items = new ArrayList<>();
