@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.books.data.dto.CustomerInfo;
 import org.books.data.PopulateDBJpaTest;
+import org.books.data.entity.Customer;
 import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,6 +18,13 @@ public class CustomerQueryTest extends PopulateDBJpaTest {
         PopulateDBJpaTest.setUpBeforeClass();
         bean = new CustomerDAOBean();
         bean.setEntityManager(em);
+    }
+
+    @Test
+    public void findByCustomerNumber() {
+        Customer customer = bean.findByCustomerNumber("C-1");
+        Assert.assertNotNull(customer);
+        Assert.assertEquals(customer.getCustomerNumber(), "C-1");
     }
 
     @Test

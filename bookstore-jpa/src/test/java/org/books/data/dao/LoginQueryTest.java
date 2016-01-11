@@ -26,16 +26,16 @@ public class LoginQueryTest extends PopulateDBJpaTest {
         Assert.assertEquals(username, login.getUserName());
     }
     
-    @Test(expectedExceptions = EntityNotFoundException.class)
+    @Test
     public void LoginFindByUsernameNoResults() {
         String username = "foobar";
-        bean.find(username);
+        Assert.assertNull(bean.find(username));
     }
 
-    @Test(expectedExceptions = EntityNotFoundException.class)
+    @Test
     public void LoginFindByUsernameNoResultsWithUsernameSubString() {
         String username = "te";
-        bean.find(username);
+        Assert.assertNull(bean.find(username));
     }
 
 }

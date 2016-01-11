@@ -9,6 +9,7 @@
     <class>org.books.data.entity.OrderItem</class>
     <class>org.books.data.entity.Book</class>
     <class>org.books.data.entity.Login</class>
+    <class>org.books.data.entity.SequenceGenerator</class>
 
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:test;create=true"/>

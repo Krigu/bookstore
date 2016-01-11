@@ -68,11 +68,6 @@
                             <artifactId>bookstore-jpa</artifactId>
                             <bundleFileName>bookstore-jpa.jar</bundleFileName>
                         </ejbModule>
-                        <jarModule>
-                            <groupId>log4j</groupId>
-                            <artifactId>log4j</artifactId>
-                            <bundleDir>lib</bundleDir>
-                        </jarModule>
                     </modules>
                 </configuration>
             </plugin>

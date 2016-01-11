@@ -14,7 +14,7 @@ public class LoginCRUDTest extends BasisJpaTest {
 
     private LoginDAOBean bean;
 
-    private static final String USERNAME = "username";
+    private static final String USERNAME = "username@test.com";
     private Login login = new Login(USERNAME, "password");
 
     @BeforeClass

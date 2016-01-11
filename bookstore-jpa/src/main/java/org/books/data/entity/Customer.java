@@ -3,16 +3,19 @@ package org.books.data.entity;
 import javax.persistence.*;
 
 @NamedQueries({
-    @NamedQuery(name = Customer.FIND_BY_NAME,
-            query = "SELECT NEW org.books.data.dto.CustomerInfo(c) from Customer c where UPPER(c.firstName) like UPPER(:firstName) or UPPER(c.lastName) like UPPER(:lastName)"),
-    @NamedQuery(name = Customer.FIND_BY_EMAIL,
-            query = "from Customer c where UPPER(c.email) like UPPER(:email)")
+        @NamedQuery(name = Customer.FIND_BY_NAME,
+                query = "SELECT NEW org.books.data.dto.CustomerInfo(c) from Customer c where UPPER(c.firstName) like UPPER(:firstName) or UPPER(c.lastName) like UPPER(:lastName)"),
+        @NamedQuery(name = Customer.FIND_BY_EMAIL,
+                query = "from Customer c where UPPER(c.email) like UPPER(:email)"),
+        @NamedQuery(name = Customer.FIND_BY_CUSTOMER_NUMBER,
+                query = "from Customer c where UPPER(c.customerNumber) like UPPER(:customerNumber)")
 })
 @Entity
 public class Customer extends BaseEntity {
 
     public static final String FIND_BY_NAME = "Customer.findByLastNameOrFirstName";
     public static final String FIND_BY_EMAIL = "Customer.findByEmail";
+    public static final String FIND_BY_CUSTOMER_NUMBER = "Customer.findByCustomerNumber";
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -22,6 +25,9 @@ public class Customer extends BaseEntity {
 
     @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
+    private String customerNumber;
 
     @Embedded
     private Address address;
@@ -34,12 +40,21 @@ public class Customer extends BaseEntity {
         this.creditCard = new CreditCard();
     }
 
-    public Customer(String email, String firstName, String lastName, Address address, CreditCard creditCard) {
+    public Customer(String email, String firstName, String lastName, String customerNumber, Address address, CreditCard creditCard) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.creditCard = creditCard;
+        this.customerNumber = customerNumber;
+    }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
     }
 
     public String getEmail() {
