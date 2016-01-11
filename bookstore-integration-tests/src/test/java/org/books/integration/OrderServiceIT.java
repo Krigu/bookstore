@@ -23,10 +23,12 @@ import org.books.data.dto.CustomerDTO;
 import org.books.data.dto.OrderItemDTO;
 import org.books.data.entity.Book;
 import org.books.data.entity.CreditCard;
+import org.junit.Ignore;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
 
 public class OrderServiceIT {
 
@@ -47,7 +49,7 @@ public class OrderServiceIT {
 
     private List<OrderItemDTO> items = new ArrayList<>();
 
-    @BeforeClass
+    //@BeforeClass
     public void lookupService() throws Exception {
         Context jndiContext = new InitialContext();
         orderService = (OrderService) jndiContext.lookup(ORDER_SERVICE_NAME);
@@ -69,7 +71,7 @@ public class OrderServiceIT {
         init();
     }
 
-    @Test(expectedExceptions = CustomerNotFoundException.class)
+    //@Test(expectedExceptions = CustomerNotFoundException.class)
     public void placeOrderCustomerNotFound() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
         orderService.placeOrder("a@b.c", items);
     }
@@ -149,7 +151,7 @@ public class OrderServiceIT {
     //Search order with result
     //cancel order success
     //cancel order OrderAlreadyShippedException
-    @BeforeMethod
+    //@BeforeMethod
     private void init() {
         initListOrderItemDTO();
         initCustomer();
