@@ -204,13 +204,18 @@ public class CustomerServiceIT {
     public void testUpdateCustomer() throws Exception {
         CustomerDTO customer = customerService.findCustomer(CUSTOMER_NR);
 
+        // reset password
+        customerService.changePassword(EMAIL, PASSWORD);
+        customerService.authenticateCustomer(EMAIL, PASSWORD);
+
         String email = "new_adress@gmail.com";
         customer.setEmail(email);
         customerService.updateCustomer(customer);
 
         CustomerDTO updatedCustomer = customerService.findCustomerByEmail(email);
-
         Assert.assertEquals(email, updatedCustomer.getEmail());
+
+        customerService.authenticateCustomer(email, PASSWORD);
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerAlreadyExistsException.class)

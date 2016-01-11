@@ -155,7 +155,12 @@ public class CustomerServiceBean implements CustomerService {
                 throw new CustomerAlreadyExistsException();
             }
         }
-        // TODO update Login
+
+        Login login = loginDao.find(entity.getEmail());
+        login.setUserName(customer.getEmail());
+        loginDao.update(login);
+
         customerDao.update(CustomerConverter.updateEntity(entity, customer));
+
     }
 }
