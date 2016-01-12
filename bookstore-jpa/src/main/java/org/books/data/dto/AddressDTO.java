@@ -16,6 +16,13 @@ public class AddressDTO implements Serializable {
     public AddressDTO() {
     }
 
+    public AddressDTO(AddressDTO other) {
+        this.street = other.street;
+        this.postalCode = other.postalCode;
+        this.city = other.city;
+        this.country = other.country;
+    }
+
     public AddressDTO(String street, String postalCode, String city, String country) {
         this.street = street;
         this.postalCode = postalCode;

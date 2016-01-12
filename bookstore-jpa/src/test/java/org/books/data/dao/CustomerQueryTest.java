@@ -24,7 +24,7 @@ public class CustomerQueryTest extends PopulateDBJpaTest {
     public void findByCustomerNumber() {
         Customer customer = bean.findByCustomerNumber("C-1");
         Assert.assertNotNull(customer);
-        Assert.assertEquals(customer.getCustomerNumber(), "C-1");
+        Assert.assertEquals(customer.getNumber(), "C-1");
     }
 
     @Test

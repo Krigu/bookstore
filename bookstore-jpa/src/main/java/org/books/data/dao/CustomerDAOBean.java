@@ -43,7 +43,7 @@ public class CustomerDAOBean extends GenericDAOImpl<Customer> implements Custome
     public Customer findByCustomerNumber(String customerNumber) {
         LOGGER.info("Find customer by customerNumber : " + customerNumber);
         TypedQuery<Customer> query = entityManager.createNamedQuery(Customer.FIND_BY_CUSTOMER_NUMBER, Customer.class);
-        query.setParameter("customerNumber", customerNumber);
+        query.setParameter("number", customerNumber);
         try {
             return query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException e) {

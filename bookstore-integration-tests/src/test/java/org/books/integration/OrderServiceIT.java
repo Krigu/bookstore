@@ -15,12 +15,7 @@ import org.books.application.exception.BookNotFoundException;
 import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.PaymentFailedException;
-import org.books.data.dto.AddressDTO;
-import org.books.data.dto.BookDTO;
-import org.books.data.dto.BookInfo;
-import org.books.data.dto.CreditCardDTO;
-import org.books.data.dto.CustomerDTO;
-import org.books.data.dto.OrderItemDTO;
+import org.books.data.dto.*;
 import org.books.data.entity.Book;
 import org.books.data.entity.CreditCard;
 import org.junit.Ignore;
@@ -40,7 +35,7 @@ public class OrderServiceIT {
     private static CustomerService customerService;
 
     private final AddressDTO addressDTO = new AddressDTO("street 1", "city 1", "1111", "CH");
-    private final CreditCardDTO ccDTO = new CreditCardDTO(CreditCard.Type.MasterCard, "5111005111051128", 12, 2020);
+    private final CreditCardDTO ccDTO = new CreditCardDTO(CreditCardType.MasterCard, "5111005111051128", 12, 2020);
     private CustomerDTO customerDTO = new CustomerDTO();
 
     private BookDTO bookDTO1 = new BookDTO("Antonio Goncalves", Book.Binding.Paperback, "12345", 608, new BigDecimal("50.00"), 2013, "Apress", "Beginning Java EE 7");
@@ -60,7 +55,7 @@ public class OrderServiceIT {
         customerDTO.setFirstName("Fist name");
         customerDTO.setLastName("last name");
         customerDTO.setCreditCard(ccDTO);
-        customerDTO.setAdress(addressDTO);
+        customerDTO.setAddress(addressDTO);
         customerDTO = customerService.registerCustomer(customerDTO, "1234");
 
         catalogService.addBook(bookDTO1);
@@ -164,7 +159,7 @@ public class OrderServiceIT {
     }
 
     private void initCustomer() {
-        customerDTO.setAdress(addressDTO);
+        customerDTO.setAddress(addressDTO);
         customerDTO.setCreditCard(ccDTO);
         try {
             customerService.updateCustomer(customerDTO);
