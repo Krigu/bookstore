@@ -15,10 +15,15 @@ import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
+import javax.inject.Inject;
+import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSContext;
 import javax.jms.JMSException;
+import javax.jms.JMSProducer;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.Queue;
 import org.books.data.dao.BookDAOLocal;
 import org.books.data.dao.OrderDAOLocal;
 import org.books.data.entity.Order;
@@ -36,12 +41,10 @@ public class OrderProcessor implements MessageListener {
     private OrderDAOLocal orderDAO;
     @Resource
     private TimerService timerService;
-    @EJB
-    private BookDAOLocal bookDAO;
 
     @Override
     public void onMessage(Message message) {
-        LOGGER.info("Recieve message");
+        LOGGER.info("Recieve message");;
         MapMessage msg = (MapMessage) message;
 
         try {
@@ -50,12 +53,11 @@ public class OrderProcessor implements MessageListener {
             if (order.getStatus().equals(Order.Status.accepted)) {
                 order.setStatus(Order.Status.processing);
                 order = orderDAO.update(order);
-                LOGGER.info("Send a message to ship the order");
-                //15 seconds
-                timerService.createSingleActionTimer(15000, new TimerConfig(order.getId(), true));
+                //5 seconds
+                timerService.createSingleActionTimer(5000, new TimerConfig(order.getId(), true));
             }
         } catch (JMSException ex) {
-            LOGGER.log(Level.WARNING,"Message error", ex);
+            LOGGER.log(Level.WARNING, "Message error", ex);
         }
     }
 
@@ -85,11 +87,16 @@ public class OrderProcessor implements MessageListener {
         LOGGER.info("****************3End time : " + b.getAuthors());
     }*/
     @Timeout
-    public void shipperOrder(Timer timer) {
+    public void shipperOrder(Timer timer) throws JMSException {
         LOGGER.info("Ship the order");
         Long orderId = (Long) timer.getInfo();
         Order order = orderDAO.find(orderId);
-        if (order.getStatus().equals(Order.Status.processing)) {
+        if (order.getStatus().equals(Order.Status.accepted)) {
+            order.setStatus(Order.Status.processing);
+            orderDAO.update(order);
+            //5 seconds
+            timerService.createSingleActionTimer(5000, new TimerConfig(order.getId(), true));
+        } else if (order.getStatus().equals(Order.Status.processing)) {
             order.setStatus(Order.Status.shipped);
             orderDAO.update(order);
         }

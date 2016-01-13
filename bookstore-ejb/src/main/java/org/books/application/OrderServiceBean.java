@@ -26,6 +26,7 @@ import org.books.application.exception.PaymentFailedException;
 import org.books.data.dao.BookDAOLocal;
 import org.books.data.dao.CustomerDAOLocal;
 import org.books.data.dao.OrderDAOLocal;
+import org.books.data.dao.SequenceGeneratorDAO;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
@@ -41,6 +42,8 @@ public class OrderServiceBean implements OrderService {
     private static final Logger LOGGER = Logger.getLogger(OrderServiceBean.class.getName());
     private static final String VISA_REGEX = "^4\\d{15}$";
     private static final String MASTERCARD_REGEX = "^5[1-5]\\d{14}$";
+    private static final String ORDER_SEQUENCE = "ORDER_SEQUENCE";
+    private static final String ORDER_PREFIX = "O-";
 
     @EJB
     private CustomerDAOLocal customerDAO;
@@ -48,6 +51,8 @@ public class OrderServiceBean implements OrderService {
     private BookDAOLocal bookDAO;
     @EJB
     private OrderDAOLocal orderDAO;
+    @EJB
+    private SequenceGeneratorDAO sequenceGenerator;
 
     @Resource(name = "maxAmount")
     private float maxAmount;
@@ -151,7 +156,7 @@ public class OrderServiceBean implements OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItemDTO item : items) {
             Book book = bookDAO.find(item.getBook().getIsbn());
-            if (book==null) {
+            if (book == null) {
                 LOGGER.log(Level.WARNING, "This book isn''t found : {0}", item.getBook().getIsbn());
                 throw new BookNotFoundException();
             }
@@ -192,7 +197,9 @@ public class OrderServiceBean implements OrderService {
      */
     private void checkFormat(String cardNumber) throws PaymentFailedException {
         //Check the length
+        System.out.println("org.books.application.OrderServiceBean.checkFormat()"+cardNumber);
         if (cardNumber.length() != 16) {
+            System.out.println("org.books.application.OrderServiceBean.checkFormat()"+cardNumber.length());
             throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
         }
         //Check the digit
@@ -273,8 +280,9 @@ public class OrderServiceBean implements OrderService {
     }
 
     private Order createOrder(Customer customer, List<OrderItem> orderItems, BigDecimal amount) {
-        //TODO generate the order number
-        Order order = new Order("orderNummer", new Date(), amount, Order.Status.accepted, customer, customer.getAddress(), customer.getCreditCard(), orderItems);
+        Long orderSequenceNumber = sequenceGenerator.getNextValue(ORDER_SEQUENCE);
+        String orderNumber = ORDER_PREFIX + orderSequenceNumber;
+        Order order = new Order(orderNumber, new Date(), amount, Order.Status.accepted, customer, customer.getAddress(), customer.getCreditCard(), orderItems);
         return orderDAO.create(order);
     }
 
@@ -292,6 +300,7 @@ public class OrderServiceBean implements OrderService {
             producer.send(queue, msg);
         } catch (JMSException ex) {
             //Nothing
+            LOGGER.log(Level.SEVERE, "Fail to send message", ex);
         }
     }
 }
