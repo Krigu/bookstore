@@ -14,6 +14,7 @@ import org.books.application.OrderService;
 import org.books.application.exception.BookNotFoundException;
 import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
+import org.books.application.exception.OrderAlreadyShippedException;
 import org.books.application.exception.OrderNotFoundException;
 import org.books.application.exception.PaymentFailedException;
 import org.books.data.dto.AddressDTO;
@@ -22,11 +23,11 @@ import org.books.data.dto.BookInfo;
 import org.books.data.dto.CreditCardDTO;
 import org.books.data.dto.CustomerDTO;
 import org.books.data.dto.OrderDTO;
+import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
 import org.books.data.entity.Book;
 import org.books.data.entity.CreditCard;
 import org.books.data.entity.Order;
-import org.junit.Ignore;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -70,61 +71,26 @@ public class OrderServiceIT {
         init();
     }
 
-    @Test(expectedExceptions = CustomerNotFoundException.class)
-    public void placeOrderCustomerNotFound() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
-        orderService.placeOrder("no_number", items);
-    }
-
-    @Test(expectedExceptions = BookNotFoundException.class)
-    public void placeOrderBookNotFound() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
-        items.add(new OrderItemDTO(new BookInfo("no_isbn", "no_title", new BigDecimal(15)), 2));
-        orderService.placeOrder(CUSTOMER_NUMBER, items);
-    }
-
-    @Test(expectedExceptions = PaymentFailedException.class)
-    public void placeOrderTotalTooBig() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
-        items.add(new OrderItemDTO(new BookInfo(bookDTO1.getIsbn(), bookDTO1.getTitle(), bookDTO1.getPrice()), 2000));
-        orderService.placeOrder(CUSTOMER_NUMBER, items);
-    }
-
-    @Test(expectedExceptions = PaymentFailedException.class)
-    public void placeOrderCreditCardWrongSize() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
-        customerDTO.getCreditCard().setNumber("1234");
-        customerService.updateCustomer(customerDTO);
-        orderService.placeOrder(CUSTOMER_NUMBER, items);
-    }
-
-    @Test(expectedExceptions = PaymentFailedException.class)
-    public void placeOrderCreditCardWrongFormat() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
-        customerDTO.getCreditCard().setNumber("1234123412341234");
-        customerService.updateCustomer(customerDTO);
-        orderService.placeOrder(CUSTOMER_NUMBER, items);
-    }
-
-    @Test(expectedExceptions = PaymentFailedException.class)
-    public void placeOrderCreditCardWrongType() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
-        customerDTO.getCreditCard().setType(CreditCard.Type.Visa);
-        customerService.updateCustomer(customerDTO);
-        orderService.placeOrder(CUSTOMER_NUMBER, items);
-    }
-
-    @Test(expectedExceptions = PaymentFailedException.class)
-    public void placeOrderCreditCardExpired() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
-        customerDTO.getCreditCard().setExpirationYear(2000);
-        customerService.updateCustomer(customerDTO);
-        orderService.placeOrder(CUSTOMER_NUMBER, items);
-    }
-
+    /**
+     * PlaceOrder IT
+     */
+    /**
+     * This IT test the processus of creating an order and his work flox
+     * accepted --> processing --> shipped
+     *
+     * @throws CustomerNotFoundException
+     * @throws BookNotFoundException
+     * @throws PaymentFailedException
+     */
     @Test
     public void orderProcess() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
-Assert.assertTrue(true);
-//Create order
-        //OrderDTO order = orderService.placeOrder(CUSTOMER_NUMBER, items);
+        //Create order
+        OrderDTO order = orderService.placeOrder(CUSTOMER_NUMBER, items);
         //check status accepted
-        //Assert.assertEquals(order.getStatus(), Order.Status.accepted);
-        //Waiting 15 seconds
-        /*try {
-            Thread.sleep(15000);
+        Assert.assertEquals(order.getStatus(), Order.Status.accepted);
+        //Waiting 6 seconds
+        try {
+            Thread.sleep(6000);
         } catch (InterruptedException ex) {
             //Nothing
         }
@@ -136,9 +102,9 @@ Assert.assertTrue(true);
             Assert.assertTrue(false, "Order not found");
         }
 
-        //Waiting 15 seconds
+        //Waiting 6 seconds
         try {
-            Thread.sleep(15000);
+            Thread.sleep(6000);
         } catch (InterruptedException ex) {
             //Nothing
         }
@@ -149,22 +115,140 @@ Assert.assertTrue(true);
             Assert.assertEquals(order.getStatus(), Order.Status.shipped);
         } catch (OrderNotFoundException ex) {
             Assert.assertTrue(false, "Order not found");
-        }*/
+        }
     }
 
+    @Test(dependsOnMethods = "orderProcess", expectedExceptions = CustomerNotFoundException.class)
+    public void placeOrderCustomerNotFound() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
+        orderService.placeOrder("no_number", items);
+    }
+
+    @Test(dependsOnMethods = "placeOrderCustomerNotFound", expectedExceptions = BookNotFoundException.class)
+    public void placeOrderBookNotFound() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
+        items.add(new OrderItemDTO(new BookInfo("no_isbn", "no_title", new BigDecimal(15)), 2));
+        orderService.placeOrder(CUSTOMER_NUMBER, items);
+    }
+
+    @Test(dependsOnMethods = "placeOrderBookNotFound", expectedExceptions = PaymentFailedException.class)
+    public void placeOrderTotalTooBig() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
+        items.add(new OrderItemDTO(new BookInfo(bookDTO1.getIsbn(), bookDTO1.getTitle(), bookDTO1.getPrice()), 2000));
+        orderService.placeOrder(CUSTOMER_NUMBER, items);
+    }
+
+    @Test(dependsOnMethods = "placeOrderTotalTooBig", expectedExceptions = PaymentFailedException.class)
+    public void placeOrderCreditCardWrongSize() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
+        customerDTO.getCreditCard().setNumber("1234");
+        customerService.updateCustomer(customerDTO);
+        orderService.placeOrder(CUSTOMER_NUMBER, items);
+    }
+
+    @Test(dependsOnMethods = "placeOrderCreditCardWrongSize", expectedExceptions = PaymentFailedException.class)
+    public void placeOrderCreditCardWrongFormat() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
+        customerDTO.getCreditCard().setNumber("1234123412341234");
+        customerService.updateCustomer(customerDTO);
+        orderService.placeOrder(CUSTOMER_NUMBER, items);
+    }
+
+    @Test(dependsOnMethods = "placeOrderCreditCardWrongFormat", expectedExceptions = PaymentFailedException.class)
+    public void placeOrderCreditCardWrongType() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
+        customerDTO.getCreditCard().setType(CreditCard.Type.Visa);
+        customerService.updateCustomer(customerDTO);
+        orderService.placeOrder(CUSTOMER_NUMBER, items);
+    }
+
+    @Test(dependsOnMethods = "placeOrderCreditCardWrongType", expectedExceptions = PaymentFailedException.class)
+    public void placeOrderCreditCardExpired() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
+        customerDTO.getCreditCard().setExpirationYear(2000);
+        customerService.updateCustomer(customerDTO);
+        orderService.placeOrder(CUSTOMER_NUMBER, items);
+    }
+
+    /**
+     * Find order
+     */
     @Test(expectedExceptions = OrderNotFoundException.class)
     public void findAnNotExistingOrder() throws OrderNotFoundException {
         orderService.findOrder("no_order_number");
     }
 
-    //TODO
-    //placeorder success
-    //check send message processing
-    //check order is created
-    //find an existing order
-    //Search order with result
-    //cancel order success
-    //cancel order OrderAlreadyShippedException
+    @Test(dependsOnMethods = "orderProcess")
+    public void findAnExistingOrder() throws OrderNotFoundException {
+        Assert.assertNotNull(orderService.findOrder("O-1"));
+    }
+
+    /**
+     * Cancel order
+     */
+    @Test(dependsOnMethods = "orderProcess")
+    public void cancelAcceptedOrder() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, OrderAlreadyShippedException {
+        //Create order
+        OrderDTO order = orderService.placeOrder(CUSTOMER_NUMBER, items);
+        orderService.cancelOrder(order.getNumber());
+        //Waiting 12 seconds
+        try {
+            Thread.sleep(12000);
+        } catch (InterruptedException ex) {
+            //Nothing
+        }
+        order = orderService.findOrder(order.getNumber());
+        Assert.assertEquals(order.getStatus(), Order.Status.canceled);
+    }
+
+    @Test(dependsOnMethods = "cancelAcceptedOrder")
+    public void cancelProcessingOrder() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, OrderAlreadyShippedException {
+        //Create order
+        OrderDTO order = orderService.placeOrder(CUSTOMER_NUMBER, items);
+        //Waiting 6 seconds
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException ex) {
+            //Nothing
+        }
+        orderService.cancelOrder(order.getNumber());
+        //Waiting 6 seconds
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException ex) {
+            //Nothing
+        }
+        order = orderService.findOrder(order.getNumber());
+        Assert.assertEquals(order.getStatus(), Order.Status.canceled);
+    }
+
+    @Test(dependsOnMethods = "cancelProcessingOrder", expectedExceptions = OrderAlreadyShippedException.class)
+    public void cancelShippedOrder() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, OrderAlreadyShippedException {
+        //Create order
+        OrderDTO order = orderService.placeOrder(CUSTOMER_NUMBER, items);
+        //Waiting 12 seconds
+        try {
+            Thread.sleep(12000);
+        } catch (InterruptedException ex) {
+            //Nothing
+        }
+        orderService.cancelOrder(order.getNumber());
+    }
+
+    /**
+     * Search order
+     */
+    @Test(dependsOnMethods = "cancelShippedOrder")
+    public void searchOrders() throws CustomerNotFoundException {
+        //TODO get now year
+        List<OrderInfo> orders = orderService.searchOrders(CUSTOMER_NUMBER, 2016);
+        Assert.assertEquals(orders.size(), 4);
+    }
+
+    @Test(dependsOnMethods = "searchOrders", expectedExceptions = CustomerNotFoundException.class)
+    public void searchOrdersNoCustomerFound() throws CustomerNotFoundException {
+        orderService.searchOrders("no_number", 2016);
+    }
+
+    @Test(dependsOnMethods = "searchOrders")
+    public void searchOrderZeroResult() throws CustomerNotFoundException {
+        List<OrderInfo> orders = orderService.searchOrders(CUSTOMER_NUMBER, 2000);
+        Assert.assertEquals(orders.size(), 0);
+    }
+
     @BeforeMethod
     private void init() {
         initListOrderItemDTO();

@@ -117,17 +117,6 @@ public class OrderServiceBean implements OrderService {
         order.setStatus(Order.Status.canceled);
         orderDAO.update(order);
     }
-
-    /*@Override
-    public void sendBook(Book book) {
-        LOGGER.info("*************************send book to queue");
-        //Send message after an accepted order
-        JMSProducer producer = jMSContext.createProducer();
-        ObjectMessage msg = jMSContext.createObjectMessage(book);
-        producer.send(queue, msg);
-        
-        LOGGER.info("*******************book sended "+book.getAuthors());
-    }*/
     /**
      * Find a customer by customerNr
      *
@@ -197,9 +186,7 @@ public class OrderServiceBean implements OrderService {
      */
     private void checkFormat(String cardNumber) throws PaymentFailedException {
         //Check the length
-        System.out.println("org.books.application.OrderServiceBean.checkFormat()"+cardNumber);
         if (cardNumber.length() != 16) {
-            System.out.println("org.books.application.OrderServiceBean.checkFormat()"+cardNumber.length());
             throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
         }
         //Check the digit

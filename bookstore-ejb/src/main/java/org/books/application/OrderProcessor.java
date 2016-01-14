@@ -15,16 +15,10 @@ import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
-import javax.inject.Inject;
-import javax.jms.JMSConnectionFactory;
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
-import javax.jms.JMSProducer;
+import javax.jms.JMSException;;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.Queue;
-import org.books.data.dao.BookDAOLocal;
 import org.books.data.dao.OrderDAOLocal;
 import org.books.data.entity.Order;
 
@@ -50,42 +44,14 @@ public class OrderProcessor implements MessageListener {
         try {
             Long orderId = msg.getLong("orderId");
             Order order = orderDAO.find(orderId);
-            if (order.getStatus().equals(Order.Status.accepted)) {
-                order.setStatus(Order.Status.processing);
-                order = orderDAO.update(order);
-                //5 seconds
-                timerService.createSingleActionTimer(5000, new TimerConfig(order.getId(), true));
-            }
+            //5 seconds
+            //use to simulate the work of a person
+            timerService.createSingleActionTimer(5000, new TimerConfig(order.getId(), true));
         } catch (JMSException ex) {
             LOGGER.log(Level.WARNING, "Message error", ex);
         }
     }
 
-    /*@Override
-    public void onMessage(Message message) {
-        LOGGER.info("************************Recieve message");
-        ObjectMessage msg = (ObjectMessage) message;
-
-        try {
-            Book book = msg.getBody(Book.class);
-            book.setAuthors("new autors");
-            book = bookDAO.update(book);
-            LOGGER.info("************************book updated " + book.getAuthors());
-            timerService.createSingleActionTimer(15000, new TimerConfig(book, true));
-        } catch (JMSException ex) {
-            LOGGER.error("Message error", ex);
-        }
-    }
-
-    @Timeout
-    public void shipperBook(Timer timer) {
-        LOGGER.info("*******************333Ship the order");
-        Book b = (Book) timer.getInfo();
-        b = bookDAO.find(b.getId());
-        b.setAuthors("old authors");
-        b = bookDAO.update(b);
-        LOGGER.info("****************3End time : " + b.getAuthors());
-    }*/
     @Timeout
     public void shipperOrder(Timer timer) throws JMSException {
         LOGGER.info("Ship the order");

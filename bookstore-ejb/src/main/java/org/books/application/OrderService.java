@@ -57,6 +57,4 @@ public interface OrderService {
      * @throws CustomerNotFoundException if no customer with the specified number exists
      */
     List<OrderInfo> searchOrders(String customerNr, Integer year) throws CustomerNotFoundException;
-    
-    //public void sendBook(Book book);
 }
