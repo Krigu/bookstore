@@ -118,7 +118,7 @@ public class CustomerServiceBean implements CustomerService {
 
         Long customerSequenceNumber = sequenceGenerator.getNextValue(CUSTOMER_SEQUENCE);
         String customerNumber = CUSTOMER_PREFIX + customerSequenceNumber;
-        customer.setCustomerNumber(customerNumber);
+        customer.setNumber(customerNumber);
 
         customerDao.create(CustomerConverter.toEntity(customer));
 
@@ -142,10 +142,10 @@ public class CustomerServiceBean implements CustomerService {
     @Override
     public void updateCustomer(CustomerDTO customer) throws CustomerNotFoundException, CustomerAlreadyExistsException {
 
-        if (customer == null || customer.getCustomerNumber() == null)
+        if (customer == null || customer.getNumber() == null)
             throw new CustomerNotFoundException();
 
-        Customer entity = customerDao.findByCustomerNumber(customer.getCustomerNumber());
+        Customer entity = customerDao.findByCustomerNumber(customer.getNumber());
         if (entity == null)
             throw new CustomerNotFoundException();
 
@@ -156,6 +156,11 @@ public class CustomerServiceBean implements CustomerService {
             }
         }
 
+        Login login = loginDao.find(entity.getEmail());
+        login.setUserName(customer.getEmail());
+        loginDao.update(login);
+
         customerDao.update(CustomerConverter.updateEntity(entity, customer));
+
     }
 }

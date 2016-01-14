@@ -8,7 +8,7 @@ import javax.persistence.*;
         @NamedQuery(name = Customer.FIND_BY_EMAIL,
                 query = "from Customer c where UPPER(c.email) like UPPER(:email)"),
         @NamedQuery(name = Customer.FIND_BY_CUSTOMER_NUMBER,
-                query = "from Customer c where UPPER(c.customerNumber) like UPPER(:customerNumber)")
+                query = "from Customer c where UPPER(c.customerNumber) like UPPER(:number)")
 })
 @Entity
 public class Customer extends BaseEntity {
@@ -40,21 +40,21 @@ public class Customer extends BaseEntity {
         this.creditCard = new CreditCard();
     }
 
-    public Customer(String email, String firstName, String lastName, String customerNumber, Address address, CreditCard creditCard) {
+    public Customer(String email, String firstName, String lastName, String number, Address address, CreditCard creditCard) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.creditCard = creditCard;
-        this.customerNumber = customerNumber;
+        this.customerNumber = number;
     }
 
-    public String getCustomerNumber() {
+    public String getNumber() {
         return customerNumber;
     }
 
-    public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber;
+    public void setNumber(String number) {
+        this.customerNumber = number;
     }
 
     public String getEmail() {

@@ -1,6 +1,7 @@
 package org.books.data.dao;
 
 import org.books.data.BasisJpaTest;
+import org.books.data.dto.CreditCardType;
 import org.books.data.entity.Address;
 import org.books.data.entity.CreditCard;
 import org.books.data.entity.Customer;
@@ -19,7 +20,7 @@ public class CustomerCRUDTest extends BasisJpaTest {
     private static final String CARD_NUMBER_1 = "1234";
 
     private final Address address = new Address("street 1", CITY_NAME_1, "1111", "CH");
-    private final CreditCard cc = new CreditCard(CreditCard.Type.MasterCard, CARD_NUMBER_1, 12, 2020);
+    private final CreditCard cc = new CreditCard(CreditCardType.MasterCard, CARD_NUMBER_1, 12, 2020);
     private Customer customer = new Customer(EMAIL, "first name 1", "last name 1", "C1", address, cc);
 
     private CustomerDAOBean bean;

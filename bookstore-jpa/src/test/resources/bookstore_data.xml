@@ -34,8 +34,8 @@
     <LOGIN id="10001" username="test" password="test"/>
     <LOGIN id="10002" username="user" password="password"/>
     
-    <customer id="10001" customerNumber="C-1" firstName="Alice" lastName="Smith" email="alice@example.org" street="123 Maple Street" city="Mill Valley" postalCode="CA 90952" country="US" type="MasterCard" number="5400000000000005" expirationMonth="01" expirationYear="2018"/>
-    <customer id="10002" customerNumber="C-2" firstName="Bob" lastName="Smith" email="bob@google.org" street="123 Hauptstrasse" city="Zurich" postalCode="7000" country="CH" type="MasterCard" number="5400000000000005" expirationMonth="01" expirationYear="2017"/>
+    <customer id="10001" customernumber="C-1" firstName="Alice" lastName="Smith" email="alice@example.org" street="123 Maple Street" city="Mill Valley" postalCode="CA 90952" country="US" type="MasterCard" number="5400000000000005" expirationMonth="01" expirationYear="2018"/>
+    <customer id="10002" customernumber="C-2" firstName="Bob" lastName="Smith" email="bob@google.org" street="123 Hauptstrasse" city="Zurich" postalCode="7000" country="CH" type="MasterCard" number="5400000000000005" expirationMonth="01" expirationYear="2017"/>
     
     <purchaseorder id="10001" orderNumber="2014-1" date="2014-10-12" amount="15.3" status="shipped" customer_id="10001" street="123 Hauptstrasse" city="Zurich" postalCode="7000" country="CH" type="MasterCard" number="5400000000000005" expirationMonth="01" expirationYear="2017"/>
     <purchaseorder id="10002" orderNumber="2014-2" date="2014-11-11" amount="23.3" status="shipped" customer_id="10001" street="123 Hauptstrasse" city="Zurich" postalCode="7000" country="CH" type="MasterCard" number="5400000000000005" expirationMonth="01" expirationYear="2017"/>

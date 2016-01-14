@@ -7,14 +7,16 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
+
+import org.books.data.dto.CreditCardType;
 import org.books.data.entity.CreditCard;
 
 @Named
 @ApplicationScoped
 public class CreditCardHelper implements Serializable {
 
-	public CreditCard.Type[] getCardTypes() {
-		return CreditCard.Type.values();
+	public CreditCardType[] getCardTypes() {
+		return CreditCardType.values();
 	}
 
 	public List<SelectItem> getExpirationMonths() {

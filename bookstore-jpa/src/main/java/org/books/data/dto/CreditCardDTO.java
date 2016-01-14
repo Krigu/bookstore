@@ -1,13 +1,12 @@
 package org.books.data.dto;
 
 
-import org.books.data.entity.CreditCard;
-
 import java.io.Serializable;
 
 public class CreditCardDTO implements Serializable {
 
-    private CreditCard.Type type;
+
+    private CreditCardType type;
 
     private String number;
 
@@ -18,18 +17,25 @@ public class CreditCardDTO implements Serializable {
     public CreditCardDTO() {
     }
 
-    public CreditCardDTO(CreditCard.Type type, String cardNumber, Integer expirationMonth, Integer expirationYear) {
+    public CreditCardDTO(CreditCardDTO other) {
+        this.type = other.type;
+        this.number = other.number;
+        this.expirationMonth = other.expirationMonth;
+        this.expirationYear = other.expirationYear;
+    }
+
+    public CreditCardDTO(CreditCardType type, String number, Integer expirationMonth, Integer expirationYear) {
         this.type = type;
-        this.number = cardNumber;
+        this.number = number;
         this.expirationMonth = expirationMonth;
         this.expirationYear = expirationYear;
     }
 
-    public CreditCard.Type getType() {
+    public CreditCardType getType() {
         return type;
     }
 
-    public void setType(CreditCard.Type type) {
+    public void setType(CreditCardType type) {
         this.type = type;
     }
 

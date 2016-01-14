@@ -27,6 +27,7 @@ import org.books.data.dao.BookDAOLocal;
 import org.books.data.dao.CustomerDAOLocal;
 import org.books.data.dao.OrderDAOLocal;
 import org.books.data.dao.SequenceGeneratorDAO;
+import org.books.data.dto.CreditCardType;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
@@ -238,7 +239,7 @@ public class OrderServiceBean implements OrderService {
      * @param cardNumber
      * @throws PaymentFailedException
      */
-    private void checkType(CreditCard.Type type, String cardNumber) throws PaymentFailedException {
+    private void checkType(CreditCardType type, String cardNumber) throws PaymentFailedException {
         String regEx;
         switch (type) {
             case MasterCard:

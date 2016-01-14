@@ -11,30 +11,31 @@ public class CustomerDTO implements Serializable {
 
     private String lastName;
 
-    private String customerNumber;
+    private String number;
 
-    private AddressDTO adress;
+    private AddressDTO address;
 
     private CreditCardDTO creditCard;
 
     public CustomerDTO() {
     }
 
-    public CustomerDTO(String email, String firstName, String lastName, String customerNumber, AddressDTO adress, CreditCardDTO creditCard) {
+
+    public CustomerDTO(String email, String firstName, String lastName, String number, AddressDTO addressDTO, CreditCardDTO creditCard) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.customerNumber = customerNumber;
-        this.adress = adress;
+        this.number = number;
+        this.address = addressDTO;
         this.creditCard = creditCard;
     }
 
-    public String getCustomerNumber() {
-        return customerNumber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getEmail() {
@@ -62,11 +63,11 @@ public class CustomerDTO implements Serializable {
     }
 
     public AddressDTO getAddress() {
-        return adress;
+        return address;
     }
 
-    public void setAdress(AddressDTO adress) {
-        this.adress = adress;
+    public void setAddress(AddressDTO address) {
+        this.address = address;
     }
 
     public CreditCardDTO getCreditCard() {
