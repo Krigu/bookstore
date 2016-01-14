@@ -11,10 +11,6 @@ import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
 
-/**
- *
- * @author tjd
- */
 @Remote
 public interface OrderService {
 

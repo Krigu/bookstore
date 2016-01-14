@@ -2,6 +2,7 @@ package org.books.integration;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +51,6 @@ public class OrderServiceIT {
 
     private BookDTO bookDTO1 = new BookDTO("Antonio Goncalves", Book.Binding.Paperback, "12345", 608, new BigDecimal("50.00"), 2013, "Apress", "Beginning Java EE 7");
     private BookDTO bookDTO2 = new BookDTO("U2", Book.Binding.Hardcover, "67890", 432, new BigDecimal("10.00"), 2010, "Rock", "Java EE 7 for the newbies");
-    //private BookDTO bookDTONotExist = new BookDTO("Paxar", Book.Binding.Ebook, "54321", 608, new BigDecimal("50.00"), 2013, "Dream", "Java EE 7 for the imagination");
 
     private List<OrderItemDTO> items = new ArrayList<>();
 
@@ -233,8 +233,8 @@ public class OrderServiceIT {
      */
     @Test(dependsOnMethods = "cancelShippedOrder")
     public void searchOrders() throws CustomerNotFoundException {
-        //TODO get now year
-        List<OrderInfo> orders = orderService.searchOrders(CUSTOMER_NUMBER, 2016);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        List<OrderInfo> orders = orderService.searchOrders(CUSTOMER_NUMBER, year);
         Assert.assertEquals(orders.size(), 4);
     }
 

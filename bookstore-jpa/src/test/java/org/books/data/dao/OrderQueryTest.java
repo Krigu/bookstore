@@ -31,9 +31,9 @@ public class OrderQueryTest extends PopulateDBJpaTest {
         Assert.assertNotNull(order);
     }
 
-    @Test(expectedExceptions = EntityNotFoundException.class)
+    @Test
     public void findByNumberNoResultsTest() {
-        bean.find("2010-1");
+        Assert.assertNull(bean.find("2010-1"));
     }
 
     @Test

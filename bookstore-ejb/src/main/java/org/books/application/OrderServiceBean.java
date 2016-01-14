@@ -86,12 +86,7 @@ public class OrderServiceBean implements OrderService {
 
     @Override
     public OrderDTO findOrder(String orderNr) throws OrderNotFoundException {
-        Order order = null;
-        try {
-            order = orderDAO.find(orderNr);
-        } catch (Exception e) {
-            throw new OrderNotFoundException();
-        }
+        Order order = findAnOrder(orderNr);
         return new OrderDTO(order);
     }
 
@@ -103,13 +98,9 @@ public class OrderServiceBean implements OrderService {
 
     @Override
     public void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
-        Order order = null;
-        try {
-            order = orderDAO.find(orderNr);
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Order not found");
-            throw new OrderNotFoundException();
-        }
+
+        Order order = findAnOrder(orderNr);
+        
         if (order.getStatus() == Order.Status.shipped) {
             LOGGER.log(Level.WARNING, "Order already shipped");
             throw new OrderAlreadyShippedException();
@@ -117,6 +108,7 @@ public class OrderServiceBean implements OrderService {
         order.setStatus(Order.Status.canceled);
         orderDAO.update(order);
     }
+
     /**
      * Find a customer by customerNr
      *
@@ -128,9 +120,26 @@ public class OrderServiceBean implements OrderService {
         LOGGER.log(Level.INFO, "Find customer number : {0}", customerNr);
         Customer customer = customerDAO.findByCustomerNumber(customerNr);
         if (customer == null) {
+            LOGGER.log(Level.WARNING, "customer number {0} not found", customerNr);
             throw new CustomerNotFoundException();
         }
         return customer;
+    }
+    /**
+     * Find a order by orderNr
+     * if an order isn't found, an exception is sended
+     * @param orderNr
+     * @return
+     * @throws OrderNotFoundException
+     */
+    private Order findAnOrder(String orderNr) throws OrderNotFoundException{
+         LOGGER.log(Level.INFO, "Find order number : {0}", orderNr);
+        Order order = orderDAO.find(orderNr);
+        if (order == null) {
+            LOGGER.log(Level.WARNING, "order number {0} not found", orderNr);
+            throw new OrderNotFoundException();
+        }
+        return order;
     }
 
     /**

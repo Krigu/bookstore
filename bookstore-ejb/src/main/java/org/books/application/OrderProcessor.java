@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.books.application;
 
 import java.util.logging.Level;
@@ -22,7 +17,7 @@ import javax.jms.MessageListener;
 import org.books.data.dao.OrderDAOLocal;
 import org.books.data.entity.Order;
 
-@MessageDriven(
+@MessageDriven(name = "OrderProcessor",
         activationConfig = {
             @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/orderQueue"),
             @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
@@ -35,6 +30,10 @@ public class OrderProcessor implements MessageListener {
     private OrderDAOLocal orderDAO;
     @Resource
     private TimerService timerService;
+    
+    //the number of milliseconds that must elapse before the timer expires.
+    @Resource(name = "duration")
+    private int duration;
 
     @Override
     public void onMessage(Message message) {
@@ -44,24 +43,22 @@ public class OrderProcessor implements MessageListener {
         try {
             Long orderId = msg.getLong("orderId");
             Order order = orderDAO.find(orderId);
-            //5 seconds
             //use to simulate the work of a person
-            timerService.createSingleActionTimer(5000, new TimerConfig(order.getId(), true));
+            timerService.createSingleActionTimer(duration, new TimerConfig(order.getId(), true));
         } catch (JMSException ex) {
             LOGGER.log(Level.WARNING, "Message error", ex);
         }
     }
 
     @Timeout
-    public void shipperOrder(Timer timer) throws JMSException {
+    public void changeOrderState(Timer timer) throws JMSException {
         LOGGER.info("Ship the order");
         Long orderId = (Long) timer.getInfo();
         Order order = orderDAO.find(orderId);
         if (order.getStatus().equals(Order.Status.accepted)) {
             order.setStatus(Order.Status.processing);
             orderDAO.update(order);
-            //5 seconds
-            timerService.createSingleActionTimer(5000, new TimerConfig(order.getId(), true));
+            timerService.createSingleActionTimer(duration, new TimerConfig(order.getId(), true));
         } else if (order.getStatus().equals(Order.Status.processing)) {
             order.setStatus(Order.Status.shipped);
             orderDAO.update(order);

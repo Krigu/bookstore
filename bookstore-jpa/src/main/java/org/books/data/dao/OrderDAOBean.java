@@ -2,7 +2,6 @@ package org.books.data.dao;
 
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
@@ -28,14 +27,14 @@ public class OrderDAOBean extends GenericDAOImpl<Order> implements OrderDAOLocal
     }
 
     @Override
-    public Order find(String number) throws EntityNotFoundException {
+    public Order find(String number){
         LOGGER.info("Find order by number : "+number);
         TypedQuery<Order> query = entityManager.createNamedQuery(Order.FIND_BY_NUMBER, Order.class);
         query.setParameter("number", number);
         try {
             return query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException e) {
-            throw new EntityNotFoundException(e.getMessage());
+            return null;
         }
     }
 
