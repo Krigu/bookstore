@@ -43,12 +43,12 @@ public class CustomerServiceIT {
         Assert.assertEquals(customerDTO.getNumber(),  "C-1");
     }
 
-    @Test(expectedExceptions = EJBException.class)
+    @Test(expectedExceptions = ValidationException.class)
     public void testRegisterNullCustomer() throws CustomerAlreadyExistsException {
         customerService.registerCustomer(null, "password");
     }
 
-    @Test(expectedExceptions = EJBException.class)
+    @Test(expectedExceptions = ValidationException.class)
     public void testRegisterCustomerNullPassword() throws CustomerAlreadyExistsException {
         CustomerDTO customerDTO = createCustomer();
         customerService.registerCustomer(customerDTO, null);

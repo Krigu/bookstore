@@ -40,8 +40,8 @@ public class OrderServiceIT {
     private final CreditCardDTO ccDTO = new CreditCardDTO(CreditCardType.MasterCard, "5111005111051128", 12, 2020);
     private CustomerDTO customerDTO = new CustomerDTO();
 
-    private BookDTO bookDTO1 = new BookDTO("Antonio Goncalves", Book.Binding.Paperback, "12345", 608, new BigDecimal("50.00"), 2013, "Apress", "Beginning Java EE 7");
-    private BookDTO bookDTO2 = new BookDTO("U2", Book.Binding.Hardcover, "67890", 432, new BigDecimal("10.00"), 2010, "Rock", "Java EE 7 for the newbies");
+    private BookDTO bookDTO1 = new BookDTO("Antonio Goncalves", Book.Binding.Paperback, "1234567890", 608, new BigDecimal("50.00"), 2013, "Apress", "Beginning Java EE 7");
+    private BookDTO bookDTO2 = new BookDTO("U2", Book.Binding.Hardcover, "123456789012", 432, new BigDecimal("10.00"), 2010, "Rock", "Java EE 7 for the newbies");
 
     private final List<OrderItemDTO> items = new ArrayList<>();
 
