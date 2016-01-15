@@ -22,7 +22,7 @@ public class ValidationInterceptor {
 			Set violations = validator.validateParameters(ic.getTarget(), ic.getMethod(), ic.getParameters());
 			if (!violations.isEmpty()) {
 				logger.warning(violations.toString());
-				throw new ValidationException(violations);
+				throw new ValidationException(createMessage(violations));
 			}
 		}
 		return ic.proceed();
