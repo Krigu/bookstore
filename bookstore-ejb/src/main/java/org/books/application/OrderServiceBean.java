@@ -50,6 +50,7 @@ public class OrderServiceBean implements OrderService {
     private OrderDAOLocal orderDAO;
     @EJB
     private CreditCardValidatorLocal creditCardValidator;
+    @EJB
     private MailService mailService;
 
     @Resource(name = "maxAmount")
