@@ -1,15 +1,16 @@
 package org.books.data.dao;
 
-import java.util.List;
-import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.TypedQuery;
 import org.apache.log4j.Logger;
 import org.books.data.dao.generic.GenericDAOImpl;
 import org.books.data.dto.OrderInfo;
 import org.books.data.entity.Customer;
 import org.books.data.entity.Order;
+
+import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 /**
  * <h1>OrderDAOBean</h1>

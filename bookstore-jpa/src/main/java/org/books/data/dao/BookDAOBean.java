@@ -1,6 +1,5 @@
 package org.books.data.dao;
 
-import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import org.books.data.dao.generic.GenericDAOImpl;
 import org.books.data.dto.BookInfo;

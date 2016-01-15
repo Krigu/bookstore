@@ -5,7 +5,6 @@ import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.InvalidPasswordException;
 import org.books.application.interceptor.ValidationInterceptor;
-import org.books.data.mapper.CustomerMapper;
 import org.books.data.dao.CustomerDAOLocal;
 import org.books.data.dao.LoginDAOLocal;
 import org.books.data.dao.SequenceGeneratorDAO;
@@ -13,6 +12,7 @@ import org.books.data.dto.CustomerDTO;
 import org.books.data.dto.CustomerInfo;
 import org.books.data.entity.Customer;
 import org.books.data.entity.Login;
+import org.books.data.mapper.CustomerMapper;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

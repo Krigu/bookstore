@@ -1,15 +1,14 @@
 package org.books.presentation.bean.util;
 
+import org.books.data.dto.CreditCardType;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.model.SelectItem;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
-import javax.faces.model.SelectItem;
-import javax.inject.Named;
-
-import org.books.data.dto.CreditCardType;
-import org.books.data.entity.CreditCard;
 
 @Named
 @ApplicationScoped

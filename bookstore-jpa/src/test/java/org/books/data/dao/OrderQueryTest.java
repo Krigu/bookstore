@@ -1,15 +1,14 @@
 package org.books.data.dao;
 
-import java.util.List;
-import javax.persistence.EntityNotFoundException;
-
+import org.books.data.PopulateDBJpaTest;
 import org.books.data.dto.OrderInfo;
 import org.books.data.entity.Customer;
 import org.books.data.entity.Order;
-import org.books.data.PopulateDBJpaTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 public class OrderQueryTest extends PopulateDBJpaTest {
 

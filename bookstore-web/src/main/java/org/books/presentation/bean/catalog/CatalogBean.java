@@ -1,8 +1,10 @@
 package org.books.presentation.bean.catalog;
 
-import org.books.application.*;
+import org.books.application.Bookstore;
+import org.books.application.BookstoreException;
 import org.books.data.dto.BookInfo;
 import org.books.data.entity.Book;
+import org.books.util.MessageFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -11,8 +13,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.books.util.MessageFactory;
 
 @SessionScoped
 @Named("catalogBean")

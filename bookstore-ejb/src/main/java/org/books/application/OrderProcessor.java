@@ -1,21 +1,18 @@
 package org.books.application;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.books.data.dao.OrderDAOLocal;
+import org.books.data.entity.Order;
+
 import javax.annotation.Resource;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.EJB;
-import javax.ejb.MessageDriven;
-import javax.ejb.Timeout;
-import javax.ejb.Timer;
-import javax.ejb.TimerConfig;
-import javax.ejb.TimerService;
-import javax.jms.JMSException;;
+import javax.ejb.*;
+import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import org.books.data.dao.OrderDAOLocal;
-import org.books.data.entity.Order;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+;
 
 @MessageDriven(name = "OrderProcessor",
         activationConfig = {

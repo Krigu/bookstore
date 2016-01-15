@@ -1,34 +1,20 @@
 package org.books.application;
 
+import org.books.application.BookstoreException.Code;
+import org.books.data.dto.*;
+import org.books.data.entity.*;
+import org.books.data.entity.Order.Status;
+import org.books.persistence.XmlParser;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import org.books.application.BookstoreException.Code;
-import org.books.data.dto.BookInfo;
-import org.books.data.dto.CustomerInfo;
-import org.books.data.dto.OrderDTO;
-import org.books.data.dto.OrderInfo;
-import org.books.data.dto.OrderItemDTO;
-import org.books.data.entity.Address;
-import org.books.data.entity.Book;
-import org.books.data.entity.CreditCard;
-import org.books.data.entity.Customer;
-import org.books.data.entity.Order;
-import org.books.data.entity.Order.Status;
-import org.books.data.entity.OrderItem;
-import org.books.persistence.XmlParser;
 
 /**
  * The class Bookstore is a mock implementation of the bookstore application.

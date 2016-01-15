@@ -1,14 +1,14 @@
 
 package org.books.application;
 
+import org.books.application.exception.CreditCardValidationException;
+import org.books.application.interceptor.ValidationInterceptor;
+
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
-
-import org.books.application.exception.CreditCardValidationException;
-import org.books.application.interceptor.ValidationInterceptor;
 
 @Stateless(name="CreditCardValidator")
 @Interceptors(ValidationInterceptor.class)

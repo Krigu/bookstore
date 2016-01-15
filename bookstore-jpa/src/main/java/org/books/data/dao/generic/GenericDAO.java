@@ -1,7 +1,8 @@
 package org.books.data.dao.generic;
 
-import javax.persistence.EntityNotFoundException;
 import org.books.data.entity.BaseEntity;
+
+import javax.persistence.EntityNotFoundException;
 
 /**
  * <h1>GenericDAO</h1>

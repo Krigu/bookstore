@@ -1,8 +1,9 @@
 package org.books.data.dao;
 
-import javax.ejb.Stateless;
 import org.books.data.dao.generic.GenericDAOImpl;
 import org.books.data.entity.OrderItem;
+
+import javax.ejb.Stateless;
 
 /**
  * <h1>OrderItemDAOBean</h1>

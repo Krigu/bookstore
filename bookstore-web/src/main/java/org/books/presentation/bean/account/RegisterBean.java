@@ -5,14 +5,15 @@
  */
 package org.books.presentation.bean.account;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
 import org.books.data.entity.Customer;
 import org.books.util.MessageFactory;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *

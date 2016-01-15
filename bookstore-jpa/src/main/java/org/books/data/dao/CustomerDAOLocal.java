@@ -1,11 +1,12 @@
 package org.books.data.dao;
 
 import org.books.data.dao.generic.GenericDAO;
-import java.util.List;
-import javax.ejb.Local;
-import javax.persistence.EntityNotFoundException;
 import org.books.data.dto.CustomerInfo;
 import org.books.data.entity.Customer;
+
+import javax.ejb.Local;
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 /**
  * <h1>CustomerDAOLocal</h1>

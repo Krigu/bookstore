@@ -1,11 +1,7 @@
 package org.books.data.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
-import javax.persistence.JoinColumn;
 
 @Entity
 public class OrderItem extends BaseEntity {

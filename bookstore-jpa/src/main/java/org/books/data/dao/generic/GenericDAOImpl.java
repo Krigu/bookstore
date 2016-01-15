@@ -1,10 +1,11 @@
 package org.books.data.dao.generic;
 
+import org.apache.log4j.Logger;
+import org.books.data.entity.BaseEntity;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import org.apache.log4j.Logger;
-import org.books.data.entity.BaseEntity;
 
 /**
  * <h1>GenericDAOImpl</h1>

@@ -1,9 +1,10 @@
 package org.books.data.dao;
 
-import javax.ejb.Local;
-import javax.persistence.EntityNotFoundException;
 import org.books.data.dao.generic.GenericDAO;
 import org.books.data.entity.Login;
+
+import javax.ejb.Local;
+import javax.persistence.EntityNotFoundException;
 
 /**
  * <h1>LoginDAOLocal</h1>

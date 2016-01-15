@@ -5,13 +5,14 @@
  */
 package org.books.presentation.bean.account;
 
-import java.io.Serializable;
+import org.books.application.Bookstore;
+import org.books.application.BookstoreException;
+import org.books.util.MessageFactory;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.books.application.Bookstore;
-import org.books.util.MessageFactory;
-import org.books.application.BookstoreException;
+import java.io.Serializable;
 
 /**
  *

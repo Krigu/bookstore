@@ -1,18 +1,19 @@
 package org.books.presentation.bean.account;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.books.application.Bookstore;
+import org.books.application.BookstoreException;
+import org.books.data.entity.Customer;
+import org.books.util.MessageFactory;
+
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.books.application.Bookstore;
-import org.books.application.BookstoreException;
-import org.books.data.entity.Customer;
-import org.books.util.MessageFactory;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *

@@ -1,23 +1,9 @@
 package org.books.integration;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
 import org.books.application.CatalogService;
 import org.books.application.CustomerService;
 import org.books.application.OrderService;
-import org.books.application.exception.BookNotFoundException;
-import org.books.application.exception.CustomerAlreadyExistsException;
-import org.books.application.exception.CustomerNotFoundException;
-import org.books.application.exception.OrderAlreadyShippedException;
-import org.books.application.exception.OrderNotFoundException;
-import org.books.application.exception.PaymentFailedException;
+import org.books.application.exception.*;
 import org.books.data.dto.*;
 import org.books.data.entity.Book;
 import org.books.data.entity.Order;
@@ -25,6 +11,15 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Test(groups ={"OrderServiceIT"}, dependsOnGroups = {"CustomerServiceIT","CatalogServiceIT"})
 public class OrderServiceIT {
