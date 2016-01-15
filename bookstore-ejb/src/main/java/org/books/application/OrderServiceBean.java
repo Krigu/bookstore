@@ -42,13 +42,15 @@ public class OrderServiceBean implements OrderService {
     private static final Logger LOGGER = Logger.getLogger(OrderServiceBean.class.getName());
     private static final String VISA_REGEX = "^4\\d{15}$";
     private static final String MASTERCARD_REGEX = "^5[1-5]\\d{14}$";
-
+    
     @EJB
     private CustomerDAOLocal customerDAO;
     @EJB
     private BookDAOLocal bookDAO;
     @EJB
     private OrderDAOLocal orderDAO;
+    @EJB
+    private MailService mailService;
 
     @Resource(name = "maxAmount")
     private float maxAmount;
@@ -74,7 +76,7 @@ public class OrderServiceBean implements OrderService {
 
         //Create order
         Order order = createOrder(customer, orderItems, amount);
-
+        sendConfirmationMail(order);
         orderProcesing(order);
 
         return new OrderDTO(order);
@@ -112,6 +114,7 @@ public class OrderServiceBean implements OrderService {
         }
         order.setStatus(Order.Status.canceled);
         orderDAO.update(order);
+        sendCancellationMail(order);
     }
 
     /*@Override
@@ -301,4 +304,28 @@ public class OrderServiceBean implements OrderService {
             //Nothing
         }
     }
+    
+    private void sendConfirmationMail(Order order) {
+        String itemList = "";
+        for (OrderItem item: order.getItems()) {
+            itemList += item.getBook().getAuthors() + ": " + item.getBook().getTitle() + ", CHF" + item.getPrice() + "\n";
+        }
+        String emailAdr = order.getCustomer().getEmail();
+        String subject = "Bestellbestätigung";
+        String body = "Sehr geehrter Kunde\n\nIhre Bestllung ist bei uns eingegangen und wird unter der Bestellnummer " + order.getNumber() + " bearbeitet.\n\nDie Bestellung umfasst folgende Artikel:\n\n" + itemList + "\nGesamtbetrag: CHF " + order.getAmount() + "\n\nFreundliche Grüsse\nBookstore";
+
+        mailService.sendMail(emailAdr, subject, body);
+
+    }
+
+    private void sendCancellationMail(Order order) {
+        String emailAdr = order.getCustomer().getEmail();
+        String subject = "Stornierung";
+        String body = "Sehr geehrter Kunde\n\nIhre Bestllung " + order.getNumber() + " wurde storniert.\n\nFreundliche Grüsse\nBookstore";
+        
+        mailService.sendMail(emailAdr, subject, body);
+
+    }
+    
+            
 }
