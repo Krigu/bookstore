@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Test(groups ={"OrderServiceIT"}, dependsOnGroups = {"CustomerServiceIT","CatalogServiceIT"})
+@Test(groups = {"OrderServiceIT"}, dependsOnGroups = {"CustomerServiceIT", "CatalogServiceIT"})
 public class OrderServiceIT {
 
     private static final String ORDER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/OrderService";
@@ -60,6 +60,11 @@ public class OrderServiceIT {
         bookDTO2 = catalogService.findBook(bookDTO2.getIsbn());
 
         init();
+    }
+
+    @Test(expectedExceptions = ValidationException.class)
+    public void findAnNullOrder() throws OrderNotFoundException {
+        orderService.findOrder(null);
     }
 
     /**
