@@ -14,7 +14,7 @@ import javax.naming.InitialContext;
 import java.math.BigDecimal;
 import java.util.List;
 import org.testng.Assert;
-
+@Test(groups ={"CatalogServiceIT"})
 public class CatalogServiceIT {
 
     private static final String CATALOG_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CatalogService";

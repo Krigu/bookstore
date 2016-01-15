@@ -14,7 +14,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import java.util.List;
 
-
+@Test(groups = {"CustomerServiceIT"})
 public class CustomerServiceIT {
 
     private static final String CUSTOMER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CustomerService";

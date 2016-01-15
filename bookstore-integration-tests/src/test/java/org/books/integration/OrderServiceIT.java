@@ -20,16 +20,14 @@ import org.books.application.exception.OrderNotFoundException;
 import org.books.application.exception.PaymentFailedException;
 import org.books.data.dto.*;
 import org.books.data.entity.Book;
-import org.books.data.entity.CreditCard;
 import org.books.data.entity.Order;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Test(groups ={"OrderServiceIT"}, dependsOnGroups = {"CustomerServiceIT","CatalogServiceIT"})
 public class OrderServiceIT {
-
-    //private static final String CUSTOMER_NUMBER = "C-1";
 
     private static final String ORDER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/OrderService";
     private static OrderService orderService;
@@ -38,7 +36,6 @@ public class OrderServiceIT {
     private static final String CUSTOMER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CustomerService";
     private static CustomerService customerService;
 
-    //private CustomerDTO customerDTO;
     private final AddressDTO addressDTO = new AddressDTO("street 1", "city 1", "1111", "CH");
     private final CreditCardDTO ccDTO = new CreditCardDTO(CreditCardType.MasterCard, "5111005111051128", 12, 2020);
     private CustomerDTO customerDTO = new CustomerDTO();
