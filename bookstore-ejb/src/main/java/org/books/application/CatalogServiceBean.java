@@ -24,6 +24,9 @@ public class CatalogServiceBean implements CatalogService {
     @Override
     public void addBook(BookDTO book) throws BookAlreadyExistsException {
         logger.log(Level.INFO, "Adding book with isbn ''{0}''", book.getIsbn());
+        if (bookDAO.find(book.getIsbn()) != null) {
+            throw new BookAlreadyExistsException();
+        }
         bookDAO.create(new Book(book.getIsbn(), book.getTitle(), book.getAuthors(), book.getPublisher(), book.getPublicationYear(), book.getBinding(), book.getNumberOfPages(), book.getPrice()));
     }
 
@@ -47,6 +50,7 @@ public class CatalogServiceBean implements CatalogService {
     public void updateBook(BookDTO book) throws BookNotFoundException {
         logger.log(Level.INFO, "Update books with isbn ''{0}''", book.getIsbn());
         Book bookEntity = bookDAO.find(book.getIsbn());
+        
         if (bookEntity == null) {
             throw new BookNotFoundException();
         }

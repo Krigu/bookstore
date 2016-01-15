@@ -46,7 +46,8 @@ public class BookTest extends PopulateDBJpaTest {
     public void BookFindByISBNDAOTestNullValue() {
         BookDAOBean bean = new BookDAOBean();
         bean.setEntityManager(em);
-        Assert.assertNull(bean.find("123"));
+        Book book = bean.find("123");
+        Assert.assertNull(book);
     }
     
     @Test
