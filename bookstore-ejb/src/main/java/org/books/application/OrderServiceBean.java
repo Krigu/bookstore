@@ -3,7 +3,6 @@ package org.books.application;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -12,6 +11,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSContext;
 import javax.jms.JMSException;
@@ -24,11 +24,11 @@ import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.OrderAlreadyShippedException;
 import org.books.application.exception.OrderNotFoundException;
 import org.books.application.exception.PaymentFailedException;
+import org.books.application.interceptor.NullArgumentInterceptor;
 import org.books.data.dao.BookDAOLocal;
 import org.books.data.dao.CustomerDAOLocal;
 import org.books.data.dao.OrderDAOLocal;
 import org.books.data.dao.SequenceGeneratorDAO;
-import org.books.data.dto.CreditCardType;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
@@ -39,6 +39,7 @@ import org.books.data.entity.Order;
 import org.books.data.entity.OrderItem;
 
 @Stateless(name = "OrderService")
+@Interceptors(NullArgumentInterceptor.class)
 public class OrderServiceBean implements OrderService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderServiceBean.class.getName());
