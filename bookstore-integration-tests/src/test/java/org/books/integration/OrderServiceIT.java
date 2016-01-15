@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJBException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
@@ -26,7 +27,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-@Test(groups ={"OrderServiceIT"}, dependsOnGroups = {"CustomerServiceIT","CatalogServiceIT"})
+@Test(groups = {"OrderServiceIT"}, dependsOnGroups = {"CustomerServiceIT", "CatalogServiceIT"})
 public class OrderServiceIT {
 
     private static final String ORDER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/OrderService";
@@ -165,6 +166,11 @@ public class OrderServiceIT {
     @Test(expectedExceptions = OrderNotFoundException.class)
     public void findAnNotExistingOrder() throws OrderNotFoundException {
         orderService.findOrder("no_order_number");
+    }
+
+    @Test(expectedExceptions = EJBException.class)
+    public void findAnNullOrder() throws OrderNotFoundException {
+        orderService.findOrder(null);
     }
 
     @Test(dependsOnMethods = "orderProcess")
