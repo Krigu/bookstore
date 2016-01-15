@@ -1,6 +1,5 @@
 package org.books.integration;
 
-
 import org.books.application.CatalogService;
 import org.books.application.exception.BookAlreadyExistsException;
 import org.books.application.exception.BookNotFoundException;
@@ -17,6 +16,7 @@ import javax.naming.InitialContext;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Test(groups ={"CatalogServiceIT"})
 public class CatalogServiceIT {
 
     private static final String CATALOG_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CatalogService";

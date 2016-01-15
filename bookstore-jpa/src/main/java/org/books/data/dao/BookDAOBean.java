@@ -1,5 +1,6 @@
 package org.books.data.dao;
 
+import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import org.books.data.dao.generic.GenericDAOImpl;
 import org.books.data.dto.BookInfo;
@@ -27,7 +28,7 @@ import java.util.regex.Pattern;
  * </p>
  **/
 @Stateless
-public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal {
+public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
 
     private static final Logger LOGGER = Logger.getLogger(BookDAOBean.class);
 
@@ -37,7 +38,7 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal {
 
     @Override
     public Book find(String isbn) throws EntityNotFoundException {
-        LOGGER.info("Find book by isbn : " + isbn);
+        LOGGER.info("Find book by isbn : "+isbn);
         TypedQuery<Book> query = entityManager.createNamedQuery(Book.FIND_BY_ISBN, Book.class);
         query.setParameter("isbn", isbn);
         try {
@@ -56,32 +57,32 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal {
         CriteriaQuery<BookInfo> cq = cb.createQuery(BookInfo.class);
         Root<Book> book = cq.from(Book.class);
         Predicate where = cb.conjunction();
-
-        for (String keyword : keywordList) {
+        
+        for (String keyword: keywordList) {
             String keywordUpper = keyword.toUpperCase();
-
+            
             where = cb.and(where, cb.or(
                     cb.like(cb.upper(book.get(Book_.title)), "%" + keywordUpper + "%"),
                     cb.like(cb.upper(book.get(Book_.authors)), "%" + keywordUpper + "%"),
                     cb.like(cb.upper(book.get(Book_.publisher)), "%" + keywordUpper + "%")
             ));
         }
-
+        
         cq.where(where);
         cq.multiselect(book.get(Book_.isbn), book.get(Book_.title), book.get(Book_.price));
         TypedQuery<BookInfo> q = entityManager.createQuery(cq);
 
         return q.getResultList();
     }
-
+    
     private List<String> getKeywordsAsList(String keywords) {
         List<String> list = new ArrayList<>();
         Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(keywords);
         while (m.find()) {
             list.add(m.group(1).replace("\"", ""));
         }
-
+        
         return list;
     }
-
+    
 }

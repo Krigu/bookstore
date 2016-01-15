@@ -23,12 +23,43 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.JMSProducer;
+import javax.jms.MapMessage;
+import javax.jms.Queue;
+import org.books.application.exception.BookNotFoundException;
+import org.books.application.exception.CreditCardValidationException;
+import org.books.application.exception.CustomerNotFoundException;
+import org.books.application.exception.OrderAlreadyShippedException;
+import org.books.application.exception.OrderNotFoundException;
+import org.books.application.exception.PaymentFailedException;
+import org.books.data.dao.BookDAOLocal;
+import org.books.data.dao.CustomerDAOLocal;
+import org.books.data.dao.OrderDAOLocal;
+import org.books.data.dao.SequenceGeneratorDAO;
+import org.books.data.dto.CreditCardType;
+import org.books.data.dto.OrderDTO;
+import org.books.data.dto.OrderInfo;
+import org.books.data.dto.OrderItemDTO;
+import org.books.data.entity.Book;
+import org.books.data.entity.CreditCard;
+import org.books.data.entity.Customer;
+import org.books.data.entity.Order;
+import org.books.data.entity.OrderItem;
 
 @Stateless(name = "OrderService")
 @Interceptors(ValidationInterceptor.class)
 public class OrderServiceBean implements OrderService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderServiceBean.class.getName());
+    private static final String ORDER_SEQUENCE = "ORDER_SEQUENCE";
+    private static final String ORDER_PREFIX = "O-";
 
     @EJB
     private CustomerDAOLocal customerDAO;
@@ -37,7 +68,10 @@ public class OrderServiceBean implements OrderService {
     @EJB
     private OrderDAOLocal orderDAO;
     @EJB
+    private SequenceGeneratorDAO sequenceGenerator;
+    @EJB
     private CreditCardValidatorLocal creditCardValidator;
+    @EJB
     private MailService mailService;
 
     @Resource(name = "maxAmount")
@@ -69,12 +103,7 @@ public class OrderServiceBean implements OrderService {
 
     @Override
     public OrderDTO findOrder(String orderNr) throws OrderNotFoundException {
-        Order order = null;
-        try {
-            order = orderDAO.find(orderNr);
-        } catch (Exception e) {
-            throw new OrderNotFoundException();
-        }
+        Order order = findAnOrder(orderNr);
         return new OrderDTO(order);
     }
 
@@ -86,13 +115,8 @@ public class OrderServiceBean implements OrderService {
 
     @Override
     public void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
-        Order order = null;
-        try {
-            order = orderDAO.find(orderNr);
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Order not found");
-            throw new OrderNotFoundException();
-        }
+        Order order = findAnOrder(orderNr);
+
         if (order.getStatus() == Order.Status.shipped) {
             LOGGER.log(Level.WARNING, "Order already shipped");
             throw new OrderAlreadyShippedException();
@@ -102,17 +126,6 @@ public class OrderServiceBean implements OrderService {
         sendCancellationMail(order);
     }
 
-    /*@Override
-    public void sendBook(Book book) {
-        LOGGER.info("*************************send book to queue");
-        //Send message after an accepted order
-        JMSProducer producer = jMSContext.createProducer();
-        ObjectMessage msg = jMSContext.createObjectMessage(book);
-        producer.send(queue, msg);
-        
-        LOGGER.info("*******************book sended "+book.getAuthors());
-    }*/
-
     /**
      * Find a customer by customerNr
      *
@@ -121,15 +134,30 @@ public class OrderServiceBean implements OrderService {
      * @throws CustomerNotFoundException
      */
     private Customer findCustomer(String customerNr) throws CustomerNotFoundException {
-        LOGGER.info("Find customer number : " + customerNr);
-        Customer customer;
-        try {
-            //TODO Remplace this methode by find by customerNr
-            customer = customerDAO.find(customerNr);
-        } catch (Exception e) {
+        LOGGER.log(Level.INFO, "Find customer number : {0}", customerNr);
+        Customer customer = customerDAO.findByCustomerNumber(customerNr);
+        if (customer == null) {
+            LOGGER.log(Level.WARNING, "customer number {0} not found", customerNr);
             throw new CustomerNotFoundException();
         }
         return customer;
+    }
+
+    /**
+     * Find a order by orderNr if an order isn't found, an exception is sended
+     *
+     * @param orderNr
+     * @return
+     * @throws OrderNotFoundException
+     */
+    private Order findAnOrder(String orderNr) throws OrderNotFoundException {
+        LOGGER.log(Level.INFO, "Find order number : {0}", orderNr);
+        Order order = orderDAO.find(orderNr);
+        if (order == null) {
+            LOGGER.log(Level.WARNING, "order number {0} not found", orderNr);
+            throw new OrderNotFoundException();
+        }
+        return order;
     }
 
     /**
@@ -143,11 +171,9 @@ public class OrderServiceBean implements OrderService {
         LOGGER.info("Convert OrderItemDTO to OrderItem");
         List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItemDTO item : items) {
-            Book book;
-            try {
-                book = bookDAO.find(item.getBook().getIsbn());
-            } catch (Exception e) {
-                LOGGER.log(Level.WARNING, "This book isn't found : " + item.getBook().getIsbn());
+            Book book = bookDAO.find(item.getBook().getIsbn());
+            if (book == null) {
+                LOGGER.log(Level.WARNING, "This book isn''t found : {0}", item.getBook().getIsbn());
                 throw new BookNotFoundException();
             }
 
@@ -173,7 +199,7 @@ public class OrderServiceBean implements OrderService {
             total = total.add(new BigDecimal(itemAmount));
         }
         if (total.floatValue() > maxAmount) {
-            LOGGER.log(Level.WARNING, "The total is too big : " + total);
+            LOGGER.log(Level.WARNING, "The total is too big : {0}", total);
             throw new PaymentFailedException(PaymentFailedException.Code.PAYMENT_LIMIT_EXCEEDED);
         }
         return total;
@@ -193,29 +219,6 @@ public class OrderServiceBean implements OrderService {
             throw new PaymentFailedException(code);
         }
 
-    }
-
-    private Order createOrder(Customer customer, List<OrderItem> orderItems, BigDecimal amount) {
-        //TODO generate the order number
-        Order order = new Order("orderNummer", new Date(), amount, Order.Status.accepted, customer, customer.getAddress(), customer.getCreditCard(), orderItems);
-        return orderDAO.create(order);
-    }
-
-    /**
-     * Send the order to change the state from ACCEPTED to PROCESSING
-     *
-     * @param order
-     */
-    private void orderProcesing(Order order) {
-        try {
-            //Send message after an accepted order
-            JMSProducer producer = jMSContext.createProducer();
-            MapMessage msg = jMSContext.createMapMessage();
-            msg.setLong("orderId", order.getId());
-            producer.send(queue, msg);
-        } catch (JMSException ex) {
-            //Nothing
-        }
     }
 
     private void sendConfirmationMail(Order order) {
@@ -240,5 +243,35 @@ public class OrderServiceBean implements OrderService {
 
     }
 
+    /**
+     * Create and init new order
+     * @param customer
+     * @param orderItems
+     * @param amount
+     * @return
+     */
+    private Order createOrder(Customer customer, List<OrderItem> orderItems, BigDecimal amount) {
+        Long orderSequenceNumber = sequenceGenerator.getNextValue(ORDER_SEQUENCE);
+        String orderNumber = ORDER_PREFIX + orderSequenceNumber;
+        Order order = new Order(orderNumber, new Date(), amount, Order.Status.accepted, customer, customer.getAddress(), customer.getCreditCard(), orderItems);
+        return orderDAO.create(order);
+    }
 
+    /**
+     * Send the order to change the state from ACCEPTED to PROCESSING
+     *
+     * @param order
+     */
+    private void orderProcesing(Order order) {
+        try {
+            //Send message after an accepted order
+            JMSProducer producer = jMSContext.createProducer();
+            MapMessage msg = jMSContext.createMapMessage();
+            msg.setLong("orderId", order.getId());
+            producer.send(queue, msg);
+        } catch (JMSException ex) {
+            //Nothing
+            LOGGER.log(Level.SEVERE, "Fail to send message", ex);
+        }
+    }
 }
