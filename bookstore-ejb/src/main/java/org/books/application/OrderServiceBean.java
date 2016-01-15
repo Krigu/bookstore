@@ -27,6 +27,7 @@ import org.books.application.exception.PaymentFailedException;
 import org.books.data.dao.BookDAOLocal;
 import org.books.data.dao.CustomerDAOLocal;
 import org.books.data.dao.OrderDAOLocal;
+import org.books.data.dao.SequenceGeneratorDAO;
 import org.books.data.dto.CreditCardType;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
@@ -41,6 +42,8 @@ import org.books.data.entity.OrderItem;
 public class OrderServiceBean implements OrderService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderServiceBean.class.getName());
+    private static final String ORDER_SEQUENCE = "ORDER_SEQUENCE";
+    private static final String ORDER_PREFIX = "O-";
 
     @EJB
     private CustomerDAOLocal customerDAO;
@@ -48,6 +51,8 @@ public class OrderServiceBean implements OrderService {
     private BookDAOLocal bookDAO;
     @EJB
     private OrderDAOLocal orderDAO;
+    @EJB
+    private SequenceGeneratorDAO sequenceGenerator;
     @EJB
     private CreditCardValidatorLocal creditCardValidator;
     @EJB
@@ -71,7 +76,6 @@ public class OrderServiceBean implements OrderService {
         BigDecimal amount = initTotalAmount(orderItems);
         //Check by credit card
         validateCreditCard(customer.getCreditCard());
-
         //Create order
         Order order = createOrder(customer, orderItems, amount);
         sendConfirmationMail(order);
@@ -82,12 +86,7 @@ public class OrderServiceBean implements OrderService {
 
     @Override
     public OrderDTO findOrder(String orderNr) throws OrderNotFoundException {
-        Order order = null;
-        try {
-            order = orderDAO.find(orderNr);
-        } catch (Exception e) {
-            throw new OrderNotFoundException();
-        }
+        Order order = findAnOrder(orderNr);
         return new OrderDTO(order);
     }
 
@@ -99,32 +98,16 @@ public class OrderServiceBean implements OrderService {
 
     @Override
     public void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
-        Order order = null;
-        try {
-            order = orderDAO.find(orderNr);
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING,"Order not found");
-            throw new OrderNotFoundException();
-        }
+        Order order = findAnOrder(orderNr);
+
         if (order.getStatus() == Order.Status.shipped) {
-            LOGGER.log(Level.WARNING,"Order already shipped");
+            LOGGER.log(Level.WARNING, "Order already shipped");
             throw new OrderAlreadyShippedException();
         }
         order.setStatus(Order.Status.canceled);
         orderDAO.update(order);
         sendCancellationMail(order);
     }
-
-    /*@Override
-    public void sendBook(Book book) {
-        LOGGER.info("*************************send book to queue");
-        //Send message after an accepted order
-        JMSProducer producer = jMSContext.createProducer();
-        ObjectMessage msg = jMSContext.createObjectMessage(book);
-        producer.send(queue, msg);
-        
-        LOGGER.info("*******************book sended "+book.getAuthors());
-    }*/
 
     /**
      * Find a customer by customerNr
@@ -134,15 +117,30 @@ public class OrderServiceBean implements OrderService {
      * @throws CustomerNotFoundException
      */
     private Customer findCustomer(String customerNr) throws CustomerNotFoundException {
-        LOGGER.info("Find customer number : " + customerNr);
-        Customer customer;
-        try {
-            //TODO Remplace this methode by find by customerNr
-            customer = customerDAO.find(customerNr);
-        } catch (Exception e) {
+        LOGGER.log(Level.INFO, "Find customer number : {0}", customerNr);
+        Customer customer = customerDAO.findByCustomerNumber(customerNr);
+        if (customer == null) {
+            LOGGER.log(Level.WARNING, "customer number {0} not found", customerNr);
             throw new CustomerNotFoundException();
         }
         return customer;
+    }
+
+    /**
+     * Find a order by orderNr if an order isn't found, an exception is sended
+     *
+     * @param orderNr
+     * @return
+     * @throws OrderNotFoundException
+     */
+    private Order findAnOrder(String orderNr) throws OrderNotFoundException {
+        LOGGER.log(Level.INFO, "Find order number : {0}", orderNr);
+        Order order = orderDAO.find(orderNr);
+        if (order == null) {
+            LOGGER.log(Level.WARNING, "order number {0} not found", orderNr);
+            throw new OrderNotFoundException();
+        }
+        return order;
     }
 
     /**
@@ -156,11 +154,9 @@ public class OrderServiceBean implements OrderService {
         LOGGER.info("Convert OrderItemDTO to OrderItem");
         List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItemDTO item : items) {
-            Book book;
-            try {
-                book = bookDAO.find(item.getBook().getIsbn());
-            } catch (Exception e) {
-                LOGGER.log(Level.WARNING,"This book isn't found : " + item.getBook().getIsbn());
+            Book book = bookDAO.find(item.getBook().getIsbn());
+            if (book == null) {
+                LOGGER.log(Level.WARNING, "This book isn''t found : {0}", item.getBook().getIsbn());
                 throw new BookNotFoundException();
             }
 
@@ -186,7 +182,7 @@ public class OrderServiceBean implements OrderService {
             total = total.add(new BigDecimal(itemAmount));
         }
         if (total.floatValue() > maxAmount) {
-            LOGGER.log(Level.WARNING,"The total is too big : " + total);
+            LOGGER.log(Level.WARNING, "The total is too big : {0}", total);
             throw new PaymentFailedException(PaymentFailedException.Code.PAYMENT_LIMIT_EXCEEDED);
         }
         return total;
@@ -194,24 +190,53 @@ public class OrderServiceBean implements OrderService {
 
     private void validateCreditCard(CreditCard creditCard) throws PaymentFailedException {
         try {
-            creditCardValidator.checkCreditCard(creditCard.getNumber(), 
-                                                creditCard.getType().name(), 
-                                                creditCard.getExpirationMonth(), 
-                                                creditCard.getExpirationYear());
-        }
-        catch (CreditCardValidationException e) {
+            creditCardValidator.checkCreditCard(creditCard.getNumber(),
+                    creditCard.getType().name(),
+                    creditCard.getExpirationMonth(),
+                    creditCard.getExpirationYear());
+        } catch (CreditCardValidationException e) {
             PaymentFailedException.Code code = PaymentFailedException.Code.INVALID_CREDIT_CARD;
             if (e.getCode() == CreditCardValidationException.Code.CREDIT_CARD_EXPIRED) {
                 code = PaymentFailedException.Code.CREDIT_CARD_EXPIRED;
             }
             throw new PaymentFailedException(code);
         }
-        
+
     }
 
+    private void sendConfirmationMail(Order order) {
+        String itemList = "";
+        for (OrderItem item : order.getItems()) {
+            itemList += item.getBook().getAuthors() + ": " + item.getBook().getTitle() + ", CHF" + item.getPrice() + "\n";
+        }
+        String emailAdr = order.getCustomer().getEmail();
+        String subject = "Bestellbestätigung";
+        String body = "Sehr geehrter Kunde\n\nIhre Bestllung ist bei uns eingegangen und wird unter der Bestellnummer " + order.getNumber() + " bearbeitet.\n\nDie Bestellung umfasst folgende Artikel:\n\n" + itemList + "\nGesamtbetrag: CHF " + order.getAmount() + "\n\nFreundliche Grüsse\nBookstore";
+
+        mailService.sendMail(emailAdr, subject, body);
+
+    }
+
+    private void sendCancellationMail(Order order) {
+        String emailAdr = order.getCustomer().getEmail();
+        String subject = "Stornierung";
+        String body = "Sehr geehrter Kunde\n\nIhre Bestllung " + order.getNumber() + " wurde storniert.\n\nFreundliche Grüsse\nBookstore";
+
+        mailService.sendMail(emailAdr, subject, body);
+
+    }
+
+    /**
+     * Create and init new order
+     * @param customer
+     * @param orderItems
+     * @param amount
+     * @return
+     */
     private Order createOrder(Customer customer, List<OrderItem> orderItems, BigDecimal amount) {
-        //TODO generate the order number
-        Order order = new Order("orderNummer", new Date(), amount, Order.Status.accepted, customer, customer.getAddress(), customer.getCreditCard(), orderItems);
+        Long orderSequenceNumber = sequenceGenerator.getNextValue(ORDER_SEQUENCE);
+        String orderNumber = ORDER_PREFIX + orderSequenceNumber;
+        Order order = new Order(orderNumber, new Date(), amount, Order.Status.accepted, customer, customer.getAddress(), customer.getCreditCard(), orderItems);
         return orderDAO.create(order);
     }
 
@@ -229,30 +254,7 @@ public class OrderServiceBean implements OrderService {
             producer.send(queue, msg);
         } catch (JMSException ex) {
             //Nothing
+            LOGGER.log(Level.SEVERE, "Fail to send message", ex);
         }
     }
-    
-    private void sendConfirmationMail(Order order) {
-        String itemList = "";
-        for (OrderItem item: order.getItems()) {
-            itemList += item.getBook().getAuthors() + ": " + item.getBook().getTitle() + ", CHF" + item.getPrice() + "\n";
-        }
-        String emailAdr = order.getCustomer().getEmail();
-        String subject = "Bestellbestätigung";
-        String body = "Sehr geehrter Kunde\n\nIhre Bestllung ist bei uns eingegangen und wird unter der Bestellnummer " + order.getNumber() + " bearbeitet.\n\nDie Bestellung umfasst folgende Artikel:\n\n" + itemList + "\nGesamtbetrag: CHF " + order.getAmount() + "\n\nFreundliche Grüsse\nBookstore";
-
-        mailService.sendMail(emailAdr, subject, body);
-
-    }
-
-    private void sendCancellationMail(Order order) {
-        String emailAdr = order.getCustomer().getEmail();
-        String subject = "Stornierung";
-        String body = "Sehr geehrter Kunde\n\nIhre Bestllung " + order.getNumber() + " wurde storniert.\n\nFreundliche Grüsse\nBookstore";
-        
-        mailService.sendMail(emailAdr, subject, body);
-
-    }
-    
-            
 }

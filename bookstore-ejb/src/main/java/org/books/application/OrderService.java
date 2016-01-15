@@ -12,10 +12,6 @@ import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
 
-/**
- *
- * @author tjd
- */
 @Remote
 public interface OrderService {
 
@@ -58,7 +54,4 @@ public interface OrderService {
      * @throws CustomerNotFoundException if no customer with the specified number exists
      */
     List<OrderInfo> searchOrders(String customerNr, Integer year) throws CustomerNotFoundException;
-    
-    //public void sendBook(Book book);
-    
 }

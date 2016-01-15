@@ -4,6 +4,7 @@ package org.books.application;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
@@ -21,6 +22,7 @@ public class MailServiceBean implements MailService {
     private Session mailSession;
 
     @Override
+    @Asynchronous
     public void sendMail(String emailAdr, String subject, String body) {
         MimeMessage message = new MimeMessage(mailSession);
         try {
