@@ -43,7 +43,7 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
         try {        
             return query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException e) {
-            throw new EntityNotFoundException(e.getMessage());
+            return null;
         }
     }
 

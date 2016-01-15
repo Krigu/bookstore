@@ -5,6 +5,7 @@ import javax.ejb.Remote;
 import javax.validation.constraints.NotNull;
 
 import org.books.application.exception.BookNotFoundException;
+import org.books.application.exception.CreditCardValidationException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.OrderAlreadyShippedException;
 import org.books.application.exception.OrderNotFoundException;
@@ -60,4 +61,5 @@ public interface OrderService {
     List<OrderInfo> searchOrders(@NotNull String customerNr, @NotNull Integer year) throws CustomerNotFoundException;
 
     //public void sendBook(Book book);
+    
 }
