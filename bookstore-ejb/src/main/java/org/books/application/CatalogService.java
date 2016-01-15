@@ -6,16 +6,18 @@ import org.books.data.dto.BookDTO;
 import org.books.data.dto.BookInfo;
 
 import javax.ejb.Remote;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Remote
 public interface CatalogService {
 
-    public void addBook(BookDTO book) throws BookAlreadyExistsException;
+    public void addBook(@NotNull @Valid BookDTO book) throws BookAlreadyExistsException;
 
-    public BookDTO findBook(String isbn) throws BookNotFoundException;
+    public BookDTO findBook(@NotNull String isbn) throws BookNotFoundException;
 
-    public List<BookInfo> searchBooks(String keywords);
+    public List<BookInfo> searchBooks(@NotNull String keywords);
 
-    public void updateBook(BookDTO book) throws BookNotFoundException;
+    public void updateBook(@NotNull @Valid BookDTO book) throws BookNotFoundException;
 }

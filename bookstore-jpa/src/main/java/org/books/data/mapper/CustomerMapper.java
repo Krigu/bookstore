@@ -1,4 +1,4 @@
-package org.books.data.converter;
+package org.books.data.mapper;
 
 
 import org.books.data.dto.AddressDTO;
@@ -8,7 +8,7 @@ import org.books.data.entity.Address;
 import org.books.data.entity.CreditCard;
 import org.books.data.entity.Customer;
 
-public class CustomerConverter {
+public class CustomerMapper {
 
     public static CustomerDTO toDTO(Customer customer) {
         CustomerDTO dto = new CustomerDTO();

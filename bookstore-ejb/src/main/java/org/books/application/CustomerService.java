@@ -8,6 +8,8 @@ import org.books.data.dto.CustomerDTO;
 import org.books.data.dto.CustomerInfo;
 
 import javax.ejb.Remote;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Remote
@@ -24,7 +26,7 @@ public interface CustomerService {
      * @throws CustomerNotFoundException if no customer with the specified email address exists
      * @throws InvalidPasswordException  if the password is invalid
      */
-    void authenticateCustomer(String email, String password) throws CustomerNotFoundException, InvalidPasswordException;
+    void authenticateCustomer(@NotNull String email, @NotNull String password) throws CustomerNotFoundException, InvalidPasswordException;
 
     /**
      * Changes the password of a customer.
@@ -33,7 +35,7 @@ public interface CustomerService {
      * @param password the new password of the customer
      * @throws CustomerNotFoundException if no customer with the specified email address exists
      */
-    void changePassword(String email, String password) throws CustomerNotFoundException;
+    void changePassword(@NotNull String email,  @NotNull String password) throws CustomerNotFoundException;
 
     /**
      * Finds a customer by number.
@@ -42,7 +44,7 @@ public interface CustomerService {
      * @return the data of the found customer
      * @throws CustomerNotFoundException if no customer with the specified number exists
      */
-    CustomerDTO findCustomer(String customerNr) throws CustomerNotFoundException;
+    CustomerDTO findCustomer(@NotNull String customerNr) throws CustomerNotFoundException;
 
     /**
      * Finds a customer by email address.
@@ -51,7 +53,7 @@ public interface CustomerService {
      * @return the data of the found customer
      * @throws CustomerNotFoundException if no customer with the specified email address exists
      */
-    CustomerDTO findCustomerByEmail(String email) throws CustomerNotFoundException;
+    CustomerDTO findCustomerByEmail(@NotNull String email) throws CustomerNotFoundException;
 
     /**
      * Registers a customer with the bookstore.
@@ -62,7 +64,7 @@ public interface CustomerService {
      * @return the number of the registered customer
      * @throws CustomerAlreadyExistsException if another customer with the same email address already exists
      */
-    CustomerDTO registerCustomer(CustomerDTO customer, String password) throws CustomerAlreadyExistsException;
+    CustomerDTO registerCustomer(@NotNull @Valid CustomerDTO customer, @NotNull String password) throws CustomerAlreadyExistsException;
 
     /**
      * Searches for customers by name.
@@ -71,7 +73,7 @@ public interface CustomerService {
      * @param name the name to search for
      * @return a list of matching customers (may be empty)
      */
-    List<CustomerInfo> searchCustomers(String name);
+    List<CustomerInfo> searchCustomers(@NotNull String name);
 
 
     /**
@@ -82,5 +84,5 @@ public interface CustomerService {
      * @throws CustomerNotFoundException      if no customer with the specified number exists
      * @throws CustomerAlreadyExistsException if another customer with the same email address already exists
      */
-    void updateCustomer(CustomerDTO customer) throws CustomerNotFoundException, CustomerAlreadyExistsException;
+    void updateCustomer(@NotNull @Valid CustomerDTO customer) throws CustomerNotFoundException, CustomerAlreadyExistsException;
 }

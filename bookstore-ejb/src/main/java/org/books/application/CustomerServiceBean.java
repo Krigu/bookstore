@@ -4,7 +4,7 @@ package org.books.application;
 import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.InvalidPasswordException;
-import org.books.data.converter.CustomerConverter;
+import org.books.data.mapper.CustomerMapper;
 import org.books.data.dao.CustomerDAOLocal;
 import org.books.data.dao.LoginDAOLocal;
 import org.books.data.dao.SequenceGeneratorDAO;
@@ -83,7 +83,7 @@ public class CustomerServiceBean implements CustomerService {
         if (customer == null)
             throw new CustomerNotFoundException();
 
-        return CustomerConverter.toDTO(customer);
+        return CustomerMapper.toDTO(customer);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class CustomerServiceBean implements CustomerService {
         if (customer == null)
             throw new CustomerNotFoundException();
 
-        return CustomerConverter.toDTO(customer);
+        return CustomerMapper.toDTO(customer);
     }
 
 
@@ -120,7 +120,7 @@ public class CustomerServiceBean implements CustomerService {
         String customerNumber = CUSTOMER_PREFIX + customerSequenceNumber;
         customer.setNumber(customerNumber);
 
-        customerDao.create(CustomerConverter.toEntity(customer));
+        customerDao.create(CustomerMapper.toEntity(customer));
 
         Login login = new Login();
         login.setUserName(customer.getEmail());
@@ -160,7 +160,7 @@ public class CustomerServiceBean implements CustomerService {
         login.setUserName(customer.getEmail());
         loginDao.update(login);
 
-        customerDao.update(CustomerConverter.updateEntity(entity, customer));
+        customerDao.update(CustomerMapper.updateEntity(entity, customer));
 
     }
 }

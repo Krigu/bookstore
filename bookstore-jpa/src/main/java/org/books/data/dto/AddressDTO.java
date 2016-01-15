@@ -1,12 +1,15 @@
 package org.books.data.dto;
 
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class AddressDTO implements Serializable {
 
+    @NotNull
     private String street;
 
+    @NotNull
     private String postalCode;
 
     private String city;

@@ -2,6 +2,8 @@ package org.books.application;
 
 import java.util.List;
 import javax.ejb.Remote;
+import javax.validation.constraints.NotNull;
+
 import org.books.application.exception.BookNotFoundException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.OrderAlreadyShippedException;
@@ -12,7 +14,6 @@ import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
 
 /**
- *
  * @author tjd
  */
 @Remote
@@ -22,10 +23,10 @@ public interface OrderService {
      * Cancels an order.
      *
      * @param orderNr the number of the order
-     * @throws OrderNotFoundException if no order with the specified number exists
+     * @throws OrderNotFoundException       if no order with the specified number exists
      * @throws OrderAlreadyShippedException if the order has already been shipped
      */
-    void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException;
+    void cancelOrder(@NotNull String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException;
 
     /**
      * Finds an order by number.
@@ -34,29 +35,29 @@ public interface OrderService {
      * @return the data of the found order
      * @throws OrderNotFoundException if no order with the specified number exists
      */
-    OrderDTO findOrder(String orderNr) throws OrderNotFoundException;
+    OrderDTO findOrder(@NotNull String orderNr) throws OrderNotFoundException;
 
     /**
      * Places an order on the bookstore.
      *
      * @param customerNr the number of the customer
-     * @param items the order items
+     * @param items      the order items
      * @return the data of the placed order
      * @throws CustomerNotFoundException if no customer with the specified number exists
-     * @throws BookNotFoundException if an order item references a book that does not exist
-     * @throws PaymentFailedException if a payment error occurs
+     * @throws BookNotFoundException     if an order item references a book that does not exist
+     * @throws PaymentFailedException    if a payment error occurs
      */
-    OrderDTO placeOrder(String customerNr, List<OrderItemDTO> items) throws CustomerNotFoundException,BookNotFoundException,PaymentFailedException;
+    OrderDTO placeOrder(@NotNull String customerNr, @NotNull List<OrderItemDTO> items) throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException;
 
     /**
      * Searches for orders by customer and year.
      *
      * @param customerNr the email address of the customer
-     * @param year the year of the orders
+     * @param year       the year of the orders
      * @return
      * @throws CustomerNotFoundException if no customer with the specified number exists
      */
-    List<OrderInfo> searchOrders(String customerNr, Integer year) throws CustomerNotFoundException;
-    
+    List<OrderInfo> searchOrders(@NotNull String customerNr, @NotNull Integer year) throws CustomerNotFoundException;
+
     //public void sendBook(Book book);
 }
