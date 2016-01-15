@@ -1,11 +1,14 @@
 package org.books.integration;
 
-//import junit.framework.Assert;
+
 import org.books.application.CatalogService;
 import org.books.application.exception.BookAlreadyExistsException;
 import org.books.application.exception.BookNotFoundException;
+import org.books.application.exception.ValidationException;
 import org.books.data.dto.BookDTO;
 import org.books.data.dto.BookInfo;
+import org.books.data.entity.Book;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -13,7 +16,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import java.math.BigDecimal;
 import java.util.List;
-import org.testng.Assert;
 
 public class CatalogServiceIT {
 
@@ -28,11 +30,41 @@ public class CatalogServiceIT {
         catalogService = (CatalogService) jndiContext.lookup(CATALOG_SERVICE_NAME);
     }
 
+    @Test(expectedExceptions = ValidationException.class)
+    public void validationTestInvalidISBN() throws BookAlreadyExistsException {
+        BookDTO b = new BookDTO();
+        b.setAuthors("authors");
+        // 9 instad of minimal 10 digits
+        b.setIsbn("231232341");
+        b.setNumberOfPages(123);
+        b.setPublicationYear(2000);
+        b.setPrice(new BigDecimal(12));
+        b.setPublisher("publisher");
+        b.setBinding(Book.Binding.Ebook);
+        b.setTitle("Title");
+
+        catalogService.addBook(b);
+    }
+
+    @Test(expectedExceptions = ValidationException.class)
+    public void validationTestTitleIsNull() throws BookAlreadyExistsException {
+        BookDTO b = new BookDTO();
+        b.setAuthors("authors");
+        b.setIsbn("2312323412");
+        b.setNumberOfPages(123);
+        b.setPublicationYear(2000);
+        b.setPrice(new BigDecimal(12));
+        b.setPublisher("publisher");
+        b.setBinding(Book.Binding.Ebook);
+
+        catalogService.addBook(b);
+    }
+
     @Test
     public void addBook() throws BookAlreadyExistsException {
         catalogService.addBook(book);
     }
-    
+
     @Test(dependsOnMethods = "addBook", expectedExceptions = BookAlreadyExistsException.class)
     public void addExistingBook() throws BookAlreadyExistsException {
         catalogService.addBook(book);
@@ -54,7 +86,7 @@ public class CatalogServiceIT {
         Assert.assertEquals(1, books.size());
 
     }
-    
+
     @Test
     public void searchBooksEmpty() {
         List<BookInfo> books = catalogService.searchBooks("hjlkdashf");
@@ -68,11 +100,18 @@ public class CatalogServiceIT {
         catalogService.updateBook(book);
         Assert.assertEquals(new BigDecimal("59.99"), catalogService.findBook(book.getIsbn()).getPrice());
     }
-    
+
     @Test(expectedExceptions = BookNotFoundException.class)
     public void updateBookNotFound() throws BookNotFoundException {
         BookDTO book = new BookDTO();
-        book.setIsbn("3836222949");
+        book.setAuthors("authors");
+        book.setIsbn("2312323423412");
+        book.setNumberOfPages(123);
+        book.setPublicationYear(2000);
+        book.setPrice(new BigDecimal(12));
+        book.setPublisher("publisher");
+        book.setBinding(Book.Binding.Ebook);
+        book.setTitle("Test");
         catalogService.updateBook(book);
     }
 }

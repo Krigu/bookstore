@@ -1,20 +1,26 @@
 package org.books.data.dto;
 
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class CustomerDTO implements Serializable {
 
+    @NotNull
     private String email;
-
+    @NotNull
     private String firstName;
-
+    @NotNull
     private String lastName;
 
     private String number;
-
+    @NotNull
+    @Valid
     private AddressDTO address;
 
+    @NotNull
+    @Valid
     private CreditCardDTO creditCard;
 
     public CustomerDTO() {

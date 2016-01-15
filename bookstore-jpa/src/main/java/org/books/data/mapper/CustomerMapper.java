@@ -1,6 +1,10 @@
 package org.books.data.mapper;
 
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConvertUtilsBean;
+import org.apache.commons.beanutils.Converter;
+import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.books.data.dto.AddressDTO;
 import org.books.data.dto.CreditCardDTO;
 import org.books.data.dto.CustomerDTO;
@@ -8,89 +12,69 @@ import org.books.data.entity.Address;
 import org.books.data.entity.CreditCard;
 import org.books.data.entity.Customer;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class CustomerMapper {
 
+
     public static CustomerDTO toDTO(Customer customer) {
-        CustomerDTO dto = new CustomerDTO();
-        dto.setFirstName(customer.getFirstName());
-        dto.setLastName(customer.getLastName());
-        dto.setEmail(customer.getEmail());
-        dto.setNumber(customer.getNumber());
 
-        if (customer.getAddress() != null) {
-            AddressDTO address = new AddressDTO();
-            address.setStreet(customer.getAddress().getStreet());
-            address.setPostalCode(customer.getAddress().getPostalCode());
-            address.setCity(customer.getAddress().getCity());
-            address.setCountry(customer.getAddress().getCountry());
-            dto.setAddress(address);
+        ConvertUtilsBean convertUtilsBean = new ConvertUtilsBean();
+        convertUtilsBean.register(new Converter() {
+            @Override
+            public <T> T convert(Class<T> aClass, Object o) {
+                return (T) AddressMapper.toDTO((Address) o);
+            }
+        }, AddressDTO.class);
+        convertUtilsBean.register(new Converter() {
+            @Override
+            public <T> T convert(Class<T> aClass, Object o) {
+                return (T) CreditCardMapper.toDTO((CreditCard) o);
+            }
+        }, CreditCardDTO.class);
+        BeanUtilsBean beanUtilsBean =
+                new BeanUtilsBean(convertUtilsBean, new PropertyUtilsBean());
+
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        try {
+            beanUtilsBean.copyProperties(customerDTO, customer);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
         }
 
-        if (customer.getCreditCard() != null) {
-            CreditCardDTO creditCardDTO = new CreditCardDTO();
-            creditCardDTO.setNumber(customer.getCreditCard().getNumber());
-            creditCardDTO.setExpirationMonth(customer.getCreditCard().getExpirationMonth());
-            creditCardDTO.setExpirationYear(customer.getCreditCard().getExpirationYear());
-            creditCardDTO.setType(customer.getCreditCard().getType());
-            dto.setCreditCard(creditCardDTO);
-        }
-        return dto;
+        return customerDTO;
     }
 
-    public static Customer toEntity(CustomerDTO customer) {
-        Customer entity = new Customer();
-        entity.setFirstName(customer.getFirstName());
-        entity.setLastName(customer.getLastName());
-        entity.setEmail(customer.getEmail());
-        entity.setNumber(customer.getNumber());
-
-        if (customer.getAddress() != null) {
-            Address a = new Address();
-            setAddressAttributes(customer, a);
-            entity.setAddress(a);
-        }
-
-        if (customer.getCreditCard() != null) {
-            CreditCard cc = new CreditCard();
-            setCreditCardAttributes(customer, cc);
-            entity.setCreditCard(cc);
-        }
-
-        return entity;
+    public static Customer toEntity(CustomerDTO customerDTO) {
+        return toEntity(new Customer(), customerDTO);
     }
 
-    public static Customer updateEntity(Customer entity, CustomerDTO customer) {
-        entity.setFirstName(customer.getFirstName());
-        entity.setLastName(customer.getLastName());
-        entity.setEmail(customer.getEmail());
-        entity.setNumber(customer.getNumber());
+    public static Customer toEntity(Customer customer, CustomerDTO customerDTO) {
 
-        if (customer.getAddress() != null) {
-            Address a = entity.getAddress() == null ? new Address() : entity.getAddress();
-            setAddressAttributes(customer, a);
-            entity.setAddress(a);
+        ConvertUtilsBean convertUtilsBean = new ConvertUtilsBean();
+        convertUtilsBean.register(new Converter() {
+            @Override
+            public <T> T convert(Class<T> aClass, Object o) {
+                return (T) AddressMapper.toEntity((AddressDTO) o);
+            }
+        }, Address.class);
+        convertUtilsBean.register(new Converter() {
+            @Override
+            public <T> T convert(Class<T> aClass, Object o) {
+                return (T) CreditCardMapper.toEntity((CreditCardDTO) o);
+            }
+        }, CreditCard.class);
+        BeanUtilsBean beanUtilsBean =
+                new BeanUtilsBean(convertUtilsBean, new PropertyUtilsBean());
+
+        try {
+            beanUtilsBean.copyProperties(customer, customerDTO);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
         }
 
-        if (customer.getCreditCard() != null) {
-            CreditCard cc = entity.getCreditCard() == null ? new CreditCard() : entity.getCreditCard();
-            setCreditCardAttributes(customer, cc);
-            entity.setCreditCard(cc);
-        }
-
-        return entity;
+        return customer;
     }
 
-    private static void setAddressAttributes(CustomerDTO customer, Address a) {
-        a.setStreet(customer.getAddress().getStreet());
-        a.setCity(customer.getAddress().getCity());
-        a.setCountry(customer.getAddress().getCountry());
-        a.setPostalCode(customer.getAddress().getPostalCode());
-    }
-
-    private static void setCreditCardAttributes(CustomerDTO customer, CreditCard cc) {
-        cc.setType(customer.getCreditCard().getType());
-        cc.setExpirationMonth(customer.getCreditCard().getExpirationMonth());
-        cc.setExpirationYear(customer.getCreditCard().getExpirationYear());
-        cc.setNumber(customer.getCreditCard().getNumber());
-    }
 }

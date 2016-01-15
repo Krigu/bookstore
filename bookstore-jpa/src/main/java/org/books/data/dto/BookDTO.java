@@ -1,24 +1,37 @@
 
 package org.books.data.dto;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import org.books.data.entity.Book;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 public class BookDTO implements Serializable {
-    private String authors; 
+
+    @NotNull
+    private String authors;
+    @NotNull
     private Book.Binding binding;
-    private String isbn; 
-    private Integer numberOfPages; 
-    private BigDecimal price; 
-    private Integer publicationYear; 
-    private String publisher; 
-    private String title; 
+    @NotNull
+    @Size(min = 10, max = 14)
+    private String isbn;
+    @NotNull
+    private Integer numberOfPages;
+    @NotNull
+    private BigDecimal price;
+    @NotNull
+    private Integer publicationYear;
+    @NotNull
+    private String publisher;
+    @NotNull
+    private String title;
 
     public BookDTO() {
-        
+
     }
-    
+
     public BookDTO(String authors, Book.Binding binding, String isbn, Integer numberOfPages, BigDecimal price, Integer publicationYear, String publisher, String title) {
         this.authors = authors;
         this.binding = binding;
@@ -93,7 +106,6 @@ public class BookDTO implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-    
-    
-    
+
+
 }

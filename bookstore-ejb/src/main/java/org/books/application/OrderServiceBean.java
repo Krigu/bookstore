@@ -1,43 +1,31 @@
 package org.books.application;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.books.application.exception.*;
+import org.books.application.interceptor.ValidationInterceptor;
+import org.books.data.dao.BookDAOLocal;
+import org.books.data.dao.CustomerDAOLocal;
+import org.books.data.dao.OrderDAOLocal;
+import org.books.data.dto.OrderDTO;
+import org.books.data.dto.OrderInfo;
+import org.books.data.dto.OrderItemDTO;
+import org.books.data.entity.*;
+
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.jms.JMSConnectionFactory;
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
-import javax.jms.JMSProducer;
-import javax.jms.MapMessage;
-import javax.jms.Queue;
-import org.books.application.exception.BookNotFoundException;
-import org.books.application.exception.CreditCardValidationException;
-import org.books.application.exception.CustomerNotFoundException;
-import org.books.application.exception.OrderAlreadyShippedException;
-import org.books.application.exception.OrderNotFoundException;
-import org.books.application.exception.PaymentFailedException;
-import org.books.data.dao.BookDAOLocal;
-import org.books.data.dao.CustomerDAOLocal;
-import org.books.data.dao.OrderDAOLocal;
-import org.books.data.dto.CreditCardType;
-import org.books.data.dto.OrderDTO;
-import org.books.data.dto.OrderInfo;
-import org.books.data.dto.OrderItemDTO;
-import org.books.data.entity.Book;
-import org.books.data.entity.CreditCard;
-import org.books.data.entity.Customer;
-import org.books.data.entity.Order;
-import org.books.data.entity.OrderItem;
+import javax.interceptor.Interceptors;
+import javax.jms.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Stateless(name = "OrderService")
+@Interceptors(ValidationInterceptor.class)
 public class OrderServiceBean implements OrderService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderServiceBean.class.getName());
@@ -102,11 +90,11 @@ public class OrderServiceBean implements OrderService {
         try {
             order = orderDAO.find(orderNr);
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING,"Order not found");
+            LOGGER.log(Level.WARNING, "Order not found");
             throw new OrderNotFoundException();
         }
         if (order.getStatus() == Order.Status.shipped) {
-            LOGGER.log(Level.WARNING,"Order already shipped");
+            LOGGER.log(Level.WARNING, "Order already shipped");
             throw new OrderAlreadyShippedException();
         }
         order.setStatus(Order.Status.canceled);
@@ -159,7 +147,7 @@ public class OrderServiceBean implements OrderService {
             try {
                 book = bookDAO.find(item.getBook().getIsbn());
             } catch (Exception e) {
-                LOGGER.log(Level.WARNING,"This book isn't found : " + item.getBook().getIsbn());
+                LOGGER.log(Level.WARNING, "This book isn't found : " + item.getBook().getIsbn());
                 throw new BookNotFoundException();
             }
 
@@ -185,7 +173,7 @@ public class OrderServiceBean implements OrderService {
             total = total.add(new BigDecimal(itemAmount));
         }
         if (total.floatValue() > maxAmount) {
-            LOGGER.log(Level.WARNING,"The total is too big : " + total);
+            LOGGER.log(Level.WARNING, "The total is too big : " + total);
             throw new PaymentFailedException(PaymentFailedException.Code.PAYMENT_LIMIT_EXCEEDED);
         }
         return total;
@@ -193,19 +181,18 @@ public class OrderServiceBean implements OrderService {
 
     private void validateCreditCard(CreditCard creditCard) throws PaymentFailedException {
         try {
-            creditCardValidator.checkCreditCard(creditCard.getNumber(), 
-                                                creditCard.getType().name(), 
-                                                creditCard.getExpirationMonth(), 
-                                                creditCard.getExpirationYear());
-        }
-        catch (CreditCardValidationException e) {
+            creditCardValidator.checkCreditCard(creditCard.getNumber(),
+                    creditCard.getType().name(),
+                    creditCard.getExpirationMonth(),
+                    creditCard.getExpirationYear());
+        } catch (CreditCardValidationException e) {
             PaymentFailedException.Code code = PaymentFailedException.Code.INVALID_CREDIT_CARD;
             if (e.getCode() == CreditCardValidationException.Code.CREDIT_CARD_EXPIRED) {
                 code = PaymentFailedException.Code.CREDIT_CARD_EXPIRED;
             }
             throw new PaymentFailedException(code);
         }
-        
+
     }
 
     private Order createOrder(Customer customer, List<OrderItem> orderItems, BigDecimal amount) {
@@ -230,10 +217,10 @@ public class OrderServiceBean implements OrderService {
             //Nothing
         }
     }
-    
+
     private void sendConfirmationMail(Order order) {
         String itemList = "";
-        for (OrderItem item: order.getItems()) {
+        for (OrderItem item : order.getItems()) {
             itemList += item.getBook().getAuthors() + ": " + item.getBook().getTitle() + ", CHF" + item.getPrice() + "\n";
         }
         String emailAdr = order.getCustomer().getEmail();
@@ -248,10 +235,10 @@ public class OrderServiceBean implements OrderService {
         String emailAdr = order.getCustomer().getEmail();
         String subject = "Stornierung";
         String body = "Sehr geehrter Kunde\n\nIhre Bestllung " + order.getNumber() + " wurde storniert.\n\nFreundliche Grüsse\nBookstore";
-        
+
         mailService.sendMail(emailAdr, subject, body);
 
     }
-    
-            
+
+
 }

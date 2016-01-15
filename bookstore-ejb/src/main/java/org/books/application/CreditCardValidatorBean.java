@@ -5,9 +5,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
+
 import org.books.application.exception.CreditCardValidationException;
+import org.books.application.interceptor.ValidationInterceptor;
 
 @Stateless(name="CreditCardValidator")
+@Interceptors(ValidationInterceptor.class)
 public class CreditCardValidatorBean implements CreditCardValidatorLocal {
     
     private static final Logger LOGGER = Logger.getLogger(CreditCardValidatorBean.class.getName());
@@ -74,7 +78,7 @@ public class CreditCardValidatorBean implements CreditCardValidatorLocal {
     /**
      * Check the type of credit card with the card number
      *
-     * @param type
+     * @param cardType
      * @param cardNumber
      * @throws CreditCardValidationException
      */

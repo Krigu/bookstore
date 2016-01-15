@@ -12,8 +12,10 @@ public class AddressDTO implements Serializable {
     @NotNull
     private String postalCode;
 
+    @NotNull
     private String city;
 
+    @NotNull
     private String country;
 
     public AddressDTO() {

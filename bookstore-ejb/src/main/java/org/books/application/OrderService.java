@@ -60,6 +60,5 @@ public interface OrderService {
      */
     List<OrderInfo> searchOrders(@NotNull String customerNr, @NotNull Integer year) throws CustomerNotFoundException;
 
-    //public void sendBook(Book book);
-    
+
 }
