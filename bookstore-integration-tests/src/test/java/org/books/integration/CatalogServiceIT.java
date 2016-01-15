@@ -1,6 +1,6 @@
 package org.books.integration;
 
-import junit.framework.Assert;
+//import junit.framework.Assert;
 import org.books.application.CatalogService;
 import org.books.application.exception.BookAlreadyExistsException;
 import org.books.application.exception.BookNotFoundException;
@@ -13,8 +13,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import java.math.BigDecimal;
 import java.util.List;
-
-import static org.testng.Assert.assertNotNull;
+import org.testng.Assert;
 
 public class CatalogServiceIT {
 
@@ -33,10 +32,20 @@ public class CatalogServiceIT {
     public void addBook() throws BookAlreadyExistsException {
         catalogService.addBook(book);
     }
+    
+    @Test(dependsOnMethods = "addBook", expectedExceptions = BookAlreadyExistsException.class)
+    public void addExistingBook() throws BookAlreadyExistsException {
+        catalogService.addBook(book);
+    }
 
     @Test(dependsOnMethods = "addBook")
     public void findBook() throws BookNotFoundException {
-        assertNotNull(catalogService.findBook(book.getIsbn()));
+        Assert.assertNotNull(catalogService.findBook(book.getIsbn()));
+    }
+
+    @Test(expectedExceptions = BookNotFoundException.class)
+    public void findBookNotExisting() throws BookNotFoundException {
+        catalogService.findBook("123");
     }
 
     @Test(dependsOnMethods = "addBook")
@@ -45,11 +54,25 @@ public class CatalogServiceIT {
         Assert.assertEquals(1, books.size());
 
     }
+    
+    @Test
+    public void searchBooksEmpty() {
+        List<BookInfo> books = catalogService.searchBooks("hjlkdashf");
+        Assert.assertEquals(0, books.size());
+
+    }
 
     @Test(dependsOnMethods = "addBook")
     public void updateBook() throws BookNotFoundException {
         book.setPrice(new BigDecimal("59.99"));
         catalogService.updateBook(book);
         Assert.assertEquals(new BigDecimal("59.99"), catalogService.findBook(book.getIsbn()).getPrice());
+    }
+    
+    @Test(expectedExceptions = BookNotFoundException.class)
+    public void updateBookNotFound() throws BookNotFoundException {
+        BookDTO book = new BookDTO();
+        book.setIsbn("3836222949");
+        catalogService.updateBook(book);
     }
 }
