@@ -32,13 +32,17 @@ import org.books.data.entity.Order;
 public class OrderProcessor implements MessageListener {
 
     private static final Logger LOGGER = Logger.getLogger(OrderProcessor.class.getName());
+        
     @EJB
     private OrderDAOLocal orderDAO;
     @Resource
     private TimerService timerService;
     @EJB
     private BookDAOLocal bookDAO;
+    @EJB
+    private MailService mailService;
 
+    
     @Override
     public void onMessage(Message message) {
         LOGGER.info("Recieve message");
@@ -89,9 +93,20 @@ public class OrderProcessor implements MessageListener {
         LOGGER.info("Ship the order");
         Long orderId = (Long) timer.getInfo();
         Order order = orderDAO.find(orderId);
+        
         if (order.getStatus().equals(Order.Status.processing)) {
             order.setStatus(Order.Status.shipped);
             orderDAO.update(order);
+            sendShippingMail(order);
         }
+    }
+    
+    private void sendShippingMail(Order order) {
+        String adrStr = order.getCustomer().getFirstName() + " " + order.getCustomer().getLastName() + "\n" + order.getAddress().getStreet() + "\n" + order.getAddress().getPostalCode() + " " + order.getAddress().getCity() + "\n" + order.getAddress().getCountry();
+        String emailAdr = order.getCustomer().getEmail();
+        String subject = "Ihre Bestellung wurde versandt";
+        String body = "Sehr geehrter Kunde\n\nIhre Bestllung " + order.getNumber() + " wurde an folgende Adresse versandt:\n" + adrStr + "\n\nFreundliche Grüsse\nBookstore";
+        
+        mailService.sendMail(emailAdr, subject, body);
     }
 }
