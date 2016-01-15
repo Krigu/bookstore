@@ -3,6 +3,7 @@ package org.books.application;
 import java.util.List;
 import javax.ejb.Remote;
 import org.books.application.exception.BookNotFoundException;
+import org.books.application.exception.CreditCardValidationException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.OrderAlreadyShippedException;
 import org.books.application.exception.OrderNotFoundException;
@@ -59,4 +60,5 @@ public interface OrderService {
     List<OrderInfo> searchOrders(String customerNr, Integer year) throws CustomerNotFoundException;
     
     //public void sendBook(Book book);
+    
 }

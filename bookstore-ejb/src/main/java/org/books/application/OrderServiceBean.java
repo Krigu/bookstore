@@ -19,6 +19,7 @@ import javax.jms.JMSProducer;
 import javax.jms.MapMessage;
 import javax.jms.Queue;
 import org.books.application.exception.BookNotFoundException;
+import org.books.application.exception.CreditCardValidationException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.OrderAlreadyShippedException;
 import org.books.application.exception.OrderNotFoundException;
@@ -40,8 +41,6 @@ import org.books.data.entity.OrderItem;
 public class OrderServiceBean implements OrderService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderServiceBean.class.getName());
-    private static final String VISA_REGEX = "^4\\d{15}$";
-    private static final String MASTERCARD_REGEX = "^5[1-5]\\d{14}$";
 
     @EJB
     private CustomerDAOLocal customerDAO;
@@ -49,6 +48,8 @@ public class OrderServiceBean implements OrderService {
     private BookDAOLocal bookDAO;
     @EJB
     private OrderDAOLocal orderDAO;
+    @EJB
+    private CreditCardValidatorLocal creditCardValidator;
 
     @Resource(name = "maxAmount")
     private float maxAmount;
@@ -67,10 +68,7 @@ public class OrderServiceBean implements OrderService {
         List<OrderItem> orderItems = initListOrderItems(items);
         BigDecimal amount = initTotalAmount(orderItems);
         //Check by credit card
-        checkFormat(customer.getCreditCard().getNumber());
-        checkLuhndigit(customer.getCreditCard().getNumber());
-        checkType(customer.getCreditCard().getType(), customer.getCreditCard().getNumber());
-        checkExpiredDate(customer.getCreditCard().getExpirationMonth(), customer.getCreditCard().getExpirationYear());
+        validateCreditCard(customer.getCreditCard());
 
         //Create order
         Order order = createOrder(customer, orderItems, amount);
@@ -191,92 +189,21 @@ public class OrderServiceBean implements OrderService {
         return total;
     }
 
-    /**
-     * Check the length and the content of a card number
-     *
-     * @param cardNumber
-     * @throws PaymentFailedException
-     */
-    private void checkFormat(String cardNumber) throws PaymentFailedException {
-        //Check the length
-        if (cardNumber.length() != 16) {
-            throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
+    private void validateCreditCard(CreditCard creditCard) throws PaymentFailedException {
+        try {
+            creditCardValidator.checkCreditCard(creditCard.getNumber(), 
+                                                creditCard.getType().name(), 
+                                                creditCard.getExpirationMonth(), 
+                                                creditCard.getExpirationYear());
         }
-        //Check the digit
-        if (!cardNumber.matches("\\d{16}$")) {
-            throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
-        }
-    }
-
-    /**
-     * Check the card number (throw a PaymentFailedException if it's validate)
-     *
-     * @param cardNumber
-     * @throws PaymentFailedException
-     */
-    private void checkLuhndigit(String cardNumber) throws PaymentFailedException {
-        //Source : http://rosettacode.org/wiki/Luhn_test_of_credit_card_numbers
-        int s1 = 0, s2 = 0;
-        String reverse = new StringBuffer(cardNumber).reverse().toString();
-        for (int i = 0; i < reverse.length(); i++) {
-            int digit = Character.digit(reverse.charAt(i), 10);
-            if (i % 2 == 0) {//this is for odd digits, they are 1-indexed in the algorithm
-                s1 += digit;
-            } else {//add 2 * digit for 0-4, add 2 * digit - 9 for 5-9
-                s2 += 2 * digit;
-                if (digit >= 5) {
-                    s2 -= 9;
-                }
+        catch (CreditCardValidationException e) {
+            PaymentFailedException.Code code = PaymentFailedException.Code.INVALID_CREDIT_CARD;
+            if (e.getCode() == CreditCardValidationException.Code.CREDIT_CARD_EXPIRED) {
+                code = PaymentFailedException.Code.CREDIT_CARD_EXPIRED;
             }
+            throw new PaymentFailedException(code);
         }
-        //return (s1 + s2) % 10 == 0;
-        if ((s1 + s2) % 10 != 0) {
-            throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
-        }
-    }
-
-    /**
-     * Check the type of credit card with the card number
-     *
-     * @param type
-     * @param cardNumber
-     * @throws PaymentFailedException
-     */
-    private void checkType(CreditCardType type, String cardNumber) throws PaymentFailedException {
-        String regEx;
-        switch (type) {
-            case MasterCard:
-                regEx = MASTERCARD_REGEX;
-                break;
-            case Visa:
-                regEx = VISA_REGEX;
-                break;
-            default:
-                regEx = "";
-        }
-
-        if (regEx.isEmpty() || !cardNumber.matches(regEx)) {
-            throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
-        }
-    }
-
-    /**
-     * Throw an exception if the date is expired
-     *
-     * @param expirationMonth
-     * @param expirationYear
-     * @throws PaymentFailedException
-     */
-    private void checkExpiredDate(Integer expirationMonth, Integer expirationYear) throws PaymentFailedException {
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(Calendar.MONTH, expirationMonth);
-        calendar.set(Calendar.YEAR, expirationYear);
-        Date exiprationDate = calendar.getTime();
-        //Date is expried?
-        if (exiprationDate.before(new Date())) {
-            throw new PaymentFailedException(PaymentFailedException.Code.CREDIT_CARD_EXPIRED);
-        }
+        
     }
 
     private Order createOrder(Customer customer, List<OrderItem> orderItems, BigDecimal amount) {
@@ -301,4 +228,5 @@ public class OrderServiceBean implements OrderService {
             //Nothing
         }
     }
+
 }
