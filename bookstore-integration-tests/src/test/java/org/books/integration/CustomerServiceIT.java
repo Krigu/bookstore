@@ -4,12 +4,12 @@ import org.books.application.CustomerService;
 import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.InvalidPasswordException;
+import org.books.application.exception.ValidationException;
 import org.books.data.dto.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import javax.ejb.EJBException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import java.util.List;
@@ -43,17 +43,16 @@ public class CustomerServiceIT {
         Assert.assertEquals(customerDTO.getNumber(),  "C-1");
     }
 
-    @Test(expectedExceptions = EJBException.class)
+    @Test(expectedExceptions = ValidationException.class)
     public void testRegisterNullCustomer() throws CustomerAlreadyExistsException {
         customerService.registerCustomer(null, "password");
     }
 
-    @Test(expectedExceptions = EJBException.class)
+    @Test(expectedExceptions = ValidationException.class)
     public void testRegisterCustomerNullPassword() throws CustomerAlreadyExistsException {
         CustomerDTO customerDTO = createCustomer();
         customerService.registerCustomer(customerDTO, null);
     }
-
 
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerAlreadyExistsException.class)
@@ -61,6 +60,14 @@ public class CustomerServiceIT {
         CustomerDTO customerDTO = createCustomer();
 
         customerService.registerCustomer(customerDTO, PASSWORD);
+    }
+
+    @Test(expectedExceptions = ValidationException.class)
+    public void testCreateCustomerInvalidAdress() throws Exception {
+        CustomerDTO customerDTO = createCustomer();
+        customerDTO.getAddress().setCountry(null);
+        customerService.registerCustomer(customerDTO, PASSWORD);
+
     }
 
     private CustomerDTO createCustomer() {
@@ -97,7 +104,7 @@ public class CustomerServiceIT {
         customerService.authenticateCustomer(EMAIL, PASSWORD + "invalid");
     }
 
-    @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = InvalidPasswordException.class)
+    @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = ValidationException.class)
     public void testAuthenticateCustomerNullPassword() throws CustomerNotFoundException, InvalidPasswordException {
         customerService.authenticateCustomer(EMAIL, null);
     }
@@ -107,7 +114,7 @@ public class CustomerServiceIT {
         customerService.authenticateCustomer("invalid@invalid.com", PASSWORD);
     }
 
-    @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerNotFoundException.class)
+    @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = ValidationException.class)
     public void testAuthenticateNullCustomer() throws CustomerNotFoundException, InvalidPasswordException {
         customerService.authenticateCustomer(null, PASSWORD);
     }
@@ -151,7 +158,7 @@ public class CustomerServiceIT {
         customerService.findCustomerByEmail("invalid@invalid.com");
     }
 
-    @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerNotFoundException.class)
+    @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = ValidationException.class)
     public void testFindCustomerByNullCustomerNumber() throws Exception {
         customerService.findCustomer(null);
     }
@@ -171,7 +178,7 @@ public class CustomerServiceIT {
         customerService.findCustomer("C-123213");
     }
 
-    @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerNotFoundException.class)
+    @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = ValidationException.class)
     public void testFindCustomerByNullEmail() throws Exception {
         customerService.findCustomerByEmail(null);
     }
@@ -237,8 +244,8 @@ public class CustomerServiceIT {
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerNotFoundException.class)
     public void testUpdateCustomerInvalidNumber() throws Exception {
         CustomerDTO customer3 = createCustomer();
-        String email = "email555@email.com";
-        customer3.setEmail(email);
+        String email = "email5535@email.com";
+        customer3.setNumber("123123");
         customerService.updateCustomer(customer3);
 
         // Find customer 1

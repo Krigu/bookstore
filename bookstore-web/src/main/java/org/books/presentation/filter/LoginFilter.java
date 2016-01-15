@@ -5,18 +5,14 @@
  */
 package org.books.presentation.filter;
 
-import java.io.IOException;
+import org.books.presentation.bean.account.CustomerBean;
+
 import javax.inject.Inject;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.books.presentation.bean.account.CustomerBean;
+import java.io.IOException;
 
 /**
  *

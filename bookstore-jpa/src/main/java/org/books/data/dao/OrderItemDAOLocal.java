@@ -1,8 +1,9 @@
 package org.books.data.dao;
 
-import javax.ejb.Local;
 import org.books.data.dao.generic.GenericDAO;
 import org.books.data.entity.OrderItem;
+
+import javax.ejb.Local;
 
 /**
  * <h1>OrderItemDAOLocal</h1>

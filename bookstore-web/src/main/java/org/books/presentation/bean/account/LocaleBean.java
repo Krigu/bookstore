@@ -1,6 +1,8 @@
 package org.books.presentation.bean.account;
 
 
+import org.books.application.Country;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -10,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import org.books.application.Country;
 
 @SessionScoped
 @Named("localeBean")

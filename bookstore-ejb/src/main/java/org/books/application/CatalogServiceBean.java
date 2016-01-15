@@ -2,6 +2,7 @@ package org.books.application;
 
 import org.books.application.exception.BookAlreadyExistsException;
 import org.books.application.exception.BookNotFoundException;
+import org.books.application.interceptor.ValidationInterceptor;
 import org.books.data.dao.BookDAOLocal;
 import org.books.data.dto.BookDTO;
 import org.books.data.dto.BookInfo;
@@ -9,11 +10,13 @@ import org.books.data.entity.Book;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Stateless(name = "CatalogService")
+@Interceptors(ValidationInterceptor.class)
 public class CatalogServiceBean implements CatalogService {
 
     private static final Logger logger = Logger.getLogger(CatalogServiceBean.class.getName());

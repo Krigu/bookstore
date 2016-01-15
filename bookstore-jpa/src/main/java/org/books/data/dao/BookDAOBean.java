@@ -1,6 +1,5 @@
 package org.books.data.dao;
 
-import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import org.books.data.dao.generic.GenericDAOImpl;
 import org.books.data.dto.BookInfo;
@@ -9,13 +8,14 @@ import org.books.data.entity.Book_;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,17 +30,17 @@ import java.util.regex.Pattern;
 public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
 
     private static final Logger LOGGER = Logger.getLogger(BookDAOBean.class);
-    
+
     public BookDAOBean() {
         super(Book.class);
     }
 
     @Override
-    public Book find(String isbn) {
+    public Book find(String isbn) throws EntityNotFoundException {
         LOGGER.info("Find book by isbn : "+isbn);
         TypedQuery<Book> query = entityManager.createNamedQuery(Book.FIND_BY_ISBN, Book.class);
         query.setParameter("isbn", isbn);
-        try {        
+        try {
             return query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException e) {
             return null;
@@ -49,9 +49,9 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
 
     @Override
     public List<BookInfo> search(String keywords) {
-        LOGGER.info("Search books by keywords : "+keywords);
+        LOGGER.info("Search books by keywords : " + keywords);
         List<String> keywordList = getKeywordsAsList(keywords);
-       
+
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<BookInfo> cq = cb.createQuery(BookInfo.class);
         Root<Book> book = cq.from(Book.class);

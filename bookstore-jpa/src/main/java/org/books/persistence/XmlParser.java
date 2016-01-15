@@ -1,13 +1,14 @@
 package org.books.persistence;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XmlParser {
 

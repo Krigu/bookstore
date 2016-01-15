@@ -1,8 +1,9 @@
 
 package org.books.application;
 
-import javax.ejb.Local;
 import org.books.application.exception.CreditCardValidationException;
+
+import javax.ejb.Local;
 
 @Local
 public interface CreditCardValidatorLocal {

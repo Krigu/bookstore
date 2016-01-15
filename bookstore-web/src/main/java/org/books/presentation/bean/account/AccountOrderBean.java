@@ -2,15 +2,16 @@ package org.books.presentation.bean.account;
 
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
+import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
 import org.books.util.MessageFactory;
+
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
-import org.books.data.dto.OrderDTO;
 
 @SessionScoped
 @Named("accountOrderBean")

@@ -2,11 +2,11 @@ package org.books.data.entity;
 
 import org.books.data.dto.CreditCardType;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.io.Serializable;
 
 @Embeddable
 public class CreditCard implements Serializable {

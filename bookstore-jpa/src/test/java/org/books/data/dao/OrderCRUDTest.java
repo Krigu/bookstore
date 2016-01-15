@@ -1,24 +1,18 @@
 package org.books.data.dao;
 
+import org.books.data.BasisJpaTest;
 import org.books.data.dto.CreditCardType;
+import org.books.data.entity.*;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.PersistenceException;
-
-import org.books.data.entity.Address;
-import org.books.data.BasisJpaTest;
-import org.books.data.entity.Book;
-import org.books.data.entity.CreditCard;
-import org.books.data.entity.Customer;
-import org.books.data.entity.Order;
-import org.books.data.entity.OrderItem;
-import org.testng.annotations.BeforeClass;
 
 @Test(groups = "OrderCRUD", dependsOnGroups = {"BookCRUD", "CustomerCRUD"})
 public class OrderCRUDTest extends BasisJpaTest {

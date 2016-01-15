@@ -1,11 +1,11 @@
 package org.books.util;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 /**
  * The class MessageFactory is used to create faces messages.

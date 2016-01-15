@@ -1,79 +1,97 @@
 package org.books.data.dto;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.books.data.entity.Address;
 import org.books.data.entity.CreditCard;
 import org.books.data.entity.Order;
 import org.books.data.entity.Order.Status;
 import org.books.data.entity.OrderItem;
+import org.books.data.mapper.AddressMapper;
+import org.books.data.mapper.CreditCardMapper;
 
-public class OrderDTO extends OrderInfo implements Serializable{
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-	private CustomerInfo customer;
-	private Address address;
-	private CreditCard creditCard;
-	private List<OrderItemDTO> items;
+public class OrderDTO extends OrderInfo implements Serializable {
 
-	public OrderDTO() {
-	}
+    @NotNull
+    @Valid
+    private CustomerInfo customer;
 
-	public OrderDTO(String number, Date date, BigDecimal amount, Status status,
-			CustomerInfo customer, Address address, CreditCard creditCard, List<OrderItemDTO> items) {
-		super(number, date, amount, status);
-		this.customer = customer;
-		this.address = address;
-		this.creditCard = creditCard;
-		this.items = items;
-	}
+    @NotNull
+    @Valid
+    private AddressDTO address;
 
-	public OrderDTO(Order order) {
-		super(order);
-		this.customer = new CustomerInfo(order.getCustomer());
-		this.address = order.getAddress();
-		this.creditCard = order.getCreditCard();
-		this.items = new ArrayList<>();
-		for (OrderItem item : order.getItems()) {
-			BookInfo book = new BookInfo(item.getBook().getIsbn(), item.getBook().getTitle(), item.getPrice());
-			items.add(new OrderItemDTO(book, item.getQuantity()));
-		}
-	}
+    @NotNull
+    @Valid
+    private CreditCardDTO creditCard;
 
-	public CustomerInfo getCustomer() {
-		return customer;
-	}
+    @NotNull
+    @Size(min = 1)
+    @Valid
+    private List<OrderItemDTO> items;
 
-	public void setCustomer(CustomerInfo customer) {
-		this.customer = customer;
-	}
+    public OrderDTO() {
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public OrderDTO(String number, Date date, BigDecimal amount, Status status,
+                    CustomerInfo customer, Address address, CreditCard creditCard, List<OrderItemDTO> items) {
+        super(number, date, amount, status);
+        this.customer = customer;
+        this.address = AddressMapper.toDTO(address);
+        this.creditCard = CreditCardMapper.toDTO(creditCard);
+        this.items = items;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public OrderDTO(Order order) {
+        super(order);
+        this.customer = new CustomerInfo(order.getCustomer());
+        this.address = AddressMapper.toDTO(order.getAddress());
+        this.creditCard = CreditCardMapper.toDTO(order.getCreditCard());
+        this.items = new ArrayList<>();
+        for (OrderItem item : order.getItems()) {
+            BookInfo book = new BookInfo(item.getBook().getIsbn(), item.getBook().getTitle(), item.getPrice());
+            items.add(new OrderItemDTO(book, item.getQuantity()));
+        }
+    }
 
-	public CreditCard getCreditCard() {
-		return creditCard;
-	}
+    public CustomerInfo getCustomer() {
+        return customer;
+    }
 
-	public void setCreditCard(CreditCard card) {
-		this.creditCard = card;
-	}
+    public void setCustomer(CustomerInfo customer) {
+        this.customer = customer;
+    }
 
-	public List<OrderItemDTO> getItems() {
-		if (items == null) {
-			items = new ArrayList<>();
-		}
-		return items;
-	}
+    public AddressDTO getAddress() {
+        return address;
+    }
 
-	public void setItems(List<OrderItemDTO> items) {
-		this.items = items;
-	}
+    public void setAddress(AddressDTO address) {
+        this.address = address;
+    }
+
+    public CreditCardDTO getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCardDTO creditCard) {
+        this.creditCard = creditCard;
+    }
+
+    public List<OrderItemDTO> getItems() {
+        if (items == null) {
+            items = new ArrayList<>();
+        }
+        return items;
+    }
+
+    public void setItems(List<OrderItemDTO> items) {
+        this.items = items;
+    }
 }

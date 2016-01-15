@@ -1,15 +1,14 @@
 package org.books.data.entity;
 
 import org.books.data.PopulateDBJpaTest;
-import java.util.List;
+import org.books.data.dao.BookDAOBean;
+import org.books.data.dto.BookInfo;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.persistence.NoResultException;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
-import org.books.data.dao.BookDAOBean;
-import org.books.data.dto.BookInfo;
+import java.util.List;
 
 public class BookTest extends PopulateDBJpaTest {
 

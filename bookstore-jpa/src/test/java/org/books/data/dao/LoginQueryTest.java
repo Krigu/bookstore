@@ -1,9 +1,7 @@
 package org.books.data.dao;
 
-import javax.persistence.EntityNotFoundException;
-
-import org.books.data.entity.Login;
 import org.books.data.PopulateDBJpaTest;
+import org.books.data.entity.Login;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

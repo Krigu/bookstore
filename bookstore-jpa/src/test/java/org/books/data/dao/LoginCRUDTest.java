@@ -1,13 +1,13 @@
 package org.books.data.dao;
 
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceException;
-
 import org.books.data.BasisJpaTest;
 import org.books.data.entity.Login;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
 
 @Test(groups = "LoginCRUD", dependsOnGroups = "BookCRUD")
 public class LoginCRUDTest extends BasisJpaTest {

@@ -1,9 +1,9 @@
 package org.books.application.interceptor;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LogInterceptor {
     

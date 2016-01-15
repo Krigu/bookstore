@@ -1,44 +1,32 @@
 package org.books.application;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.jms.JMSConnectionFactory;
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
-import javax.jms.JMSProducer;
-import javax.jms.MapMessage;
-import javax.jms.Queue;
-import org.books.application.exception.BookNotFoundException;
-import org.books.application.exception.CreditCardValidationException;
-import org.books.application.exception.CustomerNotFoundException;
-import org.books.application.exception.OrderAlreadyShippedException;
-import org.books.application.exception.OrderNotFoundException;
-import org.books.application.exception.PaymentFailedException;
+import org.books.application.exception.*;
+import org.books.application.interceptor.ValidationInterceptor;
 import org.books.data.dao.BookDAOLocal;
 import org.books.data.dao.CustomerDAOLocal;
 import org.books.data.dao.OrderDAOLocal;
 import org.books.data.dao.SequenceGeneratorDAO;
-import org.books.data.dto.CreditCardType;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
-import org.books.data.entity.Book;
-import org.books.data.entity.CreditCard;
-import org.books.data.entity.Customer;
-import org.books.data.entity.Order;
-import org.books.data.entity.OrderItem;
+import org.books.data.entity.*;
+
+import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.interceptor.Interceptors;
+import javax.jms.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Stateless(name = "OrderService")
+@Interceptors(ValidationInterceptor.class)
 public class OrderServiceBean implements OrderService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderServiceBean.class.getName());
@@ -76,6 +64,7 @@ public class OrderServiceBean implements OrderService {
         BigDecimal amount = initTotalAmount(orderItems);
         //Check by credit card
         validateCreditCard(customer.getCreditCard());
+
         //Create order
         Order order = createOrder(customer, orderItems, amount);
         sendConfirmationMail(order);

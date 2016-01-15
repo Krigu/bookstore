@@ -1,20 +1,24 @@
 
 package org.books.application;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.books.application.interceptor.ValidationInterceptor;
+
 import javax.annotation.Resource;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @Stateless(name = "MailService")
+@Interceptors(ValidationInterceptor.class)
 public class MailServiceBean implements MailService {
 
     private static final Logger LOGGER = Logger.getLogger(MailServiceBean.class.getName());
