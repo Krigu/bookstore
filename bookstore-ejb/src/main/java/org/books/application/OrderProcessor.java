@@ -44,7 +44,6 @@ public class OrderProcessor implements MessageListener {
         try {
             Long orderId = msg.getLong("orderId");
             Order order = orderDAO.find(orderId);
-            sendConfirmationMail(order);
             //use to simulate the work of a person
             timerService.createSingleActionTimer(duration, new TimerConfig(order.getId(), true));
         } catch (JMSException ex) {
@@ -60,6 +59,7 @@ public class OrderProcessor implements MessageListener {
         if (order.getStatus().equals(Order.Status.accepted)) {
             order.setStatus(Order.Status.processing);
             orderDAO.update(order);
+            sendConfirmationMail(order);
             timerService.createSingleActionTimer(duration, new TimerConfig(order.getId(), true));
         } else if (order.getStatus().equals(Order.Status.processing)) {
             order.setStatus(Order.Status.shipped);
