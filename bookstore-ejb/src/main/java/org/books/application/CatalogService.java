@@ -13,11 +13,11 @@ import java.util.List;
 @Remote
 public interface CatalogService {
 
-    public void addBook(@NotNull @Valid BookDTO book) throws BookAlreadyExistsException;
+    void addBook(@NotNull @Valid BookDTO book) throws BookAlreadyExistsException;
 
-    public BookDTO findBook(@NotNull String isbn) throws BookNotFoundException;
+    BookDTO findBook(@NotNull String isbn) throws BookNotFoundException;
 
-    public List<BookInfo> searchBooks(@NotNull String keywords);
+    List<BookInfo> searchBooks(@NotNull String keywords);
 
-    public void updateBook(@NotNull @Valid BookDTO book) throws BookNotFoundException;
+    void updateBook(@NotNull @Valid BookDTO book) throws BookNotFoundException;
 }

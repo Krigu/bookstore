@@ -43,8 +43,6 @@ public class OrderServiceBean implements OrderService {
     private SequenceGeneratorDAO sequenceGenerator;
     @EJB
     private CreditCardValidatorLocal creditCardValidator;
-    @EJB
-    private MailService mailService;
 
     @Resource(name = "maxAmount")
     private float maxAmount;
@@ -67,7 +65,6 @@ public class OrderServiceBean implements OrderService {
 
         //Create order
         Order order = createOrder(customer, orderItems, amount);
-        sendConfirmationMail(order);
         orderProcesing(order);
 
         return new OrderDTO(order);
@@ -95,7 +92,6 @@ public class OrderServiceBean implements OrderService {
         }
         order.setStatus(Order.Status.canceled);
         orderDAO.update(order);
-        sendCancellationMail(order);
     }
 
     /**
@@ -190,28 +186,6 @@ public class OrderServiceBean implements OrderService {
             }
             throw new PaymentFailedException(code);
         }
-
-    }
-
-    private void sendConfirmationMail(Order order) {
-        String itemList = "";
-        for (OrderItem item : order.getItems()) {
-            itemList += item.getBook().getAuthors() + ": " + item.getBook().getTitle() + ", CHF" + item.getPrice() + "\n";
-        }
-        String emailAdr = order.getCustomer().getEmail();
-        String subject = "Bestellbestätigung";
-        String body = "Sehr geehrter Kunde\n\nIhre Bestllung ist bei uns eingegangen und wird unter der Bestellnummer " + order.getNumber() + " bearbeitet.\n\nDie Bestellung umfasst folgende Artikel:\n\n" + itemList + "\nGesamtbetrag: CHF " + order.getAmount() + "\n\nFreundliche Grüsse\nBookstore";
-
-        mailService.sendMail(emailAdr, subject, body);
-
-    }
-
-    private void sendCancellationMail(Order order) {
-        String emailAdr = order.getCustomer().getEmail();
-        String subject = "Stornierung";
-        String body = "Sehr geehrter Kunde\n\nIhre Bestllung " + order.getNumber() + " wurde storniert.\n\nFreundliche Grüsse\nBookstore";
-
-        mailService.sendMail(emailAdr, subject, body);
 
     }
 
