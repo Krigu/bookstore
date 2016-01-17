@@ -1,0 +1,15 @@
+ReadMe Bookstore EJB
+
+EJB
+- Alle Services gemäss Spezifiktion implementiert
+- Validierung der Inputparameter mit Bean Validation
+
+Tests
+- Integrationstests für alle Methoden implentiert
+
+Allgemein:
+- Sourcen-Verwaltung via GitHub (https://github.com/Krigu/bookstore)
+- Continous-Integration: Automatische Überprüfung ob der Sourcecode kompilierbar ist via Travis-CI (https://travis-ci.org/Krigu/bookstore)
+- BeanUtils & Validation verwendet
+- Eigenes Modul "bookstore-integration-tests", dass mit einem embedded Glassfish die Integrationstests durchführt.
+  Die Tests werden automatisch durchgeführt wenn auf dem Hauptprojekt "mvn clean install" ausgeführt wird
