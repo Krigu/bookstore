@@ -11,8 +11,8 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-;
+import org.books.data.entity.OrderItem;
+import org.books.application.Messages;
 
 @MessageDriven(name = "OrderProcessor",
         activationConfig = {
@@ -59,6 +59,7 @@ public class OrderProcessor implements MessageListener {
         if (order.getStatus().equals(Order.Status.accepted)) {
             order.setStatus(Order.Status.processing);
             orderDAO.update(order);
+            sendConfirmationMail(order);
             timerService.createSingleActionTimer(duration, new TimerConfig(order.getId(), true));
         } else if (order.getStatus().equals(Order.Status.processing)) {
             order.setStatus(Order.Status.shipped);
@@ -67,12 +68,29 @@ public class OrderProcessor implements MessageListener {
         }
     }
     
-    private void sendShippingMail(Order order) {
-        String adrStr = order.getCustomer().getFirstName() + " " + order.getCustomer().getLastName() + "\n" + order.getAddress().getStreet() + "\n" + order.getAddress().getPostalCode() + " " + order.getAddress().getCity() + "\n" + order.getAddress().getCountry();
+    private void sendConfirmationMail(Order order) {
+        String itemList = "";
+        for (OrderItem item : order.getItems()) {
+            itemList += item.getBook().getAuthors() + ": " + item.getBook().getTitle() + ", CHF " + item.getPrice().toString() + " (" + item.getQuantity().toString() + "x)\n";
+        }
         String emailAdr = order.getCustomer().getEmail();
-        String subject = "Ihre Bestellung wurde versandt";
-        String body = "Sehr geehrter Kunde\n\nIhre Bestllung " + order.getNumber() + " wurde an folgende Adresse versandt:\n" + adrStr + "\n\nFreundliche Grüsse\nBookstore";
+        String subject = Messages.getString("CONFIRMATION_MAIL_SUBJECT");
+        String body = Messages.getString("CONFIRMATION_MAIL_BODY", order.getNumber(), itemList, order.getAmount());
+
+        mailService.sendMail(emailAdr, subject, body);
+
+    }
+        
+    private void sendShippingMail(Order order) {
+        String adrStr = order.getCustomer().getFirstName() + " " + order.getCustomer().getLastName() + "\n" + 
+                        order.getAddress().getStreet() + "\n" + 
+                        order.getAddress().getPostalCode() + " " + order.getAddress().getCity() + "\n" + 
+                        order.getAddress().getCountry();
+        String emailAdr = order.getCustomer().getEmail();
+        String subject = Messages.getString("SHIPPING_MAIL_SUBJECT");
+        String body = Messages.getString("SHIPPING_MAIL_BODY", order.getNumber(), adrStr);
         
         mailService.sendMail(emailAdr, subject, body);
     }
+    
 }
