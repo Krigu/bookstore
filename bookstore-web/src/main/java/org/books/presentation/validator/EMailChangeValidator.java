@@ -16,6 +16,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.books.application.CustomerService;
 import org.books.application.exception.CustomerNotFoundException;
+import org.books.presentation.bean.account.RegisterBean;
 
 /**
  *
@@ -25,30 +26,19 @@ import org.books.application.exception.CustomerNotFoundException;
 public class EMailChangeValidator implements Validator {
 
     public static final String VALIDATOR_ID = "org.books.presentation.validator.emailChangevalidator";
-    public static final String USER_EXIST = "org.books.presentation.validator.emailChangevalidator.USER_EXIST";
 
     private static final Logger LOGGER = Logger.getLogger(EMailChangeValidator.class.getName());
 
-    //@Inject
-    //private Bookstore bookstore;
     @EJB
     private CustomerService customerService;
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-
-        /*try {
-            bookstore.findCustomer((String) value);
-            //User find --> throw Exception
-            FacesMessage facesMessage = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, USER_EXIST);
-            throw new ValidatorException(facesMessage);
-            } catch (BookstoreException ex) {
-            //No user found --> OK !
-            }*/
         try {
             customerService.findCustomerByEmail((String) value);
             //User find --> throw Exception
-            FacesMessage facesMessage = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, USER_EXIST);
+            LOGGER.log(Level.WARNING, "Can't change the email : email not free");
+            FacesMessage facesMessage = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, RegisterBean.EMAIL_NOT_FREE);
             throw new ValidatorException(facesMessage);
         } catch (CustomerNotFoundException ex) {
             //No user found --> OK !

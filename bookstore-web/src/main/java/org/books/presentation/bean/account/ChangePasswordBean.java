@@ -1,7 +1,5 @@
 package org.books.presentation.bean.account;
 
-/*import org.books.application.Bookstore;
-import org.books.application.BookstoreException;*/
 import org.books.util.MessageFactory;
 
 import javax.enterprise.context.RequestScoped;
@@ -30,8 +28,6 @@ public class ChangePasswordBean implements Serializable {
     private String newPassword;
     @Inject
     private CustomerBean customerBean;
-    //@Inject
-    //private Bookstore bookstore;
     @EJB
     private CustomerService customerService;
 
@@ -41,16 +37,10 @@ public class ChangePasswordBean implements Serializable {
      */
     public String updatePassword() {
         try {
-            /*try {
-            bookstore.changePassword(customerBean.getCustomer().getEmail(), newPassword);
-            MessageFactory.info(PASSWORD_CHANGED_SUCCESSFUL);
-            } catch (BookstoreException ex) {
-            //Nothing
-            MessageFactory.info(PASSWORD_NOT_CHANGED);
-            }*/
             customerService.changePassword(customerBean.getCustomer().getEmail(), newPassword);
             MessageFactory.info(PASSWORD_CHANGED_SUCCESSFUL);
         } catch (CustomerNotFoundException ex) {
+            //TODO update the message to CUSTOMER NOT FOUND
             LOGGER.log(Level.SEVERE, "Customer not found", ex);
             MessageFactory.info(PASSWORD_NOT_CHANGED);
         }

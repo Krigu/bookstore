@@ -60,8 +60,7 @@ public class AccountOrderBean implements Serializable {
             }*/
             this.completedOrders = orderService.searchOrders(customerBean.getCustomer().getNumber(), selectedYear);
         } catch (CustomerNotFoundException ex) {
-            //TODO
-            MessageFactory.error(ex.getMessage());
+            MessageFactory.error(CustomerBean.CUSTOMER_NOT_FOUND);
             LOGGER.log(Level.WARNING, "Customer not found", ex);
         }
         
