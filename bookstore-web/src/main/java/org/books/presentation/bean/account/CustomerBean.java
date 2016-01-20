@@ -1,8 +1,8 @@
 package org.books.presentation.bean.account;
 
-import org.books.application.Bookstore;
+/*import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
-import org.books.data.entity.Customer;
+import org.books.data.entity.Customer;*/
 import org.books.util.MessageFactory;
 
 import javax.enterprise.context.SessionScoped;
@@ -14,6 +14,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
+import org.books.application.CustomerService;
+import org.books.application.exception.CustomerAlreadyExistsException;
+import org.books.application.exception.CustomerNotFoundException;
+import org.books.application.exception.InvalidPasswordException;
+import org.books.data.dto.CustomerDTO;
 
 /**
  *
@@ -23,6 +29,7 @@ import java.util.logging.Logger;
 @Named("customerBean")
 public class CustomerBean implements Serializable {
 
+    private static final Logger LOGGER = Logger.getLogger(CustomerBean.class.getName());
     public static final String LOGIN_FAIL = "org.books.presentation.bean.account.customerbean.LOGIN_FAIL";
     public static final String UPDATE_PROFIL_SUCCESSFUL = "org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_SUCCESSFUL";
     public static final String UPDATE_PROFIL_FAIL = "org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_FAIL";
@@ -31,12 +38,15 @@ public class CustomerBean implements Serializable {
     private String password;
     private boolean authenticated = false;
     private String navigationTarget;
-    @Inject
+    /*@Inject
     private Bookstore bookstore;
-    private Customer customer;
+    private Customer customer;*/
     @Inject
     private LocaleBean localeBean;
     private String countryDisplayName;
+    @EJB
+    private CustomerService customerService;
+    private CustomerDTO customer;
 
     /**
      * If the user is authenticated is redierct on the page account
@@ -59,17 +69,32 @@ public class CustomerBean implements Serializable {
      * @return the target navigation
      */
     public String login() {
-        try {
+        
+            /*try {
             bookstore.authenticateCustomer(email, password);
             customer = bookstore.findCustomer(email);
             authenticated = true;
             return goOnPageOfNavigationTarget();
-        } catch (BookstoreException ex) {
+            } catch (BookstoreException ex) {
             //user doesn't exist or the password is wrong
             authenticated = false;
             MessageFactory.error(LOGIN_FAIL);
             return null;
+            } */
+        try {    
+            customerService.authenticateCustomer(email, password);
+            authenticated = true;
+            customer = customerService.findCustomerByEmail(email);
+            return goOnPageOfNavigationTarget();
+        } catch (CustomerNotFoundException ex) {
+            //TODO customize the login message
+            LOGGER.log(Level.WARNING, "Customer not found", ex);
+            MessageFactory.error(LOGIN_FAIL);
+        } catch (InvalidPasswordException ex) {
+            LOGGER.log(Level.WARNING, "Wrong password", ex);
+            MessageFactory.error(LOGIN_FAIL);
         }
+        return null;
     }
 
     /**
@@ -89,10 +114,21 @@ public class CustomerBean implements Serializable {
      */
     public String updateCustomer() {
         try {
+            /*try {
             bookstore.updateCustomer(customer);
             MessageFactory.info(UPDATE_PROFIL_SUCCESSFUL);
-        } catch (BookstoreException ex) {
+            } catch (BookstoreException ex) {
             Logger.getLogger(CustomerBean.class.getName()).log(Level.SEVERE, null, ex);
+            MessageFactory.error(UPDATE_PROFIL_FAIL);
+            }*/
+            System.out.println("org.books.presentation.bean.account.CustomerBean.updateCustomer()"+customer.getNumber());
+            customerService.updateCustomer(customer);
+            MessageFactory.info(UPDATE_PROFIL_SUCCESSFUL);
+        } catch (CustomerNotFoundException ex) {
+            LOGGER.log(Level.WARNING, "Wrong password", ex);
+            MessageFactory.error(UPDATE_PROFIL_FAIL);
+        } catch (CustomerAlreadyExistsException ex) {
+            LOGGER.log(Level.WARNING, "Wrong password", ex);
             MessageFactory.error(UPDATE_PROFIL_FAIL);
         }
         return navigationTarget;
@@ -136,19 +172,30 @@ public class CustomerBean implements Serializable {
         this.password = password;
     }
 
-    public void setCustomer(Customer customer) {
+    /*public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
     public Customer getCustomer() {
         return customer;
+    }*/
+
+    public CustomerDTO getCustomer() {
+        return customer;
     }
 
+    public void setCustomer(CustomerDTO customer) {
+        this.customer = customer;
+    }
+
+    
+    
     public boolean isAuthenticated() {
         return authenticated;
     }
 
     public String getCountryDisplayName() {
+        //countryDisplayName = localeBean.getCountryDisplayName(customer.getAddress().getCountry());
         countryDisplayName = localeBean.getCountryDisplayName(customer.getAddress().getCountry());
         return countryDisplayName;
     }

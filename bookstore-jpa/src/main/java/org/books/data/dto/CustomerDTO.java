@@ -24,6 +24,8 @@ public class CustomerDTO implements Serializable {
     private CreditCardDTO creditCard;
 
     public CustomerDTO() {
+        address = new AddressDTO();
+        creditCard = new CreditCardDTO();
     }
 
 

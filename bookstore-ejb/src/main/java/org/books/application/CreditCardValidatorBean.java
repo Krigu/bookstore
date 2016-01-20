@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 @Stateless(name="CreditCardValidator")
 @Interceptors(ValidationInterceptor.class)
-public class CreditCardValidatorBean implements CreditCardValidatorLocal {
+public class CreditCardValidatorBean implements CreditCardValidatorLocal,CreditCardValidatorRemote {
     
     private static final Logger LOGGER = Logger.getLogger(CreditCardValidatorBean.class.getName());
     private static final String VISA_REGEX = "^4\\d{15}$";
