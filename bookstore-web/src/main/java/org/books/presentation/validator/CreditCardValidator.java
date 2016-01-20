@@ -1,5 +1,8 @@
 package org.books.presentation.validator;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import org.books.util.MessageFactory;
 
 import javax.faces.application.FacesMessage;
@@ -10,6 +13,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import org.books.application.CreditCardValidatorRemote;
+import org.books.application.exception.CreditCardValidationException;
 
 /**
  *
@@ -22,11 +27,16 @@ public class CreditCardValidator implements Validator, StateHolder {
 
     public static final String WRONG_CARD_FORMAT = "org.books.presentation.validator.creditcardvalidator.WRONG_CARD_FORMAT";
     public static final String WRONG_CARD_NUMBER = "org.books.presentation.validator.creditcardvalidator.WRONG_CARD_NUMBER";
+    public static final String CARD_EXPIRED = "org.books.presentation.validator.creditcardvalidator.CARD_EXPIRED";
 
+    private static final Logger LOGGER = Logger.getLogger(CreditCardValidator.class.getName());
+    
     private String cardTypeId;
     boolean transientValue = false;
-    private final String regExVisa = "^4\\d{15}$";
-    private final String regExMaster = "^5[1-5]\\d{14}$";
+    //private final String regExVisa = "^4\\d{15}$";
+    //private final String regExMaster = "^5[1-5]\\d{14}$";
+    @EJB
+    private CreditCardValidatorRemote creditCardValidatorRemote;
 
     public void setCardTypeId(String cardTypeId) {
         this.cardTypeId = cardTypeId;
@@ -40,17 +50,39 @@ public class CreditCardValidator implements Validator, StateHolder {
         String cardType = type.toString();
         String cardNumber = (String) value;
 
-        checkFormat(cardNumber);
-        checkLuhndigit(cardNumber);
-        checkType(cardType, cardNumber);
+        try {
+            creditCardValidatorRemote.validateCreditCard(cardNumber, cardType);
+
+            /*checkFormat(cardNumber);
+            checkLuhndigit(cardNumber);
+            checkType(cardType, cardNumber);*/
+        } catch (CreditCardValidationException ex) {
+            LOGGER.log(Level.WARNING, "Card not valide", ex);
+            FacesMessage message = null;
+            switch (ex.getCode()) {
+                case INVALID_CREDIT_CARD_NUMBER:
+                    message = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, WRONG_CARD_NUMBER); 
+                    break;
+                case INVALID_CREDIT_CARD_FORMAT:
+                    message = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, WRONG_CARD_FORMAT);   
+                    break;
+                case CREDIT_CARD_EXPIRED:
+                    message = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, CARD_EXPIRED);   
+                    break;
+                default:
+                    //Nothing       
+            }
+            throw new ValidatorException(message);
+        }
     }
 
     /**
      * Check the length and the content of a card number
+     *
      * @param cardNumber
      * @throws ValidatorException
      */
-    private void checkFormat(String cardNumber) throws ValidatorException {
+    /*private void checkFormat(String cardNumber) throws ValidatorException {
         //Check the length
         if (cardNumber.length() != 16) {
             throw new ValidatorException(MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, WRONG_CARD_FORMAT));
@@ -60,15 +92,16 @@ public class CreditCardValidator implements Validator, StateHolder {
             FacesMessage message = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, WRONG_CARD_FORMAT);
             throw new ValidatorException(message);
         }
-    }
+    }*/
 
     /**
      * Check the type of credit card with the card number
+     *
      * @param cardType
      * @param cardNumber
-     * @throws ValidatorException 
+     * @throws ValidatorException
      */
-    private void checkType(String cardType, String cardNumber) throws ValidatorException {
+    /*private void checkType(String cardType, String cardNumber) throws ValidatorException {
         String regEx = regExMaster;
         if (cardType.equals("Visa")) {
             regEx = regExVisa;
@@ -77,14 +110,15 @@ public class CreditCardValidator implements Validator, StateHolder {
             FacesMessage message = MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, WRONG_CARD_NUMBER);
             throw new ValidatorException(message);
         }
-    }
+    }*/
 
     /**
      * Check the card number
+     *
      * @param cardNumber
-     * @throws ValidatorException 
+     * @throws ValidatorException
      */
-    private void checkLuhndigit(String cardNumber) throws ValidatorException {
+    /*private void checkLuhndigit(String cardNumber) throws ValidatorException {
         //Source : http://rosettacode.org/wiki/Luhn_test_of_credit_card_numbers
         int s1 = 0, s2 = 0;
         String reverse = new StringBuffer(cardNumber).reverse().toString();
@@ -103,7 +137,7 @@ public class CreditCardValidator implements Validator, StateHolder {
         if ((s1 + s2) % 10 != 0) {
             throw new ValidatorException(MessageFactory.getMessage(FacesMessage.SEVERITY_ERROR, WRONG_CARD_NUMBER));
         }
-    }
+    }*/
 
     @Override
     public Object saveState(FacesContext context) {

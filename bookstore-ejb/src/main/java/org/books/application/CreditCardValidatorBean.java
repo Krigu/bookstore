@@ -31,6 +31,16 @@ public class CreditCardValidatorBean implements CreditCardValidatorLocal,CreditC
         checkExpiredDate(expirationMonth, expirationYear);
     }
     
+        @Override
+    public void validateCreditCard(String number, String type) throws CreditCardValidationException {
+            checkCreditCard(number, type);
+    }
+
+    @Override
+    public void validateCreditCard(String number, String type, Integer expirationMonth, Integer expirationYear) throws CreditCardValidationException {
+        checkCreditCard(number, type, expirationMonth, expirationYear);
+    }
+    
     /**
      * Check the length and the content of a card number
      *
