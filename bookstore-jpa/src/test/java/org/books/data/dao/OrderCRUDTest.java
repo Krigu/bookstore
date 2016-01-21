@@ -100,17 +100,17 @@ public class OrderCRUDTest extends BasisJpaTest {
         orderItem = order.getItems().get(0);
     }
 
-    @Test(dependsOnMethods = "updateOrder", expectedExceptions = EntityNotFoundException.class)
+    @Test(dependsOnMethods = "updateOrder")
     public void removeOrder() {
         transaction.begin();
         bean.remove(order);
         transaction.commit();
 
-        bean.find(order.getId());
+        Assert.assertNull(bean.find(order.getId()));
     }
 
-    @Test(dependsOnMethods = "removeOrder", expectedExceptions = EntityNotFoundException.class)
+    @Test(dependsOnMethods = "removeOrder")
     public void orphanRemovalOrderItem() {
-        orderItemDAOBean.find(orderItem.getId());
+        Assert.assertNull(orderItemDAOBean.find(orderItem.getId()));;
     }
 }

@@ -7,17 +7,14 @@ import org.books.application.exception.InvalidPasswordException;
 import org.books.application.exception.ValidationException;
 import org.books.data.dto.*;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
+import javax.ejb.EJB;
 import java.util.List;
 
-@Test(groups = {"CustomerServiceIT"})
-public class CustomerServiceIT {
+@Test(groups = {"CustomerServiceTest"})
+public class CustomerServiceTest  extends BookstoreArquillianTest {
 
-    private static final String CUSTOMER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CustomerService";
     private static final String EMAIL = "test@test.com";
     private static final String PASSWORD = "password";
     private static final String FIRST_NAME = "firstname";
@@ -25,14 +22,10 @@ public class CustomerServiceIT {
     private static final String CITY = "Bern";
     private static final String CREDIT_CARD_NUMBER = "1234";
     private static final String CUSTOMER_NR = "C-1";
-    private static CustomerService customerService;
 
+    @EJB
+    private CustomerService customerService;
 
-    @BeforeClass
-    public void lookupService() throws Exception {
-        Context jndiContext = new InitialContext();
-        customerService = (CustomerService) jndiContext.lookup(CUSTOMER_SERVICE_NAME);
-    }
 
     @Test
     public void testRegisterCustomer() throws Exception {
@@ -40,7 +33,7 @@ public class CustomerServiceIT {
 
         customerDTO = customerService.registerCustomer(customerDTO, PASSWORD);
 
-        Assert.assertEquals(customerDTO.getNumber(),  "C-1");
+        Assert.assertEquals(customerDTO.getNumber(), "C-1");
     }
 
     @Test(expectedExceptions = ValidationException.class)

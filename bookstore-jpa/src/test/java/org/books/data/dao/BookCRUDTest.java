@@ -10,6 +10,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 
+import static org.testng.Assert.assertNull;
+
 @Test(groups="BookCRUD",dependsOnGroups = "CustomerCRUD")
 public class BookCRUDTest extends BasisJpaTest {
 
@@ -62,12 +64,12 @@ public class BookCRUDTest extends BasisJpaTest {
         Assert.assertTrue(book.getTitle().equals(newTitle));
     }
 
-    @Test(dependsOnMethods = "updateBook", expectedExceptions = EntityNotFoundException.class)
+    @Test(dependsOnMethods = "updateBook")
     public void removeBook() {
         transaction.begin();
         bean.remove(book);
         transaction.commit();
         em.clear();
-        bean.find(book.getId());
+        assertNull(bean.find(book.getId()));
     }
 }
