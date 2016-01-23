@@ -3,8 +3,6 @@ package org.books.presentation.validator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import org.books.application.Bookstore;
-import org.books.application.BookstoreException;
 import org.books.util.MessageFactory;
 
 import javax.faces.application.FacesMessage;
@@ -13,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import javax.inject.Inject;
 import org.books.application.CustomerService;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.presentation.bean.account.RegisterBean;

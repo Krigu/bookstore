@@ -1,9 +1,5 @@
 package org.books.presentation.bean.account;
 
-/*import org.books.application.Bookstore;
-import org.books.application.BookstoreException;
-import org.books.data.dto.OrderDTO;
-import org.books.data.dto.OrderInfo;*/
 import org.books.util.MessageFactory;
 
 import javax.enterprise.context.SessionScoped;
@@ -26,12 +22,11 @@ import org.books.data.dto.OrderInfo;
 @Named("accountOrderBean")
 public class AccountOrderBean implements Serializable {
     
-    public static final String NO_ORDER_FOUND = "org.books.presentation.bean.account.accountorderbean.NO_ORDER_FOUND";
+    public static final String ORDER_NOT_FOUND = "org.books.presentation.bean.account.accountorderbean.ORDER_NOT_FOUND";
+    public static final String ORDER_ALREADY_SHIPPED="org.books.presentation.bean.account.accountorderbean.ORDER_ALREADY_SHIPPED";
 
     private static final Logger LOGGER = Logger.getLogger(AccountOrderBean.class.getName());
     
-    /*@Inject
-    private Bookstore bookstore;*/
     @EJB
     private OrderService orderService;
     
@@ -51,13 +46,6 @@ public class AccountOrderBean implements Serializable {
         }
 
         try {
-            /*try {
-            this.completedOrders = bookstore.searchOrders(customerBean.getCustomer().getEmail(), selectedYear);
-            
-            } catch (BookstoreException e) {
-            // TODO
-            MessageFactory.error(e.getMessage());
-            }*/
             this.completedOrders = orderService.searchOrders(customerBean.getCustomer().getNumber(), selectedYear);
         } catch (CustomerNotFoundException ex) {
             MessageFactory.error(CustomerBean.CUSTOMER_NOT_FOUND);
@@ -65,7 +53,7 @@ public class AccountOrderBean implements Serializable {
         }
         
         if(completedOrders.isEmpty()){
-            MessageFactory.info(NO_ORDER_FOUND);
+            MessageFactory.info(ORDER_NOT_FOUND);
         }
     }
 
@@ -78,21 +66,13 @@ public class AccountOrderBean implements Serializable {
     public String cancelOrder(String number) {
 
         try {
-            /*try {
-            bookstore.cancelOrder(number);
-            displayOrderHistory();
-            } catch (BookstoreException e) {
-            MessageFactory.error(e.getMessage());
-            }*/
             orderService.cancelOrder(number);
         } catch (OrderNotFoundException ex) {
-            //TODO
             LOGGER.log(Level.WARNING, "order not found", ex);
-            MessageFactory.error(ex.getMessage());
+            MessageFactory.error(ORDER_NOT_FOUND);
         } catch (OrderAlreadyShippedException ex) {
-            //TODO
-            LOGGER.log(Level.WARNING, "Order allready shipped", ex);
-            MessageFactory.error(ex.getMessage());
+            LOGGER.log(Level.WARNING, "Order already shipped", ex);
+            MessageFactory.error(ORDER_ALREADY_SHIPPED);
         }
 
         return null;
@@ -120,15 +100,10 @@ public class AccountOrderBean implements Serializable {
 
     public String showOrderDetails(OrderInfo order) {
         try {
-            /*try {
-            selectedOrder = bookstore.findOrder(order.getNumber());
-            } catch (BookstoreException ex) {
-            return null;
-            }*/
             selectedOrder = orderService.findOrder(order.getNumber());
         } catch (OrderNotFoundException ex) {
             LOGGER.log(Level.WARNING, "Order not found", ex);
-            MessageFactory.error(ex.getMessage());
+            MessageFactory.error(ORDER_NOT_FOUND);
             return null;
         }
 

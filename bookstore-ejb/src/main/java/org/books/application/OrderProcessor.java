@@ -39,15 +39,16 @@ public class OrderProcessor implements MessageListener {
     @Override
     public void onMessage(Message message) {
         LOGGER.info("Recieve message");;
-        MapMessage msg = (MapMessage) message;
-
         try {
+            MapMessage msg = (MapMessage) message;
             Long orderId = msg.getLong("orderId");
             Order order = orderDAO.find(orderId);
             //use to simulate the work of a person
             timerService.createSingleActionTimer(duration, new TimerConfig(order.getId(), true));
         } catch (JMSException ex) {
             LOGGER.log(Level.WARNING, "Message error", ex);
+        }catch(ClassCastException ex){
+            LOGGER.log(Level.WARNING, "Can't cast the message", ex);
         }
     }
 
