@@ -12,21 +12,21 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import org.books.application.CatalogService;
 import org.books.application.exception.BookAlreadyExistsException;
 import org.books.application.exception.BookNotFoundException;
 import org.books.data.dto.BookDTO;
 import org.books.data.dto.BookInfo;
-import org.books.data.entity.Book;
 
 @SessionScoped
 @Named("catalogBean")
 public class CatalogBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(CatalogBean.class.getName());
-    private static String SEARCH_EMPTY ="org.books.presentation.bean.catalog.catalogbean.SEARCH_EMPTY";
-    public static String BOOK_NOT_FOUND = "org.books.presentation.bean.catalog.catalogbean.BOOK_NOT_FOUND";
-    public static String BOOK_ALREADY_EXISTS="org.books.presentation.bean.catalog.catalogbean.BOOK_ALREADY_EXISTS";
+    public static final String SEARCH_EMPTY ="org.books.presentation.bean.catalog.catalogbean.SEARCH_EMPTY";
+    public static final String BOOK_NOT_FOUND = "org.books.presentation.bean.catalog.catalogbean.BOOK_NOT_FOUND";
+    public static final String BOOK_ALREADY_EXISTS="org.books.presentation.bean.catalog.catalogbean.BOOK_ALREADY_EXISTS";
 
     @EJB
     private CatalogService catalogService;
@@ -43,18 +43,6 @@ public class CatalogBean implements Serializable {
     @PostConstruct
     public void init() {
         booksInfoList = new ArrayList<>();
-
-    }
-
-    private void initBookStore() {
-        try {
-            catalogService.findBook("143024626X");
-        } catch (BookNotFoundException ex) {
-            BookDTO book = new BookDTO("Antonio Goncalves", Book.Binding.Paperback, "143024626X", 608, new BigDecimal("49.99"), 2013, "Apress", "Beginning Java EE 7 (Expert Voice in Java)");
-            addBookDTO(book);
-            book = new BookDTO("Arun Gupta", Book.Binding.Paperback, "1449370179", 362, new BigDecimal("49.99"), 2013, "O'Reilly Media", "Java EE 7 Essentials");
-            addBookDTO(book);
-        }
 
     }
 
@@ -89,9 +77,6 @@ public class CatalogBean implements Serializable {
      * @return null (No navigation)
      */
     public String findBooks() {
-        //Init book store
-        initBookStore();
-
         this.booksInfoList = catalogService.searchBooks(searchString);
 
         try {
