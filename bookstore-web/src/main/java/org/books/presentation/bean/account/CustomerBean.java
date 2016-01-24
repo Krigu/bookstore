@@ -1,10 +1,6 @@
 package org.books.presentation.bean.account;
 
-import org.books.application.Bookstore;
-import org.books.application.BookstoreException;
-import org.books.data.entity.Customer;
 import org.books.util.MessageFactory;
-
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -14,6 +10,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
+import org.books.application.CustomerService;
+import org.books.application.exception.CustomerAlreadyExistsException;
+import org.books.application.exception.CustomerNotFoundException;
+import org.books.application.exception.InvalidPasswordException;
+import org.books.data.dto.CustomerDTO;
 
 /**
  *
@@ -23,20 +25,23 @@ import java.util.logging.Logger;
 @Named("customerBean")
 public class CustomerBean implements Serializable {
 
-    public static final String LOGIN_FAIL = "org.books.presentation.bean.account.customerbean.LOGIN_FAIL";
+    public static final String CUSTOMER_NOT_FOUND = "org.books.presentation.bean.account.customerbean.CUSTOMER_NOT_FOUND";
+    public static final String CUSTOMER_ALREADY_EXISTS = "org.books.presentation.bean.account.customerbean.CUSTOMER_ALREADY_EXISTS";
+    public static final String INVALID_PASSWORD = "org.books.presentation.bean.account.customerbean.INVALID_PASSWORD";
     public static final String UPDATE_PROFIL_SUCCESSFUL = "org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_SUCCESSFUL";
-    public static final String UPDATE_PROFIL_FAIL = "org.books.presentation.bean.account.customerbean.UPDATE_PROFIL_FAIL";
+
+    private static final Logger LOGGER = Logger.getLogger(CustomerBean.class.getName());
 
     private String email;
     private String password;
     private boolean authenticated = false;
     private String navigationTarget;
     @Inject
-    private Bookstore bookstore;
-    private Customer customer;
-    @Inject
     private LocaleBean localeBean;
     private String countryDisplayName;
+    @EJB
+    private CustomerService customerService;
+    private CustomerDTO customer;
 
     /**
      * If the user is authenticated is redierct on the page account
@@ -60,16 +65,18 @@ public class CustomerBean implements Serializable {
      */
     public String login() {
         try {
-            bookstore.authenticateCustomer(email, password);
-            customer = bookstore.findCustomer(email);
+            customerService.authenticateCustomer(email, password);
             authenticated = true;
+            customer = customerService.findCustomerByEmail(email);
             return goOnPageOfNavigationTarget();
-        } catch (BookstoreException ex) {
-            //user doesn't exist or the password is wrong
-            authenticated = false;
-            MessageFactory.error(LOGIN_FAIL);
-            return null;
+        } catch (CustomerNotFoundException ex) {
+            LOGGER.log(Level.WARNING, "Customer not found", ex);
+            MessageFactory.error(CUSTOMER_NOT_FOUND);
+        } catch (InvalidPasswordException ex) {
+            LOGGER.log(Level.WARNING, "Invalide password", ex);
+            MessageFactory.error(INVALID_PASSWORD);
         }
+        return null;
     }
 
     /**
@@ -89,13 +96,17 @@ public class CustomerBean implements Serializable {
      */
     public String updateCustomer() {
         try {
-            bookstore.updateCustomer(customer);
+            customerService.updateCustomer(customer);
             MessageFactory.info(UPDATE_PROFIL_SUCCESSFUL);
-        } catch (BookstoreException ex) {
-            Logger.getLogger(CustomerBean.class.getName()).log(Level.SEVERE, null, ex);
-            MessageFactory.error(UPDATE_PROFIL_FAIL);
+        } catch (CustomerNotFoundException ex) {
+            LOGGER.log(Level.WARNING, "Customer not found", ex);
+            MessageFactory.error(CUSTOMER_NOT_FOUND);
+        } catch (CustomerAlreadyExistsException ex) {
+            LOGGER.log(Level.WARNING, "Customer already exist", ex);
+            MessageFactory.error(RegisterBean.EMAIL_NOT_FREE);
         }
-        return navigationTarget;
+        //return navigationTarget;
+        return goOnPageOfNavigationTarget();
     }
 
     public String goOnPageCustomerDetailsFromAccount() {
@@ -136,12 +147,12 @@ public class CustomerBean implements Serializable {
         this.password = password;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public CustomerDTO getCustomer() {
+        return customer;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public void setCustomer(CustomerDTO customer) {
+        this.customer = customer;
     }
 
     public boolean isAuthenticated() {
@@ -160,5 +171,4 @@ public class CustomerBean implements Serializable {
     public void setNavigationTarget(String navigationTarget) {
         this.navigationTarget = navigationTarget;
     }
-
 }

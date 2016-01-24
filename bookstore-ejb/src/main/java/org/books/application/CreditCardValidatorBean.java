@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 @Stateless(name="CreditCardValidator")
 @Interceptors(ValidationInterceptor.class)
-public class CreditCardValidatorBean implements CreditCardValidatorLocal {
+public class CreditCardValidatorBean implements CreditCardValidatorLocal,CreditCardValidatorRemote {
     
     private static final Logger LOGGER = Logger.getLogger(CreditCardValidatorBean.class.getName());
     private static final String VISA_REGEX = "^4\\d{15}$";
@@ -29,6 +29,16 @@ public class CreditCardValidatorBean implements CreditCardValidatorLocal {
     public void checkCreditCard(String number, String type, Integer expirationMonth, Integer expirationYear) throws CreditCardValidationException {
         checkCreditCard(number, type);
         checkExpiredDate(expirationMonth, expirationYear);
+    }
+    
+        @Override
+    public void validateCreditCard(String number, String type) throws CreditCardValidationException {
+            checkCreditCard(number, type);
+    }
+
+    @Override
+    public void validateCreditCard(String number, String type, Integer expirationMonth, Integer expirationYear) throws CreditCardValidationException {
+        checkCreditCard(number, type, expirationMonth, expirationYear);
     }
     
     /**

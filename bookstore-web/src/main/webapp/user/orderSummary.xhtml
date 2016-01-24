@@ -28,7 +28,7 @@
 
                 <p:commandButton value="#{i18n.bestellen}"
                                  styleClass="btn btn-primary"
-                                 action="#{orderBean.doSubmitOrder(customerBean.customer.email, shoppingCartBean.shoppingCart.items)}"
+                                 action="#{orderBean.doSubmitOrder(customerBean.customer.number, shoppingCartBean.shoppingCart.items)}"
                                  ajax="false" rendered="#{not empty shoppingCartBean.shoppingCart.items}"/>
             </h:form>
         </h:panelGrid>

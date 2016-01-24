@@ -26,6 +26,12 @@ public class BookInfo implements Serializable {
 		this.title = book.getTitle();
 		this.price = book.getPrice();
 	}
+        
+        public BookInfo(BookDTO book) {
+		this.isbn = book.getIsbn();
+		this.title = book.getTitle();
+		this.price = book.getPrice();
+	}
 
     @Override
     public int hashCode() {
@@ -52,9 +58,9 @@ public class BookInfo implements Serializable {
         if (!Objects.equals(this.title, other.title)) {
             return false;
         }
-        if (!Objects.equals(this.price, other.price)) {
+        /*if (!Objects.equals(this.price, other.price)) {
             return false;
-        }
+        }*/
         return true;
     }
         

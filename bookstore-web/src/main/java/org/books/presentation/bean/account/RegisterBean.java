@@ -1,19 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.books.presentation.bean.account;
 
-import org.books.application.Bookstore;
-import org.books.application.BookstoreException;
-import org.books.data.entity.Customer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.books.util.MessageFactory;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.books.application.CustomerService;
+import org.books.application.exception.CustomerAlreadyExistsException;
+import org.books.data.dto.CustomerDTO;
 
 /**
  *
@@ -24,19 +22,21 @@ import javax.inject.Named;
 public class RegisterBean {
 
     public static final String EMAIL_NOT_FREE = "org.books.presentation.bean.account.registerbean.EMAIL_NOT_FREE";
+    
+    private static final Logger LOGGER = Logger.getLogger(RegisterBean.class.getName());
 
     @Inject
     private CustomerBean customerBean;
-    @Inject
-    private Bookstore bookstore;
+    @EJB
+    private CustomerService customerService;
     @Inject
     private LocaleBean localeBean;
-    private Customer customer;
+    private CustomerDTO customer;
     private String password;
 
     @PostConstruct
     public void init() {
-        customer = new Customer();
+        customer = new CustomerDTO();
         customer.getAddress().setCountry(localeBean.getCountry());
     }
 
@@ -47,22 +47,23 @@ public class RegisterBean {
      */
     public String register() {
         try {
-            bookstore.registerCustomer(customer, password);
+            customer = customerService.registerCustomer(customer, password);
             customerBean.setCustomer(customer);
             customerBean.setAuthenticated(true);
             return customerBean.goOnPageOfNavigationTarget();
-        } catch (BookstoreException ex) {
+        } catch (CustomerAlreadyExistsException ex) {
             //An account exist with this email
+            LOGGER.log(Level.WARNING, "Customer already exist", ex);
             MessageFactory.info(EMAIL_NOT_FREE);
-            return null;
-        }
+        } 
+        return null;
     }
 
-    public Customer getCustomer() {
+    public CustomerDTO getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(CustomerDTO customer) {
         this.customer = customer;
     }
 

@@ -3,7 +3,6 @@ package org.books.presentation.bean.shoppingcart;
 import org.books.application.ShoppingCart;
 import org.books.data.dto.BookInfo;
 import org.books.data.dto.OrderItemDTO;
-import org.books.data.entity.Book;
 import org.books.util.MessageFactory;
 import org.primefaces.event.RowEditEvent;
 
@@ -11,6 +10,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import org.books.data.dto.BookDTO;
 
 /**
  *
@@ -45,7 +45,7 @@ public class ShoppingCartBean implements Serializable {
      * @param book
      * @return @see addBookInfoToShoppingCart
      */
-    public String addBookToShoppingCart(Book book) {
+    public String addBookToShoppingCart(BookDTO book) {
         return addBookInfoToShoppingCart(new BookInfo(book));
     }
 
@@ -85,7 +85,7 @@ public class ShoppingCartBean implements Serializable {
      * @param book
      * @return true if the shopping cart contains the book else return false
      */
-    public boolean shoppingCartContainsBook(Book book) {
+    public boolean shoppingCartContainsBook(BookDTO book) {
         OrderItemDTO item = findOrderItem(new BookInfo(book));
         return item != null;
     }
@@ -110,7 +110,7 @@ public class ShoppingCartBean implements Serializable {
      * @param book
      * @return @see removeBookInfoFromShoppingCart
      */
-    public String removeBookFromShoppingCart(Book book) {
+    public String removeBookFromShoppingCart(BookDTO book) {
         return removeBookInfoFromShoppingCart(new BookInfo(book));
     }
 
