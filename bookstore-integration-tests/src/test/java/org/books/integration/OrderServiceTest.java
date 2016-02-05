@@ -8,51 +8,41 @@ import org.books.data.dto.*;
 import org.books.data.entity.Book;
 import org.books.data.entity.Order;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
+import javax.ejb.EJB;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-@Test(groups = {"OrderServiceIT"}, dependsOnGroups = {"CustomerServiceIT", "CatalogServiceIT"})
-public class OrderServiceIT {
+@Test(groups = {"OrderServiceIT"}, dependsOnGroups = {"CustomerServiceTest", "CatalogServiceTest"})
+public class OrderServiceTest extends BookstoreArquillianTest {
 
-    private static final String ORDER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/OrderService";
-    private static OrderService orderService;
-    private static final String CATALOG_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CatalogService";
-    private static CatalogService catalogService;
-    private static final String CUSTOMER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CustomerService";
-    private static CustomerService customerService;
-
-    private final AddressDTO addressDTO = new AddressDTO("street 1", "city 1", "1111", "CH");
-    private final CreditCardDTO ccDTO = new CreditCardDTO(CreditCardType.MasterCard, "5111005111051128", 12, 2020);
-    private CustomerDTO customerDTO = new CustomerDTO();
+    private static final AddressDTO addressDTO = new AddressDTO("street 1", "city 1", "1111", "CH");
+    private static final CreditCardDTO ccDTO = new CreditCardDTO(CreditCardType.MasterCard, "5111005111051128", 12, 2020);
+    private static CustomerDTO customerDTO = new CustomerDTO("test@test.com", "firstname", "lastname", null, addressDTO, ccDTO);
 
     private BookDTO bookDTO1 = new BookDTO("Antonio Goncalves", Book.Binding.Paperback, "1234567890", 608, new BigDecimal("50.00"), 2013, "Apress", "Beginning Java EE 7");
     private BookDTO bookDTO2 = new BookDTO("U2", Book.Binding.Hardcover, "123456789012", 432, new BigDecimal("10.00"), 2010, "Rock", "Java EE 7 for the newbies");
 
     private final List<OrderItemDTO> items = new ArrayList<>();
 
-    @BeforeClass
-    public void lookupService() throws Exception {
-        Context jndiContext = new InitialContext();
-        orderService = (OrderService) jndiContext.lookup(ORDER_SERVICE_NAME);
-        catalogService = (CatalogService) jndiContext.lookup(CATALOG_SERVICE_NAME);
-        customerService = (CustomerService) jndiContext.lookup(CUSTOMER_SERVICE_NAME);
+    @EJB
+    private OrderService orderService;
 
-        customerDTO.setEmail("abc@gmail.com");
-        customerDTO.setFirstName("Fist name");
-        customerDTO.setLastName("last name");
-        customerDTO.setCreditCard(ccDTO);
-        customerDTO.setAddress(addressDTO);
+    @EJB
+    private CatalogService catalogService;
+
+    @EJB
+    private CustomerService customerService;
+
+    @Test
+    public void insertData() throws Exception {
+
         customerDTO = customerService.registerCustomer(customerDTO, "1234");
+
+        Assert.assertNotNull(customerDTO.getNumber());
 
         catalogService.addBook(bookDTO1);
         bookDTO1 = catalogService.findBook(bookDTO1.getIsbn());
@@ -78,9 +68,10 @@ public class OrderServiceIT {
      * @throws BookNotFoundException
      * @throws PaymentFailedException
      */
-    @Test
+    @Test(dependsOnMethods = "insertData")
     public void orderProcess() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
         //Create order
+        Assert.assertNotNull(customerDTO.getNumber());
         OrderDTO order = orderService.placeOrder(customerDTO.getNumber(), items);
         //check status accepted
         Assert.assertEquals(order.getStatus(), Order.Status.accepted);
@@ -245,25 +236,9 @@ public class OrderServiceIT {
         Assert.assertEquals(orders.size(), 0);
     }
 
-    @BeforeMethod
     private void init() {
-        initListOrderItemDTO();
-        initCustomer();
-    }
-
-    private void initListOrderItemDTO() {
         items.clear();
         items.add(new OrderItemDTO(new BookInfo(bookDTO1.getIsbn(), bookDTO1.getTitle(), bookDTO1.getPrice()), 2));
         items.add(new OrderItemDTO(new BookInfo(bookDTO2.getIsbn(), bookDTO2.getTitle(), bookDTO2.getPrice()), 1));
-    }
-
-    private void initCustomer() {
-        customerDTO.setAddress(addressDTO);
-        customerDTO.setCreditCard(ccDTO);
-        try {
-            customerService.updateCustomer(customerDTO);
-        } catch (CustomerNotFoundException | CustomerAlreadyExistsException ex) {
-            Logger.getLogger(OrderServiceIT.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

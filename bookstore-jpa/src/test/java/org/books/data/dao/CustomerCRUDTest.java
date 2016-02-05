@@ -73,14 +73,14 @@ public class CustomerCRUDTest extends BasisJpaTest {
         Assert.assertEquals(customer.getFirstName(), newFirstName);
     }
 
-    @Test(dependsOnMethods = "updateCustomer", expectedExceptions = EntityNotFoundException.class)
+    @Test(dependsOnMethods = "updateCustomer")
     public void removeCustomer() {
         transaction.begin();
         bean.remove(customer);
         transaction.commit();
         em.clear();
 
-        bean.find(customer.getId());
+        Assert.assertNull(bean.find(customer.getId()));
     }
 
 }

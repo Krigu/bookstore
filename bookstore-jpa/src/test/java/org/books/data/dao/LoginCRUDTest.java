@@ -62,12 +62,13 @@ public class LoginCRUDTest extends BasisJpaTest {
         Assert.assertTrue(login.getPassword().equals(newPassword));
     }
 
-    @Test(dependsOnMethods = "updateLogin", expectedExceptions = EntityNotFoundException.class)
+    @Test(dependsOnMethods = "updateLogin")
     public void removeBook() {
         transaction.begin();
         bean.remove(login);
         transaction.commit();
         em.clear();
-        bean.find(login.getId());
+
+        Assert.assertNull(bean.find(login.getId()));
     }
 }

@@ -36,7 +36,7 @@ public class BookDAOBean extends GenericDAOImpl<Book> implements BookDAOLocal{
     }
 
     @Override
-    public Book find(String isbn) throws EntityNotFoundException {
+    public Book find(String isbn)  {
         LOGGER.info("Find book by isbn : "+isbn);
         TypedQuery<Book> query = entityManager.createNamedQuery(Book.FIND_BY_ISBN, Book.class);
         query.setParameter("isbn", isbn);

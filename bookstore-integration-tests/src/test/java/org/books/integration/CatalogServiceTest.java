@@ -1,34 +1,55 @@
 package org.books.integration;
 
 import org.books.application.CatalogService;
+import org.books.application.CatalogServiceBean;
 import org.books.application.exception.BookAlreadyExistsException;
 import org.books.application.exception.BookNotFoundException;
 import org.books.application.exception.ValidationException;
+import org.books.data.dao.BookDAOBean;
+import org.books.data.dao.BookDAOLocal;
+import org.books.data.dao.generic.GenericDAO;
 import org.books.data.dto.BookDTO;
 import org.books.data.dto.BookInfo;
+import org.books.data.entity.BaseEntity;
 import org.books.data.entity.Book;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
+import javax.ejb.EJB;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Test(groups ={"CatalogServiceIT"})
-public class CatalogServiceIT {
+@Test(groups = {"CatalogServiceTest"})
+public class CatalogServiceTest extends BookstoreArquillianTest {
 
-    private static final String CATALOG_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CatalogService";
-    private static CatalogService catalogService;
 
     private BookDTO book = new org.books.data.dto.BookDTO("Antonio Goncalves", org.books.data.entity.Book.Binding.Paperback, "143024626X", 608, new BigDecimal("49.99"), 2013, "Apress", "Beginning Java EE 7");
 
-    @BeforeClass
-    public void lookupService() throws Exception {
-        Context jndiContext = new InitialContext();
-        catalogService = (CatalogService) jndiContext.lookup(CATALOG_SERVICE_NAME);
-    }
+
+//    @Deployment
+//    public static Archive<?> createDeployment() {
+//
+//        return ShrinkWrap.create(JavaArchive.class)
+//                .addClasses(CatalogService.class,
+//                        CatalogServiceBean.class,
+//                        BookDAOLocal.class,
+//                        BookDAOBean.class,
+//                        GenericDAO.class,
+//                        Book.class,
+//                        BaseEntity.class,
+//                        ValidationException.class)
+//                .addAsManifestResource("test-persistence.xml", "persistence.xml")
+//                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+//    }
+
+    @EJB
+    private CatalogService catalogService;
 
     @Test(expectedExceptions = ValidationException.class)
     public void validationTestInvalidISBN() throws BookAlreadyExistsException {

@@ -65,12 +65,12 @@ public class OrderItemCRUDTest extends BasisJpaTest {
         Assert.assertTrue(item.getQuantity()==quantity);
     }
 
-    @Test(dependsOnMethods = "updateOrderItem", expectedExceptions = EntityNotFoundException.class)
+    @Test(dependsOnMethods = "updateOrderItem")
     public void removeBook() {
         transaction.begin();
         bean.remove(item);
         transaction.commit();
         em.clear();
-        bean.find(item.getId());
+        Assert.assertNull(bean.find(item.getId()));;
     }
 }
