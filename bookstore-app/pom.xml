@@ -39,6 +39,12 @@
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
+        <dependency>
+            <groupId>ch.bfh.eadj</groupId>
+            <artifactId>bookstore-rest</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 
     <build>
