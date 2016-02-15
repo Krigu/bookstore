@@ -1,5 +1,6 @@
-package org.books.integration;
+package org.books.ntegration.ejb;
 
+import org.books.BookstoreArquillianTest;
 import org.books.application.CatalogService;
 import org.books.application.CustomerService;
 import org.books.application.OrderService;
@@ -7,6 +8,7 @@ import org.books.application.exception.*;
 import org.books.data.dto.*;
 import org.books.data.entity.Book;
 import org.books.data.entity.Order;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -38,6 +40,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
     private CustomerService customerService;
 
     @Test
+    @OperateOnDeployment("ejb")
     public void insertData() throws Exception {
 
         customerDTO = customerService.registerCustomer(customerDTO, "1234");
@@ -53,6 +56,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(expectedExceptions = ValidationException.class)
+    @OperateOnDeployment("ejb")
     public void findAnNullOrder() throws OrderNotFoundException {
         orderService.findOrder(null);
     }
@@ -69,6 +73,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
      * @throws PaymentFailedException
      */
     @Test(dependsOnMethods = "insertData")
+    @OperateOnDeployment("ejb")
     public void orderProcess() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
         //Create order
         Assert.assertNotNull(customerDTO.getNumber());
@@ -106,23 +111,27 @@ public class OrderServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "orderProcess", expectedExceptions = CustomerNotFoundException.class)
+    @OperateOnDeployment("ejb")
     public void placeOrderCustomerNotFound() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
         orderService.placeOrder("no_number", items);
     }
 
     @Test(dependsOnMethods = "placeOrderCustomerNotFound", expectedExceptions = BookNotFoundException.class)
+    @OperateOnDeployment("ejb")
     public void placeOrderBookNotFound() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
         items.add(new OrderItemDTO(new BookInfo("no_isbn", "no_title", new BigDecimal(15)), 2));
         orderService.placeOrder(customerDTO.getNumber(), items);
     }
 
     @Test(dependsOnMethods = "placeOrderBookNotFound", expectedExceptions = PaymentFailedException.class)
+    @OperateOnDeployment("ejb")
     public void placeOrderTotalTooBig() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException {
         items.add(new OrderItemDTO(new BookInfo(bookDTO1.getIsbn(), bookDTO1.getTitle(), bookDTO1.getPrice()), 2000));
         orderService.placeOrder(customerDTO.getNumber(), items);
     }
 
     @Test(dependsOnMethods = "placeOrderTotalTooBig", expectedExceptions = PaymentFailedException.class)
+    @OperateOnDeployment("ejb")
     public void placeOrderCreditCardWrongSize() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
         customerDTO.getCreditCard().setNumber("1234");
         customerService.updateCustomer(customerDTO);
@@ -130,6 +139,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "placeOrderCreditCardWrongSize", expectedExceptions = PaymentFailedException.class)
+    @OperateOnDeployment("ejb")
     public void placeOrderCreditCardWrongFormat() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
         customerDTO.getCreditCard().setNumber("1234123412341234");
         customerService.updateCustomer(customerDTO);
@@ -137,6 +147,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "placeOrderCreditCardWrongFormat", expectedExceptions = PaymentFailedException.class)
+    @OperateOnDeployment("ejb")
     public void placeOrderCreditCardWrongType() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
         customerDTO.getCreditCard().setType(CreditCardType.Visa);
         customerService.updateCustomer(customerDTO);
@@ -144,6 +155,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "placeOrderCreditCardWrongType", expectedExceptions = PaymentFailedException.class)
+    @OperateOnDeployment("ejb")
     public void placeOrderCreditCardExpired() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, CustomerAlreadyExistsException {
         customerDTO.getCreditCard().setExpirationYear(2000);
         customerService.updateCustomer(customerDTO);
@@ -154,11 +166,13 @@ public class OrderServiceTest extends BookstoreArquillianTest {
      * Find order
      */
     @Test(expectedExceptions = OrderNotFoundException.class)
+    @OperateOnDeployment("ejb")
     public void findAnNotExistingOrder() throws OrderNotFoundException {
         orderService.findOrder("no_order_number");
     }
 
     @Test(dependsOnMethods = "orderProcess")
+    @OperateOnDeployment("ejb")
     public void findAnExistingOrder() throws OrderNotFoundException {
         Assert.assertNotNull(orderService.findOrder("O-1"));
     }
@@ -167,6 +181,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
      * Cancel order
      */
     @Test(dependsOnMethods = "orderProcess")
+    @OperateOnDeployment("ejb")
     public void cancelAcceptedOrder() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, OrderAlreadyShippedException {
         //Create order
         OrderDTO order = orderService.placeOrder(customerDTO.getNumber(), items);
@@ -182,6 +197,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "cancelAcceptedOrder")
+    @OperateOnDeployment("ejb")
     public void cancelProcessingOrder() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, OrderAlreadyShippedException {
         //Create order
         OrderDTO order = orderService.placeOrder(customerDTO.getNumber(), items);
@@ -203,6 +219,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "cancelProcessingOrder", expectedExceptions = OrderAlreadyShippedException.class)
+    @OperateOnDeployment("ejb")
     public void cancelShippedOrder() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, OrderAlreadyShippedException {
         //Create order
         OrderDTO order = orderService.placeOrder(customerDTO.getNumber(), items);
@@ -219,6 +236,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
      * Search order
      */
     @Test(dependsOnMethods = "cancelShippedOrder")
+    @OperateOnDeployment("ejb")
     public void searchOrders() throws CustomerNotFoundException {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         List<OrderInfo> orders = orderService.searchOrders(customerDTO.getNumber(), year);
@@ -226,11 +244,13 @@ public class OrderServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "searchOrders", expectedExceptions = CustomerNotFoundException.class)
+    @OperateOnDeployment("ejb")
     public void searchOrdersNoCustomerFound() throws CustomerNotFoundException {
         orderService.searchOrders("no_number", 2016);
     }
 
     @Test(dependsOnMethods = "searchOrders")
+    @OperateOnDeployment("ejb")
     public void searchOrderZeroResult() throws CustomerNotFoundException {
         List<OrderInfo> orders = orderService.searchOrders(customerDTO.getNumber(), 2000);
         Assert.assertEquals(orders.size(), 0);

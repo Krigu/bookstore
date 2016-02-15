@@ -1,11 +1,13 @@
-package org.books.integration;
+package org.books.ntegration.ejb;
 
+import org.books.BookstoreArquillianTest;
 import org.books.application.CustomerService;
 import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.InvalidPasswordException;
 import org.books.application.exception.ValidationException;
 import org.books.data.dto.*;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -28,6 +30,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
 
 
     @Test
+    @OperateOnDeployment("ejb")
     public void testRegisterCustomer() throws Exception {
         CustomerDTO customerDTO = createCustomer();
 
@@ -37,11 +40,13 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(expectedExceptions = ValidationException.class)
+    @OperateOnDeployment("ejb")
     public void testRegisterNullCustomer() throws CustomerAlreadyExistsException {
         customerService.registerCustomer(null, "password");
     }
 
     @Test(expectedExceptions = ValidationException.class)
+    @OperateOnDeployment("ejb")
     public void testRegisterCustomerNullPassword() throws CustomerAlreadyExistsException {
         CustomerDTO customerDTO = createCustomer();
         customerService.registerCustomer(customerDTO, null);
@@ -49,6 +54,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
 
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerAlreadyExistsException.class)
+    @OperateOnDeployment("ejb")
     public void testRegisterCustomerTwice() throws Exception {
         CustomerDTO customerDTO = createCustomer();
 
@@ -56,6 +62,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(expectedExceptions = ValidationException.class)
+    @OperateOnDeployment("ejb")
     public void testCreateCustomerInvalidAdress() throws Exception {
         CustomerDTO customerDTO = createCustomer();
         customerDTO.getAddress().setCountry(null);
@@ -88,31 +95,37 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer")
+    @OperateOnDeployment("ejb")
     public void testAuthenticateCustomer() throws CustomerNotFoundException, InvalidPasswordException {
         customerService.authenticateCustomer(EMAIL, PASSWORD);
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = InvalidPasswordException.class)
+    @OperateOnDeployment("ejb")
     public void testAuthenticateCustomerInvalidPassword() throws CustomerNotFoundException, InvalidPasswordException {
         customerService.authenticateCustomer(EMAIL, PASSWORD + "invalid");
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = ValidationException.class)
+    @OperateOnDeployment("ejb")
     public void testAuthenticateCustomerNullPassword() throws CustomerNotFoundException, InvalidPasswordException {
         customerService.authenticateCustomer(EMAIL, null);
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerNotFoundException.class)
+    @OperateOnDeployment("ejb")
     public void testAuthenticateInvalidCustomer() throws CustomerNotFoundException, InvalidPasswordException {
         customerService.authenticateCustomer("invalid@invalid.com", PASSWORD);
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = ValidationException.class)
+    @OperateOnDeployment("ejb")
     public void testAuthenticateNullCustomer() throws CustomerNotFoundException, InvalidPasswordException {
         customerService.authenticateCustomer(null, PASSWORD);
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer")
+    @OperateOnDeployment("ejb")
     public void testChangePassword() throws Exception {
         String changedPassword = PASSWORD + "changed";
         customerService.changePassword(EMAIL, changedPassword);
@@ -120,6 +133,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = InvalidPasswordException.class)
+    @OperateOnDeployment("ejb")
     public void testChangePasswordAndTryWithOldone() throws Exception {
         String changedPassword = PASSWORD + "changed2";
         customerService.changePassword(EMAIL, changedPassword);
@@ -127,16 +141,19 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerNotFoundException.class)
+    @OperateOnDeployment("ejb")
     public void testChangePasswordInvalidCustomre() throws Exception {
         customerService.changePassword("test@invalid.com", PASSWORD);
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer")
+    @OperateOnDeployment("ejb")
     public void testFindCustomer() throws Exception {
 
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer")
+    @OperateOnDeployment("ejb")
     public void testFindCustomerByEmail() throws Exception {
         CustomerDTO customer = customerService.findCustomerByEmail(EMAIL);
         Assert.assertEquals(EMAIL, customer.getEmail());
@@ -147,16 +164,19 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerNotFoundException.class)
+    @OperateOnDeployment("ejb")
     public void testFindCustomerByEmailInvalid() throws Exception {
         customerService.findCustomerByEmail("invalid@invalid.com");
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = ValidationException.class)
+    @OperateOnDeployment("ejb")
     public void testFindCustomerByNullCustomerNumber() throws Exception {
         customerService.findCustomer(null);
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer")
+    @OperateOnDeployment("ejb")
     public void testFindCustomerByCustomerNumber() throws Exception {
         CustomerDTO customer = customerService.findCustomer(CUSTOMER_NR);
         Assert.assertEquals(EMAIL, customer.getEmail());
@@ -167,17 +187,20 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerNotFoundException.class)
+    @OperateOnDeployment("ejb")
     public void testFindCustomerByCustomerNumberInvalid() throws Exception {
         customerService.findCustomer("C-123213");
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = ValidationException.class)
+    @OperateOnDeployment("ejb")
     public void testFindCustomerByNullEmail() throws Exception {
         customerService.findCustomerByEmail(null);
     }
 
 
     @Test(dependsOnMethods = "testRegisterCustomer")
+    @OperateOnDeployment("ejb")
     public void testSearchCustomersByFirstname() throws Exception {
         List<CustomerInfo> list = customerService.searchCustomers(FIRST_NAME);
         Assert.assertFalse(list.isEmpty());
@@ -186,6 +209,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer")
+    @OperateOnDeployment("ejb")
     public void testSearchCustomersByLastname() throws Exception {
         List<CustomerInfo> list = customerService.searchCustomers(LAST_NAME);
         Assert.assertFalse(list.isEmpty());
@@ -194,6 +218,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer")
+    @OperateOnDeployment("ejb")
     public void testSearchCustomersEmtpyList() throws Exception {
         // Should return an empty list
         List<CustomerInfo> list = customerService.searchCustomers("xyz");
@@ -201,6 +226,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer")
+    @OperateOnDeployment("ejb")
     public void testUpdateCustomer() throws Exception {
         CustomerDTO customer = customerService.findCustomer(CUSTOMER_NR);
 
@@ -219,6 +245,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerAlreadyExistsException.class)
+    @OperateOnDeployment("ejb")
     public void testUpdateCustomerDuplicateEMail() throws Exception {
         CustomerDTO customer2 = createCustomer();
         String email = "email2@email.com";
@@ -235,6 +262,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "testRegisterCustomer", expectedExceptions = CustomerNotFoundException.class)
+    @OperateOnDeployment("ejb")
     public void testUpdateCustomerInvalidNumber() throws Exception {
         CustomerDTO customer3 = createCustomer();
         String email = "email5535@email.com";

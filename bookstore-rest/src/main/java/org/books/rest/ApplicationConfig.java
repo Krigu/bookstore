@@ -7,7 +7,7 @@ import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
-@ApplicationPath("rest")
+@ApplicationPath("")
 public class ApplicationConfig extends Application {
 
 	@Override

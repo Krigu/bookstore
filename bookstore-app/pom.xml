@@ -29,6 +29,12 @@
         </dependency>
         <dependency>
             <groupId>ch.bfh.eadj</groupId>
+            <artifactId>bookstore-rest</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>ch.bfh.eadj</groupId>
             <artifactId>bookstore-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
@@ -38,12 +44,6 @@
             <artifactId>bookstore-jpa</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
-        </dependency>
-        <dependency>
-            <groupId>ch.bfh.eadj</groupId>
-            <artifactId>bookstore-rest</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
         </dependency>
     </dependencies>
 
@@ -62,7 +62,13 @@
                             <groupId>ch.bfh.eadj</groupId>
                             <artifactId>bookstore-web</artifactId>
                             <bundleFileName>bookstore-web.war</bundleFileName>
-                            <contextRoot>/bookstore</contextRoot>
+                            <contextRoot>bookstore</contextRoot>
+                        </webModule>
+                        <webModule>
+                            <groupId>ch.bfh.eadj</groupId>
+                            <artifactId>bookstore-rest</artifactId>
+                            <bundleFileName>bookstore-rest.war</bundleFileName>
+                            <contextRoot>bookstore/rest</contextRoot>
                         </webModule>
                         <ejbModule>
                             <groupId>ch.bfh.eadj</groupId>
