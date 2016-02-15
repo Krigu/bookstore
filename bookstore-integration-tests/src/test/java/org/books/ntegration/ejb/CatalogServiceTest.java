@@ -26,7 +26,6 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     private CatalogService catalogService;
 
     @Test(expectedExceptions = ValidationException.class)
-    @OperateOnDeployment("ejb")
     public void validationTestInvalidISBN() throws BookAlreadyExistsException {
         BookDTO b = new BookDTO();
         b.setAuthors("authors");
@@ -43,7 +42,6 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(expectedExceptions = ValidationException.class)
-    @OperateOnDeployment("ejb")
     public void validationTestTitleIsNull() throws BookAlreadyExistsException {
         BookDTO b = new BookDTO();
         b.setAuthors("authors");
@@ -58,31 +56,26 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     }
 
     @Test
-    @OperateOnDeployment("ejb")
     public void addBook() throws BookAlreadyExistsException {
         catalogService.addBook(book);
     }
 
     @Test(dependsOnMethods = "addBook", expectedExceptions = BookAlreadyExistsException.class)
-    @OperateOnDeployment("ejb")
     public void addExistingBook() throws BookAlreadyExistsException {
         catalogService.addBook(book);
     }
 
     @Test(dependsOnMethods = "addBook")
-    @OperateOnDeployment("ejb")
     public void findBook() throws BookNotFoundException {
         Assert.assertNotNull(catalogService.findBook(book.getIsbn()));
     }
 
     @Test(expectedExceptions = BookNotFoundException.class)
-    @OperateOnDeployment("ejb")
     public void findBookNotExisting() throws BookNotFoundException {
         catalogService.findBook("123");
     }
 
     @Test(dependsOnMethods = "addBook")
-    @OperateOnDeployment("ejb")
     public void searchBooks() {
         List<BookInfo> books = catalogService.searchBooks("Java");
         Assert.assertEquals(1, books.size());
@@ -90,7 +83,6 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     }
 
     @Test
-    @OperateOnDeployment("ejb")
     public void searchBooksEmpty() {
         List<BookInfo> books = catalogService.searchBooks("hjlkdashf");
         Assert.assertEquals(0, books.size());
@@ -98,7 +90,6 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(dependsOnMethods = "addBook")
-    @OperateOnDeployment("ejb")
     public void updateBook() throws BookNotFoundException {
         book.setPrice(new BigDecimal("59.99"));
         catalogService.updateBook(book);
@@ -106,7 +97,6 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     }
 
     @Test(expectedExceptions = BookNotFoundException.class)
-    @OperateOnDeployment("ejb")
     public void updateBookNotFound() throws BookNotFoundException {
         BookDTO book = new BookDTO();
         book.setAuthors("authors");

@@ -17,27 +17,16 @@ import java.io.File;
 @ArquillianSuiteDeployment
 public class BookstoreArquillianTest extends Arquillian {
 
-    @Deployment(name = "ejb", order = 1)
+    @Deployment
     public static Archive<?> createEjbDeployment() {
 
         EnterpriseArchive enterpriseArchive = ShrinkWrap.create(EnterpriseArchive.class)
+                .addAsModule(getJpaArchive())
                 .addAsModule(getEjbArchive())
-                .addAsModule(getJpaArchive());
-
-        return enterpriseArchive;
-    }
-
-    @Deployment(name = "rest", testable = false, order = 2)
-    public static Archive<?> createRestDeployment() {
-
-        EnterpriseArchive enterpriseArchive = ShrinkWrap.create(EnterpriseArchive.class)
-//                .addAsModule(getEjbArchive())
-//                .addAsModule(getJpaArchive())
                 .addAsModule(getRestWebArchive());
 
         return enterpriseArchive;
     }
-
 
     private static WebArchive getRestWebArchive() {
 
@@ -46,17 +35,18 @@ public class BookstoreArquillianTest extends Arquillian {
 
         return webArchive;
     }
+
     private static JavaArchive getEjbArchive() {
         return ShrinkWrap.create(JavaArchive.class, "bookstore-ejb.jar")
-                    .addPackages(true, "org.books.application")
-                    .addAsManifestResource("test-ejb-jar.xml", "ejb-jar.xml");
+                .addPackages(true, "org.books.application")
+                .addAsManifestResource("test-ejb-jar.xml", "ejb-jar.xml");
     }
 
     private static JavaArchive getJpaArchive() {
         return ShrinkWrap.create(JavaArchive.class, "bookstore-jpa.jar")
-                    .addAsManifestResource("test-persistence.xml", "persistence.xml")
-                    .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                    .addPackages(true, "org.books.data");
+                .addAsManifestResource("test-persistence.xml", "persistence.xml")
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addPackages(true, "org.books.data");
     }
 
 }
