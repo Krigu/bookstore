@@ -15,6 +15,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import java.math.BigDecimal;
 import java.util.List;
+import org.books.application.AmazonCatalog;
 
 @Test(groups ={"CatalogServiceIT"})
 public class CatalogServiceIT {
@@ -22,14 +23,52 @@ public class CatalogServiceIT {
     private static final String CATALOG_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CatalogService";
     private static CatalogService catalogService;
 
+    private static final String AMAZON_CATALOG = "java:global/bookstore-app/bookstore-ejb/AmazonCatalog";
+    private static AmazonCatalog amazonCatalog;
+
     private BookDTO book = new org.books.data.dto.BookDTO("Antonio Goncalves", org.books.data.entity.Book.Binding.Paperback, "143024626X", 608, new BigDecimal("49.99"), 2013, "Apress", "Beginning Java EE 7");
 
     @BeforeClass
     public void lookupService() throws Exception {
         Context jndiContext = new InitialContext();
         catalogService = (CatalogService) jndiContext.lookup(CATALOG_SERVICE_NAME);
+        amazonCatalog = (AmazonCatalog) jndiContext.lookup(AMAZON_CATALOG);
     }
 
+    @Test
+    public void findBookAmazon() throws BookNotFoundException {
+        BookDTO book = amazonCatalog.findBook("9781430250012");
+        Assert.assertEquals(book.getAuthors(), "B V Kumar");
+        Assert.assertEquals(book.getPublisher(), "Apress");
+        Assert.assertEquals(book.getTitle(), "Oracle Certified Master Java Enterprise Architect Java EE 7: Certification Guide");
+        Assert.assertEquals(book.getNumberOfPages().toString(), "700");
+        Assert.assertEquals(book.getBinding().toString(), "Paperback");
+        Assert.assertEquals(book.getPrice().toString(), "49.99");
+        Assert.assertEquals(book.getPublicationYear().toString(), "2015");
+    }
+
+    @Test(expectedExceptions = BookNotFoundException.class)
+    public void findBookAmazonNotFound() throws BookNotFoundException {
+        BookDTO b = amazonCatalog.findBook("1111111111111");
+    }
+
+    @Test(expectedExceptions = BookNotFoundException.class)
+    public void findBookAmazonNotFoundInvalid() throws BookNotFoundException {
+        BookDTO b = amazonCatalog.findBook("112");
+    }    
+    
+    @Test
+    public void searchBooksAmazonFound() {
+        List<BookInfo> books = amazonCatalog.searchBooks("Java");
+        Assert.assertEquals(books.size(), 76);
+    }
+
+    @Test
+    public void searchBooksAmazonNotFound() {
+        List<BookInfo> books = amazonCatalog.searchBooks("akjhfkd");
+        Assert.assertEquals(books.size(), 0);
+    }
+    
     @Test(expectedExceptions = ValidationException.class)
     public void validationTestInvalidISBN() throws BookAlreadyExistsException {
         BookDTO b = new BookDTO();
@@ -82,15 +121,15 @@ public class CatalogServiceIT {
 
     @Test(dependsOnMethods = "addBook")
     public void searchBooks() {
-        List<BookInfo> books = catalogService.searchBooks("Java");
-        Assert.assertEquals(1, books.size());
+        List<BookInfo> books = catalogService.searchBooks("Java EE");
+        Assert.assertEquals(books.size(), 86);
 
     }
 
     @Test
     public void searchBooksEmpty() {
         List<BookInfo> books = catalogService.searchBooks("hjlkdashf");
-        Assert.assertEquals(0, books.size());
+        Assert.assertEquals(books.size(), 0);
 
     }
 
