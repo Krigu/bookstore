@@ -6,7 +6,14 @@ import org.books.data.entity.Order.Status;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"number", "date","amount","status"})
 public class OrderInfo implements Serializable{
 
 	private String number;

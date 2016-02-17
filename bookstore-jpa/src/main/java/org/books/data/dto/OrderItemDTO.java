@@ -3,7 +3,14 @@ package org.books.data.dto;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlRootElement(name = "OrderItem")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"book", "quantity"})
 public class OrderItemDTO implements Serializable{
 
 	@NotNull

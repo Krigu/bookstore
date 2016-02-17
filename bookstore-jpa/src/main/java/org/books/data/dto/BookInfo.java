@@ -5,7 +5,14 @@ import org.books.data.entity.Book;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"isbn", "title", "price"})
 public class BookInfo implements Serializable {
 
 	private String isbn;

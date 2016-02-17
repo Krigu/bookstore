@@ -1,9 +1,9 @@
 package org.books.rest.resources;
 
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,9 +24,10 @@ import org.books.application.exception.OrderNotFoundException;
 import org.books.application.exception.PaymentFailedException;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
-import org.books.data.dto.OrderItemDTO;
+import org.books.rest.OrderRequest;
 
 @Path("orders")
+@RequestScoped
 public class OrdersResource {
 
     private static final Logger LOGGER = Logger.getLogger(OrdersResource.class.getName());
@@ -35,13 +36,13 @@ public class OrdersResource {
 
     @POST
     @Consumes({APPLICATION_XML, APPLICATION_JSON})
-    public Response placeOrder(String customerNr, List<OrderItemDTO> items) {
+    public Response placeOrder(OrderRequest orderRequest) {
         //No item ?
-        if (items == null || items.isEmpty()) {
+        if (orderRequest == null || orderRequest.getItems().isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         try {
-            OrderDTO order = orderService.placeOrder(customerNr, items);
+            OrderDTO order = orderService.placeOrder(orderRequest.getCustomerNr(), orderRequest.getItems());
             return Response.status(Response.Status.CREATED).entity(Entity.xml(order)).build();
         } catch (CustomerNotFoundException | BookNotFoundException ex) {
             LOGGER.info("Rest service : customer or book not found");
