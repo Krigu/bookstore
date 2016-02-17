@@ -42,13 +42,10 @@ public abstract class GenericDAOImpl<T extends BaseEntity> implements GenericDAO
     }
 
     @Override
-    public T find(Long id) throws EntityNotFoundException {
+    public T find(Long id)  {
         LOGGER.info("find entity " + classT.getClass().getName() + " by id : "
                 + id);
         T entity = entityManager.find(classT, id);
-        if (entity == null) {
-            throw new EntityNotFoundException();
-        }
         return entity;
     }
 

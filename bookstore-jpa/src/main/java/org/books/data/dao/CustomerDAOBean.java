@@ -28,7 +28,7 @@ public class CustomerDAOBean extends GenericDAOImpl<Customer> implements Custome
     }
 
     @Override
-    public Customer find(String email) throws EntityNotFoundException {
+    public Customer find(String email)  {
         LOGGER.info("Find customer by email : " + email);
         TypedQuery<Customer> query = entityManager.createNamedQuery(Customer.FIND_BY_EMAIL, Customer.class);
         query.setParameter("email", email);
