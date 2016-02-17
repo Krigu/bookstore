@@ -24,6 +24,7 @@ import org.testng.annotations.Test;
 import javax.ejb.EJB;
 import java.math.BigDecimal;
 import java.util.List;
+import org.books.application.AmazonCatalog;
 
 @Test(groups = {"CatalogServiceTest"})
 public class CatalogServiceTest extends BookstoreArquillianTest {
@@ -50,7 +51,44 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
 
     @EJB
     private CatalogService catalogService;
+    
+    @EJB
+    private AmazonCatalog amazonCatalog;
 
+    @Test
+    public void findBookAmazon() throws BookNotFoundException {
+        BookDTO book = amazonCatalog.findBook("9781430250012");
+        Assert.assertEquals(book.getAuthors(), "B V Kumar");
+        Assert.assertEquals(book.getPublisher(), "Apress");
+        Assert.assertEquals(book.getTitle(), "Oracle Certified Master Java Enterprise Architect Java EE 7: Certification Guide");
+        Assert.assertEquals(book.getNumberOfPages().toString(), "700");
+        Assert.assertEquals(book.getBinding().toString(), "Paperback");
+        Assert.assertEquals(book.getPrice().toString(), "49.99");
+        Assert.assertEquals(book.getPublicationYear().toString(), "2015");
+    }
+
+    @Test(expectedExceptions = BookNotFoundException.class)
+    public void findBookAmazonNotFound() throws BookNotFoundException {
+        BookDTO b = amazonCatalog.findBook("1111111111111");
+    }
+
+    @Test(expectedExceptions = BookNotFoundException.class)
+    public void findBookAmazonNotFoundInvalid() throws BookNotFoundException {
+        BookDTO b = amazonCatalog.findBook("112");
+    }    
+    
+    @Test
+    public void searchBooksAmazonFound() {
+        List<BookInfo> books = amazonCatalog.searchBooks("Java");
+        Assert.assertEquals(books.size(), 76);
+    }
+
+    @Test
+    public void searchBooksAmazonNotFound() {
+        List<BookInfo> books = amazonCatalog.searchBooks("akjhfkd");
+        Assert.assertEquals(books.size(), 0);
+    }
+    
     @Test(expectedExceptions = ValidationException.class)
     public void validationTestInvalidISBN() throws BookAlreadyExistsException {
         BookDTO b = new BookDTO();
@@ -103,8 +141,8 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
 
     @Test(dependsOnMethods = "addBook")
     public void searchBooks() {
-        List<BookInfo> books = catalogService.searchBooks("Java");
-        Assert.assertEquals(1, books.size());
+        List<BookInfo> books = catalogService.searchBooks("Java EE");
+        Assert.assertEquals(books.size(), 84);
 
     }
 
