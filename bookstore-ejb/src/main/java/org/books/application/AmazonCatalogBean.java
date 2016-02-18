@@ -37,7 +37,7 @@ public class AmazonCatalogBean implements AmazonCatalog {
         LOGGER.log(Level.INFO, "AmazonCatalogBean findBook"); 
         AWSECommerceService amazonService = new AWSECommerceService();
         AWSECommerceServicePortType amazonWS = amazonService.getAWSECommerceServicePort();
-        
+
         ItemLookupResponse itemLookupResponse = amazonWS.itemLookup(getItemLookup(isbn));
         
         if (!bookFound(itemLookupResponse)) {
@@ -67,8 +67,8 @@ public class AmazonCatalogBean implements AmazonCatalog {
                     throw new EJBException(ex.getMessage());
                 }
             }
-
-            ItemSearchResponse itemSearchResponse = amazonWS.itemSearch(getItemSearch(keywords, pageIndex));
+            try {
+                ItemSearchResponse itemSearchResponse = amazonWS.itemSearch(getItemSearch(keywords, pageIndex));
 
             for (Item item: itemSearchResponse.getItems().get(0).getItem()) {
                 if (isValidBook(item.getItemAttributes())) {
@@ -79,6 +79,10 @@ public class AmazonCatalogBean implements AmazonCatalog {
             }
 
             totalPages = (itemSearchResponse.getItems().get(0).getTotalPages().compareTo(BigInteger.TEN) == -1) ? itemSearchResponse.getItems().get(0).getTotalPages() : BigInteger.TEN;
+            }
+            catch (Exception e) {
+                System.out.println("ItemSearch " + pageIndex.toString() + " failed: " + e.getMessage());
+            }
                        
             pageIndex = pageIndex.add(BigInteger.ONE);
         }
