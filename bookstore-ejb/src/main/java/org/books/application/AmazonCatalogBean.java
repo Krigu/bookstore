@@ -81,7 +81,7 @@ public class AmazonCatalogBean implements AmazonCatalog {
             totalPages = (itemSearchResponse.getItems().get(0).getTotalPages().compareTo(BigInteger.TEN) == -1) ? itemSearchResponse.getItems().get(0).getTotalPages() : BigInteger.TEN;
             }
             catch (Exception e) {
-                System.out.println("ItemSearch " + pageIndex.toString() + " failed: " + e.getMessage());
+                LOGGER.log(Level.WARNING, "ItemSearch " + pageIndex.toString() + " failed: " + e.getMessage());
             }
                        
             pageIndex = pageIndex.add(BigInteger.ONE);
@@ -93,7 +93,6 @@ public class AmazonCatalogBean implements AmazonCatalog {
     private boolean isValidBook(ItemAttributes itemAttributes) {
         if (itemAttributes.getBinding().equals("Kindle Edition")) {
             itemAttributes.setBinding("Ebook");
-            System.out.println("EBook: " + itemAttributes.getISBN());
         }
         try {
             Binding.valueOf(itemAttributes.getBinding());
