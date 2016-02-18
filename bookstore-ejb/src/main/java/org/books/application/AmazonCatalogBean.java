@@ -135,7 +135,7 @@ public class AmazonCatalogBean implements AmazonCatalog {
         if (itemAttributes.getBinding().equals("Kindle Edition")) {
             itemAttributes.setBinding("Ebook");
         }
-        
+
         return new BookDTO(String.join(",", itemAttributes.getAuthor()),
                                    Binding.valueOf(itemAttributes.getBinding()),
                                    itemAttributes.getISBN(),
