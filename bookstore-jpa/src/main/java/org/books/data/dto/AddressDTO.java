@@ -2,8 +2,15 @@ package org.books.data.dto;
 
 
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
+@XmlRootElement(name = "address")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"street", "city", "postalCode", "country"})
 public class AddressDTO implements Serializable {
 
     @NotNull

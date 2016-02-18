@@ -1,8 +1,15 @@
 package org.books.data.dto;
 
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
+@XmlRootElement(name = "creditCard")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"type", "number", "expirationMonth", "expirationYear"})
 public class CreditCardDTO implements Serializable {
 
 

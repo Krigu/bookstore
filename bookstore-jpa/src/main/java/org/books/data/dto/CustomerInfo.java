@@ -2,8 +2,15 @@ package org.books.data.dto;
 
 import org.books.data.entity.Customer;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"number", "email", "firstName", "lastName"})
 public class CustomerInfo implements Serializable {
 
     private String email;
