@@ -79,16 +79,6 @@ public class CatalogBean implements Serializable {
     public String findBooks() {
         this.booksInfoList = catalogService.searchBooks(searchString);
 
-        try {
-            BookDTO book = catalogService.findBook(searchString);
-            BookInfo bookInfo = new BookInfo(book);
-            if (!this.booksInfoList.contains(bookInfo)) {
-                this.booksInfoList.add(bookInfo);
-            }
-
-        } catch (BookNotFoundException e) {
-            //Nothing
-        }
         //Send a message if the list is empty
         if (booksInfoList.isEmpty()) {
             MessageFactory.info(SEARCH_EMPTY);
