@@ -33,11 +33,11 @@ public class AmazonSecurityHandler implements SOAPHandler<SOAPMessageContext> {
     public boolean handleMessage(SOAPMessageContext context) {
         LOGGER.log(Level.INFO, "handleMessage: " + context.getMessage().toString());
         if (!(Boolean) context.get(MESSAGE_OUTBOUND_PROPERTY)) {
-         /*   try {
+            try {
                 context.getMessage().writeTo(System.out);
             } catch (SOAPException | IOException ex) {
                 Logger.getLogger(AmazonSecurityHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
             return true;
         }
     
@@ -66,8 +66,8 @@ public class AmazonSecurityHandler implements SOAPHandler<SOAPMessageContext> {
 
             message.saveChanges();
             
-            //context.getMessage().writeTo(System.out);
-        } catch (SOAPException | NoSuchAlgorithmException | InvalidKeyException ex) {
+            context.getMessage().writeTo(System.out);
+        } catch (SOAPException | NoSuchAlgorithmException | InvalidKeyException | IOException ex) {
             LOGGER.log(Level.SEVERE, "Setting security header failed:" + ex.getMessage());
         }
         

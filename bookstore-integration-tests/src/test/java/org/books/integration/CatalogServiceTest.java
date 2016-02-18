@@ -80,7 +80,7 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     @Test
     public void searchBooksAmazonFound() {
         List<BookInfo> books = amazonCatalog.searchBooks("Java");
-        Assert.assertEquals(books.size(), 76);
+        Assert.assertEquals(books.size() > 70, true);
     }
 
     @Test
@@ -142,7 +142,7 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     @Test(dependsOnMethods = "addBook")
     public void searchBooks() {
         List<BookInfo> books = catalogService.searchBooks("Java EE");
-        Assert.assertEquals(books.size(), 84);
+        Assert.assertEquals(books.size() > 80, true);
 
     }
 

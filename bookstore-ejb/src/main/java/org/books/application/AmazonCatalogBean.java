@@ -58,7 +58,16 @@ public class AmazonCatalogBean implements AmazonCatalog {
         AWSECommerceServicePortType amazonWS = amazonService.getAWSECommerceServicePort();
 
         while (pageIndex.compareTo(totalPages) != 1) {
-        
+            
+            if (pageIndex.compareTo(BigInteger.ONE) == 1) {
+                try {
+                    Thread.sleep(1000);
+                }
+                catch (InterruptedException ex) {
+                    throw new EJBException(ex.getMessage());
+                }
+            }
+
             ItemSearchResponse itemSearchResponse = amazonWS.itemSearch(getItemSearch(keywords, pageIndex));
 
             for (Item item: itemSearchResponse.getItems().get(0).getItem()) {
@@ -80,10 +89,14 @@ public class AmazonCatalogBean implements AmazonCatalog {
     private boolean isValidBook(ItemAttributes itemAttributes) {
         if (itemAttributes.getBinding().equals("Kindle Edition")) {
             itemAttributes.setBinding("Ebook");
+            System.out.println("EBook: " + itemAttributes.getISBN());
         }
         try {
             Binding.valueOf(itemAttributes.getBinding());
-            
+
+            if (itemAttributes.getISBN() == null) {
+                return false;
+            }
             if (itemAttributes.getAuthor() == null) {
                 return false;
             }
@@ -173,4 +186,5 @@ public class AmazonCatalogBean implements AmazonCatalog {
         
         return itemSearch;
     }
+    
 }
