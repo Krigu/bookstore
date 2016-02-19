@@ -6,6 +6,7 @@ import org.books.data.dao.BookDAOLocal;
 import org.books.data.dao.CustomerDAOLocal;
 import org.books.data.dao.OrderDAOLocal;
 import org.books.data.dao.SequenceGeneratorDAO;
+import org.books.data.dto.BookDTO;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
@@ -43,6 +44,11 @@ public class OrderServiceBean implements OrderService {
     private SequenceGeneratorDAO sequenceGenerator;
     @EJB
     private CreditCardValidatorLocal creditCardValidator;
+    @EJB
+    private AmazonCatalog amazonCatalog;
+
+    @EJB
+    private CatalogService catalogService;
 
     @Resource(name = "maxAmount")
     private float maxAmount;
@@ -139,9 +145,21 @@ public class OrderServiceBean implements OrderService {
         LOGGER.info("Convert OrderItemDTO to OrderItem");
         List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItemDTO item : items) {
-            Book book = bookDAO.find(item.getBook().getIsbn());
+            String isbn = item.getBook().getIsbn();
+            Book book = bookDAO.find(isbn);
             if (book == null) {
-                LOGGER.log(Level.WARNING, "This book isn''t found : {0}", item.getBook().getIsbn());
+                LOGGER.log(Level.WARNING, "Can't find book with  {0}. Looking up amazon", isbn);
+                BookDTO bookDTO = amazonCatalog.findBook(isbn);
+                try {
+                    catalogService.addBook(bookDTO);
+                    book = bookDAO.find(isbn);
+                    LOGGER.log(Level.WARNING, "Added book {0} to database", isbn);
+                } catch (BookAlreadyExistsException e) {
+                    throw new RuntimeException();
+                }
+            }
+            if (book == null) {
+                LOGGER.log(Level.WARNING, "This book isn''t found : {0}", isbn);
                 throw new BookNotFoundException();
             }
 
@@ -191,6 +209,7 @@ public class OrderServiceBean implements OrderService {
 
     /**
      * Create and init new order
+     *
      * @param customer
      * @param orderItems
      * @param amount
