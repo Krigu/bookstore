@@ -20,6 +20,8 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 /**
  * @author tjd
  */
+
+@Test(groups = "CatalogRestTest")
 public class CatalogServiceTest extends BookstoreArquillianTest {
 
     private final String catalogXsd = this.getClass().getResource("/xml/catalog.xsd").getPath();

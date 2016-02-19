@@ -1,0 +1,10 @@
+<orderRequest>
+  <customerNr>C-1</customerNr>
+  <items>
+    <bookInfo>
+      <isbn>1935182994</isbn>
+      <title>Java EE</title>
+      <price>15.80</price>
+    </bookInfo>
+  </items>
+</orderRequest>

@@ -1,9 +1,6 @@
-package org.books.rest.jaxb;
-
-import org.books.data.dto.CustomerDTO;
+package org.books.data.dto;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;

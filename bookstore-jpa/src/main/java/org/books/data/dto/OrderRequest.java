@@ -1,25 +1,32 @@
-package org.books.rest.jaxb;
+package org.books.data.dto;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import org.books.data.dto.OrderItemDTO;
+import java.io.Serializable;
+import java.util.List;
 
 @XmlRootElement(name = "orderRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"customerNr", "items"})
-public class OrderRequest implements Serializable{
+public class OrderRequest implements Serializable {
 
+    @NotNull
     private String customerNr;
+
+    @NotNull
+    @Size(min = 1)
+    @Valid
     private List<OrderItemDTO> items;
 
-    public OrderRequest(){
-        
+    public OrderRequest() {
+
     }
-    
+
     public String getCustomerNr() {
         return customerNr;
     }
@@ -35,6 +42,6 @@ public class OrderRequest implements Serializable{
     public void setItems(List<OrderItemDTO> items) {
         this.items = items;
     }
-    
-    
+
+
 }

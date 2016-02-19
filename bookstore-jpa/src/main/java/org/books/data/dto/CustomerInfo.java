@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
-@XmlRootElement
+@XmlRootElement(name = "customerInfo")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"number", "email", "firstName", "lastName"})
 public class CustomerInfo implements Serializable {

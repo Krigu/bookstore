@@ -11,23 +11,21 @@ import org.books.data.mapper.CreditCardMapper;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "order")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = {"number", "date","amount","status","customer","address","creditCard","items"})
+@XmlType(propOrder = {"customer","address","creditCard","items"})
 public class OrderDTO extends OrderInfo implements Serializable {
 
     @NotNull
     @Valid
+    @XmlElement(name = "customerInfo")
     private CustomerInfo customer;
 
     @NotNull

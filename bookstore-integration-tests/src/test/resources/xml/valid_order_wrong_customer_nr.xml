@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<orderRequest>
+    <customerNr>C-1325324</customerNr>
+    <items>
+        <bookInfo>
+            <isbn>1935182994</isbn>
+            <title>Java EE</title>
+            <price>15.00</price>
+        </bookInfo>
+        <quantity>3</quantity>
+    </items>
+    <items>
+        <bookInfo>
+            <isbn>1430246928</isbn>
+            <title>Beginning Java EE</title>
+            <price>55.00</price>
+        </bookInfo>
+        <quantity>2</quantity>
+    </items>
+</orderRequest>

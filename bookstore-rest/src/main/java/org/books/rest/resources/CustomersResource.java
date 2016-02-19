@@ -5,7 +5,7 @@ import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.data.dto.CustomerDTO;
 import org.books.data.dto.CustomerInfo;
-import org.books.rest.jaxb.Registration;
+import org.books.data.dto.Registration;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;

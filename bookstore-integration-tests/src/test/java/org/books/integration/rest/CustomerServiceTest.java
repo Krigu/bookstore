@@ -4,7 +4,6 @@ package org.books.integration.rest;
 import com.jayway.restassured.matcher.RestAssuredMatchers;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.response.ResponseBodyExtractionOptions;
-import com.jayway.restassured.response.ValidatableResponse;
 import org.books.BookstoreArquillianTest;
 import org.hamcrest.text.IsEmptyString;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -19,11 +18,10 @@ import java.nio.charset.StandardCharsets;
 
 import static com.jayway.restassured.RestAssured.get;
 import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 
+@Test(groups = "CustomerRestTest")
 public class CustomerServiceTest extends BookstoreArquillianTest {
 
 
@@ -157,7 +155,7 @@ public class CustomerServiceTest extends BookstoreArquillianTest {
                 header(CONTENT_LENGTH, notNullValue()).
                 body("email", equalTo("test_rest@test.com")).
                 body("address.street", equalTo("Street")).
-                body("creditCard.type", equalTo("Visa"));
+                body("creditCard.type", equalTo("MasterCard"));
 
     }
 
