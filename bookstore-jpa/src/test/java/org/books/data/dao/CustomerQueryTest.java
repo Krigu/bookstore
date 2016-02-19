@@ -45,4 +45,11 @@ public class CustomerQueryTest extends PopulateDBJpaTest {
         Assert.assertEquals(customers.size(), 0);
     }
 
+    @Test
+    public void finbByPartialNameResult() {
+        List<CustomerInfo> customers = bean.search("lice");
+        Assert.assertEquals(customers.size(), 1);
+    }
+
+
 }
