@@ -37,7 +37,7 @@ public class MailServiceBean implements MailService {
             message.setText(body);
             Transport.send(message);
         } catch (MessagingException ex) {
-            LOGGER.log(Level.WARNING,"Sending mail to " + emailAdr + " failed: " + ex.getMessage(), ex);
+            LOGGER.log(Level.WARNING,"Sending mail to " + emailAdr + " failed: " + ex.getMessage());
         }    
     }
 

@@ -23,6 +23,9 @@ public class CatalogServiceBean implements CatalogService {
 
     @EJB
     private BookDAOLocal bookDAO;
+    
+    @EJB
+    private AmazonCatalog amazonCatalog;
 
     @Override
     public void addBook(BookDTO book) throws BookAlreadyExistsException {
@@ -38,7 +41,7 @@ public class CatalogServiceBean implements CatalogService {
         logger.log(Level.INFO, "Finding book with isbn ''{0}''", isbn);
         Book book = bookDAO.find(isbn);
         if (book == null) {
-            throw new BookNotFoundException();
+            return amazonCatalog.findBook(isbn);
         }
         return new BookDTO(book.getAuthors(), book.getBinding(), book.getIsbn(), book.getNumberOfPages(), book.getPrice(), book.getPublicationYear(), book.getPublisher(), book.getTitle());
     }
@@ -46,7 +49,7 @@ public class CatalogServiceBean implements CatalogService {
     @Override
     public List<BookInfo> searchBooks(String keywords) {
         logger.log(Level.INFO, "Search books for keywords ''{0}''", keywords);
-        return bookDAO.search(keywords);
+        return amazonCatalog.searchBooks(keywords);
     }
 
     @Override
