@@ -1,19 +1,20 @@
 package org.books.rest;
 
-import javax.validation.ConstraintViolationException;
+import org.books.application.exception.ValidationException;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import java.util.logging.Logger;
 
 @Provider
-public class ConstraintViolationExceptionMapper
-        implements ExceptionMapper<ConstraintViolationException> {
+public class ViolationExceptionMapper
+        implements ExceptionMapper<ValidationException> {
 
-    private static final Logger LOGGER = Logger.getLogger(ConstraintViolationExceptionMapper.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ViolationExceptionMapper.class.getName());
 
     @Override
-    public Response toResponse(final ConstraintViolationException exception) {
+    public Response toResponse(final ValidationException exception) {
 
         LOGGER.info("Validation exception:" + exception.getMessage());
 
