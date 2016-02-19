@@ -21,6 +21,8 @@ import java.nio.file.Paths;
 @ArquillianSuiteDeployment
 public class BookstoreArquillianTest extends Arquillian {
 
+    protected static final String CONTENT_LENGTH = "Content-Length";
+
     @Deployment
     public static Archive<?> createEjbDeployment() {
 

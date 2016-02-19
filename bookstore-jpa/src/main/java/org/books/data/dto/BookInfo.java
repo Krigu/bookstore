@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement
+@XmlRootElement(name = "bookInfo")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"isbn", "title", "price"})
 public class BookInfo implements Serializable {

@@ -3,6 +3,8 @@ package org.books.integration.rest;
 
 import com.jayway.restassured.matcher.RestAssuredMatchers;
 import com.jayway.restassured.response.Response;
+import com.jayway.restassured.response.ResponseBodyExtractionOptions;
+import com.jayway.restassured.response.ValidatableResponse;
 import org.books.BookstoreArquillianTest;
 import org.hamcrest.text.IsEmptyString;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -19,18 +21,21 @@ import static com.jayway.restassured.RestAssured.get;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 
 public class CustomerServiceTest extends BookstoreArquillianTest {
 
 
     private static final String LASTNAME = "Lastname";
-    private static final String CONTENT_LENGTH = "Content-Length";
+
     private final String customerXsd = this.getClass().getResource("/xml/customers.xsd").getPath();
 
     @ArquillianResource
     URL deploymentUrl;
 
+    private String customerNumber2;
+    private String customerNumer1;
 
     @Test
     @RunAsClient
@@ -45,14 +50,16 @@ public class CustomerServiceTest extends BookstoreArquillianTest {
 
         String content = readFile(this.getClass().getResource("/xml/valid_customer_request_1.xml").getPath(), StandardCharsets.UTF_8);
 
-        given().contentType("application/xml").
+        ResponseBodyExtractionOptions body = given().contentType("application/xml").
                 body(content).
                 when().
                 post(deploymentUrl.toString() + "customers/").
                 then().
                 statusCode(201).
                 contentType("text/plain").
-                body(equalTo("C-1"));
+                body(startsWith("C-")).extract().body();
+
+        customerNumer1 = body.asString();
 
     }
 
@@ -62,14 +69,17 @@ public class CustomerServiceTest extends BookstoreArquillianTest {
 
         String content = readFile(this.getClass().getResource("/xml/valid_customer_request_2.json").getPath(), StandardCharsets.UTF_8);
 
-        given().contentType("application/json").
+        ResponseBodyExtractionOptions body = given().contentType("application/json").
                 body(content).
                 when().
                 post(deploymentUrl.toString() + "customers/").
                 then().
                 statusCode(201).
                 contentType("text/plain").
-                body(equalTo("C-2"));
+                body(startsWith("C-")).
+                extract().body();
+
+        customerNumber2 = body.asString();
 
     }
 
@@ -125,7 +135,7 @@ public class CustomerServiceTest extends BookstoreArquillianTest {
 
         given().log().all().
                 accept("application/xml").
-                get(deploymentUrl.toString() + "customers/C-1").
+                get(deploymentUrl.toString() + "customers/" + customerNumer1).
                 then().log().all().
                 statusCode(200).
                 contentType("application/xml").
@@ -140,12 +150,12 @@ public class CustomerServiceTest extends BookstoreArquillianTest {
 
         given().log().all().
                 accept("application/json").
-                get(deploymentUrl.toString() + "customers/C-1").
+                get(deploymentUrl.toString() + "customers/" + customerNumer1).
                 then().
                 statusCode(200).
                 contentType("application/json").
                 header(CONTENT_LENGTH, notNullValue()).
-                body("email", equalTo("test@test.com")).
+                body("email", equalTo("test_rest@test.com")).
                 body("address.street", equalTo("Street")).
                 body("creditCard.type", equalTo("Visa"));
 
@@ -209,7 +219,7 @@ public class CustomerServiceTest extends BookstoreArquillianTest {
         given().log().all().
                 contentType("application/json").
                 body(content).
-                put(deploymentUrl.toString() + "customers/C-1").
+                put(deploymentUrl.toString() + "customers/" + customerNumer1).
                 then().
                 statusCode(409);
 
@@ -224,7 +234,7 @@ public class CustomerServiceTest extends BookstoreArquillianTest {
         given().log().all().
                 contentType("application/json").
                 body(content).
-                put(deploymentUrl.toString() + "customers/C-1").
+                put(deploymentUrl.toString() + "customers/" + customerNumer1).
                 then().
                 statusCode(400);
 
@@ -238,7 +248,7 @@ public class CustomerServiceTest extends BookstoreArquillianTest {
 
         given().log().all().
                 accept("application/xml").
-                get(deploymentUrl.toString() + "customers/C-2").
+                get(deploymentUrl.toString() + "customers/" + customerNumber2).
                 then().log().all().
                 statusCode(200).
                 contentType("application/xml").
@@ -250,14 +260,14 @@ public class CustomerServiceTest extends BookstoreArquillianTest {
         given().log().all().
                 contentType("application/json").
                 body(content).
-                put(deploymentUrl.toString() + "customers/C-2").
+                put(deploymentUrl.toString() + "customers/" + customerNumber2).
                 then().
                 statusCode(204).
                 body(IsEmptyString.isEmptyOrNullString());
 
         given().log().all().
                 accept("application/xml").
-                get(deploymentUrl.toString() + "customers/C-2").
+                get(deploymentUrl.toString() + "customers/" + customerNumber2).
                 then().log().all().
                 statusCode(200).
                 contentType("application/xml").

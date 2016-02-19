@@ -67,17 +67,13 @@ public class CustomersResource {
     @Path("{number}")
     @Consumes({APPLICATION_XML, APPLICATION_JSON})
     public Response updateCustomer(@PathParam("number") String number, @Valid CustomerDTO customer) {
-        System.out.println("Number: " + number);
         try {
             customer.setNumber(number);
             customerService.updateCustomer(customer);
-            System.out.println("customer updated: " + customer.getLastName());
             return Response.status(Response.Status.NO_CONTENT).build();
         } catch (CustomerNotFoundException e) {
-            System.out.println("CustomerNotFoundException!!");
             return Response.status(Response.Status.NOT_FOUND).entity("Customer not found").build();
         } catch (CustomerAlreadyExistsException e) {
-            System.out.println("CustomerAlreadyExistsException!!");
             return Response.status(Response.Status.CONFLICT).entity("new email already used").build();
         }
     }

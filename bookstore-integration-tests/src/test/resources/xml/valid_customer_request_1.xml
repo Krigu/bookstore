@@ -1,6 +1,6 @@
 <registration>
     <customer>
-        <email>test@test.com</email>
+        <email>test_rest@test.com</email>
         <firstName>Name</firstName>
         <lastName>Lastname</lastName>
         <address>
