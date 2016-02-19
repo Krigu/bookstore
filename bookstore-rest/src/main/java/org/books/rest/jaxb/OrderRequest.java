@@ -1,4 +1,4 @@
-package org.books.rest;
+package org.books.rest.jaxb;
 
 import java.io.Serializable;
 import java.util.List;

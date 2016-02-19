@@ -24,7 +24,7 @@ import org.books.application.exception.OrderNotFoundException;
 import org.books.application.exception.PaymentFailedException;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
-import org.books.rest.OrderRequest;
+import org.books.rest.jaxb.OrderRequest;
 
 @Path("orders")
 @RequestScoped

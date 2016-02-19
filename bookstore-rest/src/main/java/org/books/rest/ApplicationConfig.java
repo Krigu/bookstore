@@ -18,7 +18,7 @@ public class ApplicationConfig extends Application {
         classes.add(CustomersResource.class);
         classes.add(OrdersResource.class);
         classes.add(CatalogResource.class);
-//        classes.add(GZIPWriterInterceptor.class);
+        classes.add(ConstraintViolationExceptionMapper.class);
         return classes;
     }
 }
