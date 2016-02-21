@@ -14,6 +14,8 @@ import java.net.URL;
 
 import static com.jayway.restassured.RestAssured.get;
 import static com.jayway.restassured.RestAssured.given;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
@@ -33,6 +35,11 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     @Test
     @RunAsClient
     public void invalidISBNTest() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CatalogServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         given().
                 accept("application/xml").
@@ -46,6 +53,11 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     @Test
     @RunAsClient
     public void getBookByISBNTest() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CatalogServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         given().
                 accept("application/xml").
@@ -63,6 +75,11 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     @Test
     @RunAsClient
     public void getBookByISBNJsonTest() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CatalogServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         given().
                 accept("application/json").
@@ -79,6 +96,11 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     @Test
     @RunAsClient
     public void findKeywordsBadRequestTest() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CatalogServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         given().
                 accept("application/xml").
@@ -91,6 +113,11 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
     @Test
     @RunAsClient
     public void findBookByKeywordsTest() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CatalogServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         given().
                 accept("application/xml").

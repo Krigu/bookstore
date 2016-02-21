@@ -173,7 +173,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
                 accept("application/xml")
                 .delete(deploymentUrl.toString() + "orders/O-1")
                 .then().log().all().
-                statusCode(200);
+                statusCode(204);
     }
 
 }
