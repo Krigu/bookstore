@@ -12,6 +12,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import static com.jayway.restassured.RestAssured.given;
+import java.util.Calendar;
 import static org.hamcrest.CoreMatchers.*;
 
 /**
@@ -22,10 +23,8 @@ public class OrderServiceTest extends BookstoreArquillianTest {
 
     private final String ordersxsd = this.getClass().getResource("/xml/orders.xsd").getPath();
 
-
     @ArquillianResource
     URL deploymentUrl;
-
 
     @Test
     @RunAsClient
@@ -90,8 +89,6 @@ public class OrderServiceTest extends BookstoreArquillianTest {
 
     }
 
-
-
     @Test
     @RunAsClient
     public void createOrderTest() throws IOException {
@@ -129,7 +126,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
 
     @Test(dependsOnMethods = "createOrderTest")
     @RunAsClient
-    public void findOrderByNumber()  {
+    public void findOrderByNumber() {
 
         given().log().all().
                 accept("application/xml").
@@ -143,4 +140,40 @@ public class OrderServiceTest extends BookstoreArquillianTest {
                 body("order.items.size()", is(2));
 
     }
+
+    @Test(dependsOnMethods = "createOrderTest")
+    @RunAsClient
+    public void searchOrdersOfCustomer() {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        given().log().all().
+                accept("application/xml").
+                get(deploymentUrl.toString() + "orders/customerNr=C-1&year=" + year).
+                then().log().all().
+                statusCode(200).
+                contentType("application/xml").
+                header(CONTENT_LENGTH, notNullValue()).
+                body(RestAssuredMatchers.matchesXsd(new File(ordersxsd))).
+                body("orderInfoes.items.size()", is(1));
+    }
+
+    @Test(dependsOnMethods = "searchOrdersOfCustomer")
+    @RunAsClient
+    public void cancelOrderNotExistingOrder() {
+        given().log().all().
+                accept("application/xml")
+                .delete(deploymentUrl.toString() + "orders/O-1234")
+                .then().log().all().
+                statusCode(404);
+    }
+
+    @Test(dependsOnMethods = "searchOrdersOfCustomer")
+    @RunAsClient
+    public void cancelOrder() {
+        given().log().all().
+                accept("application/xml")
+                .delete(deploymentUrl.toString() + "orders/O-1")
+                .then().log().all().
+                statusCode(200);
+    }
+
 }

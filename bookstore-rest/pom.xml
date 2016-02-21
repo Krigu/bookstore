@@ -30,10 +30,10 @@
             <scope>provided</scope>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.glassfish.jersey.ext</groupId>-->
-            <!--<artifactId>jersey-bean-validation</artifactId>-->
-            <!--<version>2.22.2</version>-->
-            <!--&lt;!&ndash;<scope>provided</scope>&ndash;&gt;-->
+        <!--<groupId>org.glassfish.jersey.ext</groupId>-->
+        <!--<artifactId>jersey-bean-validation</artifactId>-->
+        <!--<version>2.22.2</version>-->
+        <!--&lt;!&ndash;<scope>provided</scope>&ndash;&gt;-->
         <!--</dependency>-->
     </dependencies>
 
