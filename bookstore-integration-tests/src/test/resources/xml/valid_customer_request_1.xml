@@ -1,0 +1,20 @@
+<registration>
+    <customer>
+        <email>test_rest@test.com</email>
+        <firstName>Name</firstName>
+        <lastName>Lastname</lastName>
+        <address>
+            <street>Street</street>
+            <city>City</city>
+            <postalCode>3000</postalCode>
+            <country>Bern</country>
+        </address>
+        <creditCard>
+            <type>MasterCard</type>
+            <number>5111005111051128</number>
+            <expirationMonth>12</expirationMonth>
+            <expirationYear>2020</expirationYear>
+        </creditCard>
+    </customer>
+    <password>helloWorld</password>
+</registration>

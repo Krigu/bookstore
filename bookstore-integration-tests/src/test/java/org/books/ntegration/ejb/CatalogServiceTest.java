@@ -1,53 +1,26 @@
-package org.books.integration;
+package org.books.ntegration.ejb;
 
+import org.books.BookstoreArquillianTest;
+import org.books.application.AmazonCatalog;
 import org.books.application.CatalogService;
-import org.books.application.CatalogServiceBean;
 import org.books.application.exception.BookAlreadyExistsException;
 import org.books.application.exception.BookNotFoundException;
 import org.books.application.exception.ValidationException;
-import org.books.data.dao.BookDAOBean;
-import org.books.data.dao.BookDAOLocal;
-import org.books.data.dao.generic.GenericDAO;
 import org.books.data.dto.BookDTO;
 import org.books.data.dto.BookInfo;
-import org.books.data.entity.BaseEntity;
 import org.books.data.entity.Book;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.ejb.EJB;
 import java.math.BigDecimal;
 import java.util.List;
-import org.books.application.AmazonCatalog;
 
 @Test(groups = {"CatalogServiceTest"})
 public class CatalogServiceTest extends BookstoreArquillianTest {
 
 
     private BookDTO book = new org.books.data.dto.BookDTO("Antonio Goncalves", org.books.data.entity.Book.Binding.Paperback, "143024626X", 608, new BigDecimal("49.99"), 2013, "Apress", "Beginning Java EE 7");
-
-
-//    @Deployment
-//    public static Archive<?> createDeployment() {
-//
-//        return ShrinkWrap.create(JavaArchive.class)
-//                .addClasses(CatalogService.class,
-//                        CatalogServiceBean.class,
-//                        BookDAOLocal.class,
-//                        BookDAOBean.class,
-//                        GenericDAO.class,
-//                        Book.class,
-//                        BaseEntity.class,
-//                        ValidationException.class)
-//                .addAsManifestResource("test-persistence.xml", "persistence.xml")
-//                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-//    }
 
     @EJB
     private CatalogService catalogService;
@@ -65,6 +38,13 @@ public class CatalogServiceTest extends BookstoreArquillianTest {
         Assert.assertEquals(book.getBinding().toString(), "Paperback");
         Assert.assertEquals(book.getPrice().toString(), "49.99");
         Assert.assertEquals(book.getPublicationYear().toString(), "2015");
+    }
+
+    @Test
+    public void findBookAmazon2() throws BookNotFoundException {
+        BookDTO book = amazonCatalog.findBook("1935182994");
+        Assert.assertNotNull(book);
+
     }
 
     @Test(expectedExceptions = BookNotFoundException.class)

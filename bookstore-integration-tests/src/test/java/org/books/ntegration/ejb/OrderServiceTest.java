@@ -1,5 +1,6 @@
-package org.books.integration;
+package org.books.ntegration.ejb;
 
+import org.books.BookstoreArquillianTest;
 import org.books.application.CatalogService;
 import org.books.application.CustomerService;
 import org.books.application.OrderService;
@@ -7,6 +8,7 @@ import org.books.application.exception.*;
 import org.books.data.dto.*;
 import org.books.data.entity.Book;
 import org.books.data.entity.Order;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -2,14 +2,25 @@ package org.books.data.dto;
 
 import org.books.data.entity.Book;
 
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@XmlRootElement(name = "bookInfo")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"isbn", "title", "price"})
 public class BookInfo implements Serializable {
 
+	@NotNull
 	private String isbn;
+	@NotNull
 	private String title;
+	@NotNull
 	private BigDecimal price;
 
 	public BookInfo() {

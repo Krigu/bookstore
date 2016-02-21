@@ -3,8 +3,15 @@ package org.books.data.dto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
+@XmlRootElement(name = "customer")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"number", "email", "firstName", "lastName", "address", "creditCard"})
 public class CustomerDTO implements Serializable {
 
     @NotNull

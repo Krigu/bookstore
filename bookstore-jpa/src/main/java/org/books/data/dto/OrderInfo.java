@@ -3,15 +3,23 @@ package org.books.data.dto;
 import org.books.data.entity.Order;
 import org.books.data.entity.Order.Status;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@XmlRootElement(name = "orderInfo")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"number", "date","amount","status"})
 public class OrderInfo implements Serializable{
 
 	private String number;
+	@XmlElement(required = true)
+	@XmlSchemaType(name = "dateTime")
 	private Date date;
 	private BigDecimal amount;
+	@XmlElement(required = true)
+	@XmlSchemaType(name = "string")
 	private Status status;
 
 	public OrderInfo() {

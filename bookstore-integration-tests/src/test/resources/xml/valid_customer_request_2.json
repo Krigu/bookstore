@@ -1,0 +1,20 @@
+{
+    "customer": {
+      "email": "test2@test.com",
+      "firstName": "Name2",
+      "lastName": "Lastname2",
+      "address": {
+        "street": "Street2",
+        "city": "City2",
+        "postalCode": "30002",
+        "country": "Bern2"
+      },
+      "creditCard": {
+        "type": "Visa",
+        "number": "5111005111051128",
+        "expirationMonth": "12",
+        "expirationYear": "2016"
+      }
+    },
+    "password": "helloWorld123"
+}

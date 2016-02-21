@@ -2,15 +2,19 @@ package org.books.data.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlType;
 
 @NamedQueries({
-        @NamedQuery(name = Book.FIND_BY_ISBN, query = "from Book b where UPPER(b.isbn) = UPPER(:isbn)")
+    @NamedQuery(name = Book.FIND_BY_ISBN, query = "from Book b where UPPER(b.isbn) = UPPER(:isbn)")
 })
 @Entity
 public class Book extends BaseEntity {
-    
+
     public static final String FIND_BY_ISBN = "Book.findByISBN";
 
+    @XmlType(name = "BookBinding")
+    @XmlEnum(String.class)
     public enum Binding {
 
         Hardcover, Paperback, Ebook, Unknown
@@ -34,7 +38,7 @@ public class Book extends BaseEntity {
     }
 
     public Book(String isbn, String title, String authors, String publisher,
-                Integer publicationYear, Binding binding, Integer numberOfPages, BigDecimal price) {
+            Integer publicationYear, Binding binding, Integer numberOfPages, BigDecimal price) {
         this.isbn = isbn;
         this.title = title;
         this.authors = authors;

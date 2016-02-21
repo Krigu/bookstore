@@ -1,0 +1,15 @@
+{
+  "email": "test2@test.com",
+  "address": {
+    "street": "Street2",
+    "city": "City2",
+    "postalCode": "30002",
+    "country": "Bern2"
+  },
+  "creditCard": {
+    "type": "Visa",
+    "number": "5111005111051128",
+    "expirationMonth": "12",
+    "expirationYear": "2016"
+  }
+}

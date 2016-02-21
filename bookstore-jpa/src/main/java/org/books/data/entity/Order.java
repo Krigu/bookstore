@@ -5,18 +5,22 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlType;
 
 @NamedQueries({
     @NamedQuery(name = Order.FIND_BY_NUMBER, query = "from Order o where UPPER(o.number) = UPPER(:number)"),
     @NamedQuery(name = Order.FIND_BY_CUSTOMER_AND_YEAR, query = "SELECT NEW org.books.data.dto.OrderInfo(o) from Order o where o.customer = :customer AND EXTRACT(YEAR from o.date) = :year")
 })
 @Entity
-@Table(name="PurchaseOrder")
+@Table(name = "PurchaseOrder")
 public class Order extends BaseEntity {
 
     public static final String FIND_BY_NUMBER = "Order.findByNumber";
     public static final String FIND_BY_CUSTOMER_AND_YEAR = "Order.findByCustomerAndYear";
-    
+
+    @XmlType(name = "OrderStatus")
+    @XmlEnum(String.class)
     public enum Status {
         accepted, processing, shipped, canceled
     }
@@ -38,7 +42,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @Embedded   
+    @Embedded
     private Address address;
 
     @Embedded

@@ -1,12 +1,19 @@
 package org.books.data.dto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
+@XmlRootElement(name = "orderItem")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name="OrderItem", propOrder = {"book", "quantity"})
 public class OrderItemDTO implements Serializable{
 
 	@NotNull
+	@Valid
+	@XmlElement(required = true, name = "bookInfo")
 	private BookInfo book;
 	@NotNull
 	@DecimalMin(value = "1")

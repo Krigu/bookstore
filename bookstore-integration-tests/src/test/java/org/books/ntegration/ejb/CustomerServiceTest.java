@@ -1,11 +1,13 @@
-package org.books.integration;
+package org.books.ntegration.ejb;
 
+import org.books.BookstoreArquillianTest;
 import org.books.application.CustomerService;
 import org.books.application.exception.CustomerAlreadyExistsException;
 import org.books.application.exception.CustomerNotFoundException;
 import org.books.application.exception.InvalidPasswordException;
 import org.books.application.exception.ValidationException;
 import org.books.data.dto.*;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,7 +35,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
 
         customerDTO = customerService.registerCustomer(customerDTO, PASSWORD);
 
-        Assert.assertEquals(customerDTO.getNumber(), "C-1");
+        Assert.assertTrue(customerDTO.getNumber().startsWith("C-"));
     }
 
     @Test(expectedExceptions = ValidationException.class)
@@ -225,7 +227,7 @@ public class CustomerServiceTest  extends BookstoreArquillianTest {
         customer2.setEmail(email);
         customer2 = customerService.registerCustomer(customer2, PASSWORD);
 
-        Assert.assertEquals("C-2", customer2.getNumber());
+        Assert.assertNotNull(customer2.getNumber());
 
         // Find customer 1
         CustomerDTO customer = customerService.findCustomer(CUSTOMER_NR);
