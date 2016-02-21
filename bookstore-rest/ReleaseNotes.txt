@@ -1,11 +1,18 @@
-ReadMe Bookstore REST
+ReadMe Bookstore Webservice
 
-Webservice
-- Amazon Webservice integriert
+OrderService EJB
+- In der placeOrder-Methode wird geprüft, ob das bestellte Buch in der DB vorhanden ist. Falls nicht, wird es gespeichert.
+
+Amazon-Webservice
+- neues EJB (AmazonCatalog) zur Integration des Amazon Webservice hinzugefügt
+- Methode "findBook" im CatalogService sucht jetzt zuerst in der DB und macht dann einen ItemLookup bei Amazon, falls das angefragte Buch nicht in der DB gefunden wurde
+- Methode "searchBooks" macht ein oder mehrer ItemSearchRequests bei Amazon (je nach Ergebnismenge). Wegen der Zugriffsbeschränkung bei Amazon haben wir ein sleep(1000) eingebaut, d.h. der Aufruf kann bis zu 10 Sekunden dauern.
+- Ungültige Bücher (ohne Preis, Seitenanzahl, ISBN, ...) werden aus der Ergebnismenge herausgefiltert.
 
 Rest
-- Die REST Schnittstelle gemäss der Spezifikation implementiert
-- ExceptionMappers für Validierungsfehler, damit der rHTTP Status 400 (statt 500) ist
+- Die REST Schnittstelle wurde gemäss der Spezifikation implementiert
+- ExceptionMappers für Validierungsfehler, damit der HTTP Status-Code 400 (statt 500) ist
+- Zum Setzen der Content-Length haben wir einen Interceptor hinzugefügt 
 
 Tests
 - Integrationstests für alle Methoden und alle möglichen Response Stati implentiert
@@ -15,4 +22,4 @@ Tests
 Allgemein:
 - Sourcen-Verwaltung via GitHub (https://github.com/Krigu/bookstore)
 - Continous-Integration: Automatische Überprüfung ob der Sourcecode kompilierbar ist via Travis-CI (https://travis-ci.org/Krigu/bookstore)
-- Eigenes Modul "bookstore-rest", das mit Hilfe von Arquillian durch die Integrationstests getestet wird
+- Eigenes Web-Modul "bookstore-rest", das mit Hilfe von Arquillian durch die Integrationstests getestet wird
