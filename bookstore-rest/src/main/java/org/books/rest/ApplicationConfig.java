@@ -20,6 +20,7 @@ public class ApplicationConfig extends Application {
         classes.add(CatalogResource.class);
         classes.add(ViolationExceptionMapper.class);
         classes.add(ConstraintViolationExceptionMapper.class);
+        classes.add(ResponseInterceptor.class);
         return classes;
     }
 }

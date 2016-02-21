@@ -1,6 +1,7 @@
 
 package org.books.rest.resources;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 import org.books.application.CatalogService;
@@ -58,6 +60,7 @@ public class CatalogResource {
         List<BookInfo> books = catalogService.searchBooks(keywords.replace("%20", " "));
         
         final GenericEntity<List<BookInfo>> entity = new GenericEntity<List<BookInfo>>(books) {};
+        
         return Response.ok().entity(entity).build();
     }
 }
