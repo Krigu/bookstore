@@ -153,7 +153,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
                 contentType("application/xml").
                 header(CONTENT_LENGTH, notNullValue()).
                 body(RestAssuredMatchers.matchesXsd(new File(ordersxsd))).
-                body("orderInfoes.items.size()", is(1));
+                body("orderInfoes.orderInfo.size()", is(1));
     }
 
     @Test(dependsOnMethods = "searchOrdersOfCustomer")
