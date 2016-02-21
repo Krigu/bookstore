@@ -73,7 +73,7 @@ public class OrdersResource {
             List<OrderInfo> orders = orderService.searchOrders(number, year);
             final GenericEntity<List<OrderInfo>> entity = new GenericEntity<List<OrderInfo>>(orders) {
             };
-            return Response.ok().entity(orders).build();
+            return Response.ok().entity(entity).build();
         } catch (CustomerNotFoundException ex) {
             LOGGER.info("Rest service : customer not found");
             return Response.status(Response.Status.NOT_FOUND).build();

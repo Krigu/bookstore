@@ -55,7 +55,10 @@ public class CustomersResource {
     @GET
     @Produces({APPLICATION_XML, APPLICATION_JSON})
     public Response findCustomerByName(@NotNull @QueryParam("name") String name) {
-
+        //No name
+        if (name == null || name.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         List<CustomerInfo> list = customerService.searchCustomers(name);
         final GenericEntity<List<CustomerInfo>> entity = new GenericEntity<List<CustomerInfo>>(list) {
         };

@@ -56,7 +56,7 @@ public class CatalogResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         List<BookInfo> books = catalogService.searchBooks(keywords.replace("%20", " "));
-
+        
         final GenericEntity<List<BookInfo>> entity = new GenericEntity<List<BookInfo>>(books) {};
         return Response.ok().entity(entity).build();
     }
