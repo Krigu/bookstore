@@ -147,7 +147,7 @@ public class OrderServiceTest extends BookstoreArquillianTest {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         given().log().all().
                 accept("application/xml").
-                get(deploymentUrl.toString() + "orders/customerNr=C-1&year=" + year).
+                get(deploymentUrl.toString() + "orders?customerNr=C-1&year=" + year).
                 then().log().all().
                 statusCode(200).
                 contentType("application/xml").
